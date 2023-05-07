@@ -52,7 +52,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019, 2020
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019, 2020
 */
 
 
@@ -504,13 +504,24 @@ public:
 	double dSongTime = 0.0;
 	double dRunTime = 0.0;
 	uint32_t nMidiClock = 0;
+
+	std::string sFileName = "ff7_battle.mid";
+
+	void SetFileName(std::string sName)
+	{
+		sFileName = sName;
+	}
 	
 
 public:
 	bool OnUserCreate() override
 	{
 
-		midi.ParseFile("ff7_battle.mid");
+		if (!midi.ParseFile(sFileName))
+		{
+			std::cout << "Could not open file" << std::endl;
+			return false;
+		}
 
 		/*
 		int nMidiDevices = midiOutGetNumDevs();
@@ -616,9 +627,13 @@ public:
 	
 };
 
-int main()
+int main(int argc, char *argv[])
 {
 	olcMIDIViewer demo;
+	if (argc>1)
+	{
+		demo.SetFileName(std::string(argv[1]));
+	}
 	if (demo.Construct(1280, 960, 1, 1))
 		demo.Start();
 	return 0;
