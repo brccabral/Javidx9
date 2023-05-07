@@ -52,7 +52,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019, 2020
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019, 2020
 */
 
 
@@ -394,9 +394,9 @@ public:
 public:
 	bool OnUserCreate() override
 	{
-		sprGFX = new olc::Sprite("./RetroMenu.png");
+		sprGFX = new olc::Sprite("assets/RetroMenu.png");
 
-		mo["main"].SetTable(1, 4);
+		mo["main"].SetTable(2, 4);
 		mo["main"]["Attack"].SetID(101);
 
 		mo["main"]["Magic"].SetTable(1, 2);
@@ -431,7 +431,7 @@ public:
 
 		mo["main"]["Defend"].SetID(102);
 
-		mo["main"]["Items"].SetTable(2, 4).Enable(false);
+		mo["main"]["Items"].SetTable(2, 4).Enable(true);
 		mo["main"]["Items"]["Potion"].SetID(301);
 		mo["main"]["Items"]["Ether"].SetID(302);
 		mo["main"]["Items"]["Elixir"].SetID(303);
