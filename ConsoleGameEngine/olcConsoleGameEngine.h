@@ -48,7 +48,7 @@ Cheers!
 Background
 ~~~~~~~~~~
 If you've seen any of my videos - I like to do things using the windows console. It's quick
-and easy, and allows you to focus on just the code that matters - ideal when you're 
+and easy, and allows you to focus on just the code that matters - ideal when you're
 experimenting. Thing is, I have to keep doing the same initialisation and display code
 each time, so this class wraps that up.
 
@@ -104,7 +104,7 @@ the current cursor position, and m_mouse[1..5] returns the mouse buttons.
 The draw routines treat characters like pixels. By default they are set to white solid
 blocks - but you can draw any unicode character, using any of the colours listed below.
 
-There may be bugs! 
+There may be bugs!
 
 See my other videos for examples!
 http://www.youtube.com/javidx9
@@ -140,38 +140,38 @@ Character Set -> Use Unicode. Thanks! - Javidx9
 
 enum COLOUR
 {
-	FG_BLACK		= 0x0000,
-	FG_DARK_BLUE    = 0x0001,	
-	FG_DARK_GREEN   = 0x0002,
-	FG_DARK_CYAN    = 0x0003,
-	FG_DARK_RED     = 0x0004,
+	FG_BLACK = 0x0000,
+	FG_DARK_BLUE = 0x0001,
+	FG_DARK_GREEN = 0x0002,
+	FG_DARK_CYAN = 0x0003,
+	FG_DARK_RED = 0x0004,
 	FG_DARK_MAGENTA = 0x0005,
-	FG_DARK_YELLOW  = 0x0006,
-	FG_GREY			= 0x0007, // Thanks MS :-/
-	FG_DARK_GREY    = 0x0008,
-	FG_BLUE			= 0x0009,
-	FG_GREEN		= 0x000A,
-	FG_CYAN			= 0x000B,
-	FG_RED			= 0x000C,
-	FG_MAGENTA		= 0x000D,
-	FG_YELLOW		= 0x000E,
-	FG_WHITE		= 0x000F,
-	BG_BLACK		= 0x0000,
-	BG_DARK_BLUE	= 0x0010,
-	BG_DARK_GREEN	= 0x0020,
-	BG_DARK_CYAN	= 0x0030,
-	BG_DARK_RED		= 0x0040,
+	FG_DARK_YELLOW = 0x0006,
+	FG_GREY = 0x0007, // Thanks MS :-/
+	FG_DARK_GREY = 0x0008,
+	FG_BLUE = 0x0009,
+	FG_GREEN = 0x000A,
+	FG_CYAN = 0x000B,
+	FG_RED = 0x000C,
+	FG_MAGENTA = 0x000D,
+	FG_YELLOW = 0x000E,
+	FG_WHITE = 0x000F,
+	BG_BLACK = 0x0000,
+	BG_DARK_BLUE = 0x0010,
+	BG_DARK_GREEN = 0x0020,
+	BG_DARK_CYAN = 0x0030,
+	BG_DARK_RED = 0x0040,
 	BG_DARK_MAGENTA = 0x0050,
-	BG_DARK_YELLOW	= 0x0060,
-	BG_GREY			= 0x0070,
-	BG_DARK_GREY	= 0x0080,
-	BG_BLUE			= 0x0090,
-	BG_GREEN		= 0x00A0,
-	BG_CYAN			= 0x00B0,
-	BG_RED			= 0x00C0,
-	BG_MAGENTA		= 0x00D0,
-	BG_YELLOW		= 0x00E0,
-	BG_WHITE		= 0x00F0,
+	BG_DARK_YELLOW = 0x0060,
+	BG_GREY = 0x0070,
+	BG_DARK_GREY = 0x0080,
+	BG_BLUE = 0x0090,
+	BG_GREEN = 0x00A0,
+	BG_CYAN = 0x00B0,
+	BG_RED = 0x00C0,
+	BG_MAGENTA = 0x00D0,
+	BG_YELLOW = 0x00E0,
+	BG_WHITE = 0x00F0,
 };
 
 enum PIXEL_TYPE
@@ -187,7 +187,6 @@ class olcSprite
 public:
 	olcSprite()
 	{
-
 	}
 
 	olcSprite(int w, int h)
@@ -212,9 +211,9 @@ private:
 	{
 		nWidth = w;
 		nHeight = h;
-		m_Glyphs = new short[w*h];
-		m_Colours = new short[w*h];
-		for (int i = 0; i < w*h; i++)
+		m_Glyphs = new short[w * h];
+		m_Colours = new short[w * h];
+		for (int i = 0; i < w * h; i++)
 		{
 			m_Glyphs[i] = L' ';
 			m_Colours[i] = FG_BLACK;
@@ -224,7 +223,7 @@ private:
 public:
 	void SetGlyph(int x, int y, short c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Glyphs[y * nWidth + x] = c;
@@ -232,7 +231,7 @@ public:
 
 	void SetColour(int x, int y, short c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Colours[y * nWidth + x] = c;
@@ -240,7 +239,7 @@ public:
 
 	short GetGlyph(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[y * nWidth + x];
@@ -248,7 +247,7 @@ public:
 
 	short GetColour(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[y * nWidth + x];
@@ -257,8 +256,8 @@ public:
 	short SampleGlyph(float x, float y)
 	{
 		int sx = (int)(x * (float)nWidth);
-		int sy = (int)(y * (float)nHeight-1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		int sy = (int)(y * (float)nHeight - 1.0f);
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[sy * nWidth + sx];
@@ -267,8 +266,8 @@ public:
 	short SampleColour(float x, float y)
 	{
 		int sx = (int)(x * (float)nWidth);
-		int sy = (int)(y * (float)nHeight-1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		int sy = (int)(y * (float)nHeight - 1.0f);
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[sy * nWidth + sx];
@@ -357,7 +356,7 @@ public:
 		// by way of useful information, and so the resulting sequence is the reult of experiment
 		// that seems to work in multiple cases.
 		//
-		// The problem seems to be that the SetConsoleXXX functions are somewhat circular and 
+		// The problem seems to be that the SetConsoleXXX functions are somewhat circular and
 		// fail depending on the state of the current console properties, i.e. you can't set
 		// the buffer size until you set the screen size, but you can't change the screen size
 		// until the buffer size is correct. This coupled with a precise ordering of calls
@@ -365,18 +364,18 @@ public:
 
 		// Change console visual size to a minimum so ScreenBuffer can shrink
 		// below the actual visual size
-		m_rectWindow = { 0, 0, 1, 1 };
+		m_rectWindow = {0, 0, 1, 1};
 		SetConsoleWindowInfo(m_hConsole, TRUE, &m_rectWindow);
 
 		// Set the size of the screen buffer
-		COORD coord = { (short)m_nScreenWidth, (short)m_nScreenHeight };
+		COORD coord = {(short)m_nScreenWidth, (short)m_nScreenHeight};
 		if (!SetConsoleScreenBufferSize(m_hConsole, coord))
 			Error(L"SetConsoleScreenBufferSize");
 
 		// Assign screen buffer to the console
 		if (!SetConsoleActiveScreenBuffer(m_hConsole))
 			return Error(L"SetConsoleActiveScreenBuffer");
-		
+
 		// Set the font size now that the screen buffer has been assigned to the console
 		CONSOLE_FONT_INFOEX cfi;
 		cfi.cbSize = sizeof(cfi);
@@ -386,16 +385,16 @@ public:
 		cfi.FontFamily = FF_DONTCARE;
 		cfi.FontWeight = FW_NORMAL;
 
-	/*	DWORD version = GetVersion();
-		DWORD major = (DWORD)(LOBYTE(LOWORD(version)));
-		DWORD minor = (DWORD)(HIBYTE(LOWORD(version)));*/
+		/*	DWORD version = GetVersion();
+			DWORD major = (DWORD)(LOBYTE(LOWORD(version)));
+			DWORD minor = (DWORD)(HIBYTE(LOWORD(version)));*/
 
-		//if ((major > 6) || ((major == 6) && (minor >= 2) && (minor < 4)))		
+		// if ((major > 6) || ((major == 6) && (minor >= 2) && (minor < 4)))
 		//	wcscpy_s(cfi.FaceName, L"Raster"); // Windows 8 :(
-		//else
+		// else
 		//	wcscpy_s(cfi.FaceName, L"Lucida Console"); // Everything else :P
 
-		//wcscpy_s(cfi.FaceName, L"Liberation Mono");
+		// wcscpy_s(cfi.FaceName, L"Liberation Mono");
 		wcscpy_s(cfi.FaceName, L"Consolas");
 		if (!SetCurrentConsoleFontEx(m_hConsole, false, &cfi))
 			return Error(L"SetCurrentConsoleFontEx");
@@ -411,16 +410,16 @@ public:
 			return Error(L"Screen Width / Font Width Too Big");
 
 		// Set Physical Console Window Size
-		m_rectWindow = { 0, 0, (short)m_nScreenWidth - 1, (short)m_nScreenHeight - 1 };
+		m_rectWindow = {0, 0, (short)m_nScreenWidth - 1, (short)m_nScreenHeight - 1};
 		if (!SetConsoleWindowInfo(m_hConsole, TRUE, &m_rectWindow))
 			return Error(L"SetConsoleWindowInfo");
 
-		// Set flags to allow mouse input		
+		// Set flags to allow mouse input
 		if (!SetConsoleMode(m_hConsoleIn, ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT))
 			return Error(L"SetConsoleMode");
 
 		// Allocate memory for screen buffer
-		m_bufScreen = new CHAR_INFO[m_nScreenWidth*m_nScreenHeight];
+		m_bufScreen = new CHAR_INFO[m_nScreenWidth * m_nScreenHeight];
 		memset(m_bufScreen, 0, sizeof(CHAR_INFO) * m_nScreenWidth * m_nScreenHeight);
 
 		SetConsoleCtrlHandler((PHANDLER_ROUTINE)CloseHandler, TRUE);
@@ -468,35 +467,53 @@ public:
 
 	void Clip(int &x, int &y)
 	{
-		if (x < 0) x = 0;
-		if (x >= m_nScreenWidth) x = m_nScreenWidth;
-		if (y < 0) y = 0;
-		if (y >= m_nScreenHeight) y = m_nScreenHeight;
+		if (x < 0)
+			x = 0;
+		if (x >= m_nScreenWidth)
+			x = m_nScreenWidth;
+		if (y < 0)
+			y = 0;
+		if (y >= m_nScreenHeight)
+			y = m_nScreenHeight;
 	}
 
 	void DrawLine(int x1, int y1, int x2, int y2, short c = 0x2588, short col = 0x000F)
 	{
 		int x, y, dx, dy, dx1, dy1, px, py, xe, ye, i;
-		dx = x2 - x1; dy = y2 - y1;
-		dx1 = abs(dx); dy1 = abs(dy);
-		px = 2 * dy1 - dx1;	py = 2 * dx1 - dy1;
+		dx = x2 - x1;
+		dy = y2 - y1;
+		dx1 = abs(dx);
+		dy1 = abs(dy);
+		px = 2 * dy1 - dx1;
+		py = 2 * dx1 - dy1;
 		if (dy1 <= dx1)
 		{
 			if (dx >= 0)
-				{ x = x1; y = y1; xe = x2; }
+			{
+				x = x1;
+				y = y1;
+				xe = x2;
+			}
 			else
-				{ x = x2; y = y2; xe = x1;}
+			{
+				x = x2;
+				y = y2;
+				xe = x1;
+			}
 
 			Draw(x, y, c, col);
-			
-			for (i = 0; x<xe; i++)
+
+			for (i = 0; x < xe; i++)
 			{
 				x = x + 1;
-				if (px<0)
+				if (px < 0)
 					px = px + 2 * dy1;
 				else
 				{
-					if ((dx<0 && dy<0) || (dx>0 && dy>0)) y = y + 1; else y = y - 1;
+					if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
+						y = y + 1;
+					else
+						y = y - 1;
 					px = px + 2 * (dy1 - dx1);
 				}
 				Draw(x, y, c, col);
@@ -505,20 +522,31 @@ public:
 		else
 		{
 			if (dy >= 0)
-				{ x = x1; y = y1; ye = y2; }
+			{
+				x = x1;
+				y = y1;
+				ye = y2;
+			}
 			else
-				{ x = x2; y = y2; ye = y1; }
+			{
+				x = x2;
+				y = y2;
+				ye = y1;
+			}
 
 			Draw(x, y, c, col);
 
-			for (i = 0; y<ye; i++)
+			for (i = 0; y < ye; i++)
 			{
 				y = y + 1;
 				if (py <= 0)
 					py = py + 2 * dx1;
 				else
 				{
-					if ((dx<0 && dy<0) || (dx>0 && dy>0)) x = x + 1; else x = x - 1;
+					if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
+						x = x + 1;
+					else
+						x = x - 1;
 					py = py + 2 * (dx1 - dy1);
 				}
 				Draw(x, y, c, col);
@@ -536,138 +564,241 @@ public:
 	// https://www.avrfreaks.net/sites/default/files/triangles.c
 	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, short c = 0x2588, short col = 0x000F)
 	{
-		auto SWAP = [](int &x, int &y) { int t = x; x = y; y = t; };
-		auto drawline = [&](int sx, int ex, int ny) { for (int i = sx; i <= ex; i++) Draw(i, ny, c, col); };
-		
+		auto SWAP = [](int &x, int &y)
+		{ int t = x; x = y; y = t; };
+		auto drawline = [&](int sx, int ex, int ny)
+		{ for (int i = sx; i <= ex; i++) Draw(i, ny, c, col); };
+
 		int t1x, t2x, y, minx, maxx, t1xp, t2xp;
 		bool changed1 = false;
 		bool changed2 = false;
 		int signx1, signx2, dx1, dy1, dx2, dy2;
 		int e1, e2;
 		// Sort vertices
-		if (y1>y2) { SWAP(y1, y2); SWAP(x1, x2); }
-		if (y1>y3) { SWAP(y1, y3); SWAP(x1, x3); }
-		if (y2>y3) { SWAP(y2, y3); SWAP(x2, x3); }
+		if (y1 > y2)
+		{
+			SWAP(y1, y2);
+			SWAP(x1, x2);
+		}
+		if (y1 > y3)
+		{
+			SWAP(y1, y3);
+			SWAP(x1, x3);
+		}
+		if (y2 > y3)
+		{
+			SWAP(y2, y3);
+			SWAP(x2, x3);
+		}
 
-		t1x = t2x = x1; y = y1;   // Starting points
-		dx1 = (int)(x2 - x1); if (dx1<0) { dx1 = -dx1; signx1 = -1; }
-		else signx1 = 1;
+		t1x = t2x = x1;
+		y = y1; // Starting points
+		dx1 = (int)(x2 - x1);
+		if (dx1 < 0)
+		{
+			dx1 = -dx1;
+			signx1 = -1;
+		}
+		else
+			signx1 = 1;
 		dy1 = (int)(y2 - y1);
 
-		dx2 = (int)(x3 - x1); if (dx2<0) { dx2 = -dx2; signx2 = -1; }
-		else signx2 = 1;
+		dx2 = (int)(x3 - x1);
+		if (dx2 < 0)
+		{
+			dx2 = -dx2;
+			signx2 = -1;
+		}
+		else
+			signx2 = 1;
 		dy2 = (int)(y3 - y1);
 
-		if (dy1 > dx1) {   // swap values
+		if (dy1 > dx1)
+		{ // swap values
 			SWAP(dx1, dy1);
 			changed1 = true;
 		}
-		if (dy2 > dx2) {   // swap values
+		if (dy2 > dx2)
+		{ // swap values
 			SWAP(dy2, dx2);
 			changed2 = true;
 		}
 
 		e2 = (int)(dx2 >> 1);
 		// Flat top, just process the second half
-		if (y1 == y2) goto next;
+		if (y1 == y2)
+			goto next;
 		e1 = (int)(dx1 >> 1);
 
-		for (int i = 0; i < dx1;) {
-			t1xp = 0; t2xp = 0;
-			if (t1x<t2x) { minx = t1x; maxx = t2x; }
-			else { minx = t2x; maxx = t1x; }
+		for (int i = 0; i < dx1;)
+		{
+			t1xp = 0;
+			t2xp = 0;
+			if (t1x < t2x)
+			{
+				minx = t1x;
+				maxx = t2x;
+			}
+			else
+			{
+				minx = t2x;
+				maxx = t1x;
+			}
 			// process first line until y value is about to change
-			while (i<dx1) {
+			while (i < dx1)
+			{
 				i++;
 				e1 += dy1;
-				while (e1 >= dx1) {
+				while (e1 >= dx1)
+				{
 					e1 -= dx1;
-					if (changed1) t1xp = signx1;//t1x += signx1;
-					else          goto next1;
+					if (changed1)
+						t1xp = signx1; // t1x += signx1;
+					else
+						goto next1;
 				}
-				if (changed1) break;
-				else t1x += signx1;
+				if (changed1)
+					break;
+				else
+					t1x += signx1;
 			}
 			// Move line
 		next1:
 			// process second line until y value is about to change
-			while (1) {
+			while (1)
+			{
 				e2 += dy2;
-				while (e2 >= dx2) {
+				while (e2 >= dx2)
+				{
 					e2 -= dx2;
-					if (changed2) t2xp = signx2;//t2x += signx2;
-					else          goto next2;
+					if (changed2)
+						t2xp = signx2; // t2x += signx2;
+					else
+						goto next2;
 				}
-				if (changed2)     break;
-				else              t2x += signx2;
+				if (changed2)
+					break;
+				else
+					t2x += signx2;
 			}
 		next2:
-			if (minx>t1x) minx = t1x; if (minx>t2x) minx = t2x;
-			if (maxx<t1x) maxx = t1x; if (maxx<t2x) maxx = t2x;
-			drawline(minx, maxx, y);    // Draw line from min to max points found on the y
-										 // Now increase y
-			if (!changed1) t1x += signx1;
+			if (minx > t1x)
+				minx = t1x;
+			if (minx > t2x)
+				minx = t2x;
+			if (maxx < t1x)
+				maxx = t1x;
+			if (maxx < t2x)
+				maxx = t2x;
+			drawline(minx, maxx, y); // Draw line from min to max points found on the y
+									 // Now increase y
+			if (!changed1)
+				t1x += signx1;
 			t1x += t1xp;
-			if (!changed2) t2x += signx2;
+			if (!changed2)
+				t2x += signx2;
 			t2x += t2xp;
 			y += 1;
-			if (y == y2) break;
-
+			if (y == y2)
+				break;
 		}
 	next:
 		// Second half
-		dx1 = (int)(x3 - x2); if (dx1<0) { dx1 = -dx1; signx1 = -1; }
-		else signx1 = 1;
+		dx1 = (int)(x3 - x2);
+		if (dx1 < 0)
+		{
+			dx1 = -dx1;
+			signx1 = -1;
+		}
+		else
+			signx1 = 1;
 		dy1 = (int)(y3 - y2);
 		t1x = x2;
 
-		if (dy1 > dx1) {   // swap values
+		if (dy1 > dx1)
+		{ // swap values
 			SWAP(dy1, dx1);
 			changed1 = true;
 		}
-		else changed1 = false;
+		else
+			changed1 = false;
 
 		e1 = (int)(dx1 >> 1);
 
-		for (int i = 0; i <= dx1; i++) {
-			t1xp = 0; t2xp = 0;
-			if (t1x<t2x) { minx = t1x; maxx = t2x; }
-			else { minx = t2x; maxx = t1x; }
+		for (int i = 0; i <= dx1; i++)
+		{
+			t1xp = 0;
+			t2xp = 0;
+			if (t1x < t2x)
+			{
+				minx = t1x;
+				maxx = t2x;
+			}
+			else
+			{
+				minx = t2x;
+				maxx = t1x;
+			}
 			// process first line until y value is about to change
-			while (i<dx1) {
+			while (i < dx1)
+			{
 				e1 += dy1;
-				while (e1 >= dx1) {
+				while (e1 >= dx1)
+				{
 					e1 -= dx1;
-					if (changed1) { t1xp = signx1; break; }//t1x += signx1;
-					else          goto next3;
+					if (changed1)
+					{
+						t1xp = signx1;
+						break;
+					} // t1x += signx1;
+					else
+						goto next3;
 				}
-				if (changed1) break;
-				else   	   	  t1x += signx1;
-				if (i<dx1) i++;
+				if (changed1)
+					break;
+				else
+					t1x += signx1;
+				if (i < dx1)
+					i++;
 			}
 		next3:
 			// process second line until y value is about to change
-			while (t2x != x3) {
+			while (t2x != x3)
+			{
 				e2 += dy2;
-				while (e2 >= dx2) {
+				while (e2 >= dx2)
+				{
 					e2 -= dx2;
-					if (changed2) t2xp = signx2;
-					else          goto next4;
+					if (changed2)
+						t2xp = signx2;
+					else
+						goto next4;
 				}
-				if (changed2)     break;
-				else              t2x += signx2;
+				if (changed2)
+					break;
+				else
+					t2x += signx2;
 			}
 		next4:
 
-			if (minx>t1x) minx = t1x; if (minx>t2x) minx = t2x;
-			if (maxx<t1x) maxx = t1x; if (maxx<t2x) maxx = t2x;
-			drawline(minx, maxx, y);   										
-			if (!changed1) t1x += signx1;
+			if (minx > t1x)
+				minx = t1x;
+			if (minx > t2x)
+				minx = t2x;
+			if (maxx < t1x)
+				maxx = t1x;
+			if (maxx < t2x)
+				maxx = t2x;
+			drawline(minx, maxx, y);
+			if (!changed1)
+				t1x += signx1;
 			t1x += t1xp;
-			if (!changed2) t2x += signx2;
+			if (!changed2)
+				t2x += signx2;
 			t2x += t2xp;
 			y += 1;
-			if (y>y3) return;
+			if (y > y3)
+				return;
 		}
 	}
 
@@ -676,20 +807,23 @@ public:
 		int x = 0;
 		int y = r;
 		int p = 3 - 2 * r;
-		if (!r) return;
+		if (!r)
+			return;
 
 		while (y >= x) // only formulate 1/8 of circle
 		{
-			Draw(xc - x, yc - y, c, col);//upper left left
-			Draw(xc - y, yc - x, c, col);//upper upper left
-			Draw(xc + y, yc - x, c, col);//upper upper right
-			Draw(xc + x, yc - y, c, col);//upper right right
-			Draw(xc - x, yc + y, c, col);//lower left left
-			Draw(xc - y, yc + x, c, col);//lower lower left
-			Draw(xc + y, yc + x, c, col);//lower lower right
-			Draw(xc + x, yc + y, c, col);//lower right right
-			if (p < 0) p += 4 * x++ + 6;
-			else p += 4 * (x++ - y--) + 10;
+			Draw(xc - x, yc - y, c, col); // upper left left
+			Draw(xc - y, yc - x, c, col); // upper upper left
+			Draw(xc + y, yc - x, c, col); // upper upper right
+			Draw(xc + x, yc - y, c, col); // upper right right
+			Draw(xc - x, yc + y, c, col); // lower left left
+			Draw(xc - y, yc + x, c, col); // lower lower left
+			Draw(xc + y, yc + x, c, col); // lower lower right
+			Draw(xc + x, yc + y, c, col); // lower right right
+			if (p < 0)
+				p += 4 * x++ + 6;
+			else
+				p += 4 * (x++ - y--) + 10;
 		}
 	}
 
@@ -699,7 +833,8 @@ public:
 		int x = 0;
 		int y = r;
 		int p = 3 - 2 * r;
-		if (!r) return;
+		if (!r)
+			return;
 
 		auto drawline = [&](int sx, int ex, int ny)
 		{
@@ -714,8 +849,10 @@ public:
 			drawline(xc - y, xc + y, yc - x);
 			drawline(xc - x, xc + x, yc + y);
 			drawline(xc - y, xc + y, yc + x);
-			if (p < 0) p += 4 * x++ + 6;
-			else p += 4 * (x++ - y--) + 10;
+			if (p < 0)
+				p += 4 * x++ + 6;
+			else
+				p += 4 * (x++ - y--) + 10;
 		}
 	};
 
@@ -743,8 +880,8 @@ public:
 		{
 			for (int j = 0; j < h; j++)
 			{
-				if (sprite->GetGlyph(i+ox, j+oy) != L' ')
-					Draw(x + i, y + j, sprite->GetGlyph(i+ox, j+oy), sprite->GetColour(i+ox, j+oy));
+				if (sprite->GetGlyph(i + ox, j + oy) != L' ')
+					Draw(x + i, y + j, sprite->GetGlyph(i + ox, j + oy), sprite->GetColour(i + ox, j + oy));
 			}
 		}
 	}
@@ -785,7 +922,7 @@ public:
 		{
 			int j = (i + 1);
 			DrawLine((int)vecTransformedCoordinates[i % verts].first, (int)vecTransformedCoordinates[i % verts].second,
-				(int)vecTransformedCoordinates[j % verts].first, (int)vecTransformedCoordinates[j % verts].second, c, col);
+					 (int)vecTransformedCoordinates[j % verts].first, (int)vecTransformedCoordinates[j % verts].second, c, col);
 		}
 	}
 
@@ -797,7 +934,7 @@ public:
 
 public:
 	void Start()
-	{	
+	{
 		// Start the thread
 		m_bAtomActive = true;
 		std::thread t = std::thread(&olcConsoleGameEngine::GameThread, this);
@@ -811,7 +948,7 @@ public:
 		return m_nScreenWidth;
 	}
 
-	int ScreenHeight() 
+	int ScreenHeight()
 	{
 		return m_nScreenHeight;
 	}
@@ -820,7 +957,7 @@ private:
 	void GameThread()
 	{
 		// Create user resources as part of this thread
-		if (!OnUserCreate()) 
+		if (!OnUserCreate())
 			m_bAtomActive = false;
 
 		// Check if sound system should be enabled
@@ -828,7 +965,7 @@ private:
 		{
 			if (!CreateAudio())
 			{
-				m_bAtomActive = false; // Failed to create audio system			
+				m_bAtomActive = false; // Failed to create audio system
 				m_bEnableSound = false;
 			}
 		}
@@ -906,7 +1043,6 @@ private:
 						{
 							for (int m = 0; m < 5; m++)
 								m_mouseNewState[m] = (inBuf[i].Event.MouseEvent.dwButtonState & (1 << m)) > 0;
-
 						}
 						break;
 
@@ -944,7 +1080,6 @@ private:
 					m_mouseOldState[m] = m_mouseNewState[m];
 				}
 
-
 				// Handle Frame Update
 				if (!OnUserUpdate(fElapsedTime))
 					m_bAtomActive = false;
@@ -953,7 +1088,7 @@ private:
 				wchar_t s[256];
 				swprintf_s(s, 256, L"OneLoneCoder.com - Console Game Engine - %s - FPS: %3.2f", m_sAppName.c_str(), 1.0f / fElapsedTime);
 				SetConsoleTitle(s);
-				WriteConsoleOutput(m_hConsole, m_bufScreen, { (short)m_nScreenWidth, (short)m_nScreenHeight }, { 0,0 }, &m_rectWindow);
+				WriteConsoleOutput(m_hConsole, m_bufScreen, {(short)m_nScreenWidth, (short)m_nScreenHeight}, {0, 0}, &m_rectWindow);
 			}
 
 			if (m_bEnableSound)
@@ -979,22 +1114,18 @@ private:
 
 public:
 	// User MUST OVERRIDE THESE!!
-	virtual bool OnUserCreate()							= 0;
-	virtual bool OnUserUpdate(float fElapsedTime)		= 0;	
+	virtual bool OnUserCreate() = 0;
+	virtual bool OnUserUpdate(float fElapsedTime) = 0;
 
-	// Optional for clean up 
-	virtual bool OnUserDestroy()						{ return true; }
-
-
+	// Optional for clean up
+	virtual bool OnUserDestroy() { return true; }
 
 protected: // Audio Engine =====================================================================
-
 	class olcAudioSample
 	{
 	public:
 		olcAudioSample()
 		{
-
 		}
 
 		olcAudioSample(std::wstring sWavFile)
@@ -1007,14 +1138,16 @@ protected: // Audio Engine =====================================================
 
 			char dump[4];
 			std::fread(&dump, sizeof(char), 4, f); // Read "RIFF"
-			if (strncmp(dump, "RIFF", 4) != 0) return;
+			if (strncmp(dump, "RIFF", 4) != 0)
+				return;
 			std::fread(&dump, sizeof(char), 4, f); // Not Interested
 			std::fread(&dump, sizeof(char), 4, f); // Read "WAVE"
-			if (strncmp(dump, "WAVE", 4) != 0) return;
+			if (strncmp(dump, "WAVE", 4) != 0)
+				return;
 
 			// Read Wave description chunk
-			std::fread(&dump, sizeof(char), 4, f); // Read "fmt "
-			std::fread(&dump, sizeof(char), 4, f); // Not Interested
+			std::fread(&dump, sizeof(char), 4, f);					// Read "fmt "
+			std::fread(&dump, sizeof(char), 4, f);					// Not Interested
 			std::fread(&wavHeader, sizeof(WAVEFORMATEX) - 2, 1, f); // Read Wave Format Structure chunk
 																	// Note the -2, because the structure has 2 bytes to indicate its own size
 																	// which are not in the wav file
@@ -1028,7 +1161,7 @@ protected: // Audio Engine =====================================================
 
 			// Search for audio data chunk
 			long nChunksize = 0;
-			std::fread(&dump, sizeof(char), 4, f); // Read chunk header
+			std::fread(&dump, sizeof(char), 4, f);		 // Read chunk header
 			std::fread(&nChunksize, sizeof(long), 1, f); // Read chunk size
 			while (strncmp(dump, "data", 4) != 0)
 			{
@@ -1041,11 +1174,11 @@ protected: // Audio Engine =====================================================
 			// Finally got to data, so read it all in and convert to float samples
 			nSamples = nChunksize / (wavHeader.nChannels * (wavHeader.wBitsPerSample >> 3));
 			nChannels = wavHeader.nChannels;
-			
+
 			// Create floating point buffer to hold audio sample
 			fSample = new float[nSamples * nChannels];
 			float *pSample = fSample;
-			
+
 			// Read in audio data and normalise
 			for (long i = 0; i < nSamples; i++)
 			{
@@ -1069,7 +1202,7 @@ protected: // Audio Engine =====================================================
 		int nChannels = 0;
 		bool bSampleValid = false;
 	};
-	
+
 	// This vector holds all loaded sound samples in memory
 	std::vector<olcAudioSample> vecAudioSamples;
 
@@ -1115,12 +1248,11 @@ protected: // Audio Engine =====================================================
 
 	void StopSample(int id)
 	{
-
 	}
 
 	// The audio system uses by default a specific wave format
 	bool CreateAudio(unsigned int nSampleRate = 44100, unsigned int nChannels = 1,
-		unsigned int nBlocks = 8, unsigned int nBlockSamples = 512)
+					 unsigned int nBlocks = 8, unsigned int nBlockSamples = 512)
 	{
 		// Initialise Sound Engine
 		m_bAudioThreadActive = false;
@@ -1146,7 +1278,7 @@ protected: // Audio Engine =====================================================
 		// Open Device if valid
 		if (waveOutOpen(&m_hwDevice, WAVE_MAPPER, &waveFormat, (DWORD_PTR)waveOutProcWrap, (DWORD_PTR)this, CALLBACK_FUNCTION) != S_OK)
 			return DestroyAudio();
-		
+
 		// Allocate Wave|Block Memory
 		m_pBlockMemory = new short[m_nBlockCount * m_nBlockSamples];
 		if (m_pBlockMemory == nullptr)
@@ -1184,7 +1316,8 @@ protected: // Audio Engine =====================================================
 	// Handler for soundcard request for more data
 	void waveOutProc(HWAVEOUT hWaveOut, UINT uMsg, DWORD dwParam1, DWORD dwParam2)
 	{
-		if (uMsg != WOM_DONE) return;
+		if (uMsg != WOM_DONE)
+			return;
 		m_nBlockFree++;
 		std::unique_lock<std::mutex> lm(m_muxBlockNotZero);
 		m_cvBlockNotZero.notify_one();
@@ -1193,7 +1326,7 @@ protected: // Audio Engine =====================================================
 	// Static wrapper for sound card handler
 	static void CALLBACK waveOutProcWrap(HWAVEOUT hWaveOut, UINT uMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2)
 	{
-		((olcConsoleGameEngine*)dwInstance)->waveOutProc(hWaveOut, uMsg, dwParam1, dwParam2);
+		((olcConsoleGameEngine *)dwInstance)->waveOutProc(hWaveOut, uMsg, dwParam1, dwParam2);
 	}
 
 	// Audio thread. This loop responds to requests from the soundcard to fill 'blocks'
@@ -1306,7 +1439,8 @@ protected: // Audio Engine =====================================================
 		}
 
 		// If sounds have completed then remove them
-		listActiveSamples.remove_if([](const sCurrentlyPlayingSample &s) {return s.bFinished; });
+		listActiveSamples.remove_if([](const sCurrentlyPlayingSample &s)
+									{ return s.bFinished; });
 
 		// The users application might be generating sound, so grab that if it exists
 		fMixerSample += onUserSoundSample(nChannel, fGlobalTime, fTimeStep);
@@ -1321,7 +1455,7 @@ protected: // Audio Engine =====================================================
 	unsigned int m_nBlockSamples;
 	unsigned int m_nBlockCurrent;
 
-	short* m_pBlockMemory = nullptr;
+	short *m_pBlockMemory = nullptr;
 	WAVEHDR *m_pWaveHeaders = nullptr;
 	HWAVEOUT m_hwDevice = nullptr;
 
@@ -1332,11 +1466,7 @@ protected: // Audio Engine =====================================================
 	std::mutex m_muxBlockNotZero;
 	std::atomic<float> m_fGlobalTime = 0.0f;
 
-	
-
 protected:
-	
-
 	struct sKeyState
 	{
 		bool bPressed;
@@ -1348,12 +1478,11 @@ protected:
 	int m_mousePosY;
 
 public:
-	sKeyState GetKey(int nKeyID){ return m_keys[nKeyID]; }
+	sKeyState GetKey(int nKeyID) { return m_keys[nKeyID]; }
 	int GetMouseX() { return m_mousePosX; }
 	int GetMouseY() { return m_mousePosY; }
 	sKeyState GetMouse(int nMouseButtonID) { return m_mouse[nMouseButtonID]; }
 	bool IsFocused() { return m_bConsoleInFocus; }
-
 
 protected:
 	int Error(const wchar_t *msg)
@@ -1391,11 +1520,11 @@ protected:
 	HANDLE m_hConsole;
 	HANDLE m_hConsoleIn;
 	SMALL_RECT m_rectWindow;
-	short m_keyOldState[256] = { 0 };
-	short m_keyNewState[256] = { 0 };
-	bool m_mouseOldState[5] = { 0 };
-	bool m_mouseNewState[5] = { 0 };
-	bool m_bConsoleInFocus = true;	
+	short m_keyOldState[256] = {0};
+	short m_keyNewState[256] = {0};
+	bool m_mouseOldState[5] = {0};
+	bool m_mouseNewState[5] = {0};
+	bool m_bConsoleInFocus = true;
 	bool m_bEnableSound = false;
 
 	// These need to be static because of the OnDestroy call the OS may make. The OS

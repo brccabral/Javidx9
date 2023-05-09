@@ -66,7 +66,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #pragma once
@@ -78,10 +78,10 @@ class RPG_Engine;
 class cItem
 {
 public:
-	cItem(string name, olcSprite* sprite, string desc);
+	cItem(string name, olcSprite *sprite, string desc);
 
-	virtual bool OnInteract(cDynamic *object) {return false;}
-	virtual bool OnUse(cDynamic *object) {return false;}
+	virtual bool OnInteract(cDynamic *object) { return false; }
+	virtual bool OnUse(cDynamic *object) { return false; }
 
 public:
 	string sName;
@@ -92,8 +92,6 @@ public:
 
 	static RPG_Engine *g_engine;
 };
-
-
 
 class cItem_Health : public cItem // give player 10hp
 {
@@ -111,18 +109,16 @@ public:
 	bool OnUse(cDynamic *object) override;
 };
 
-
 class cWeapon : public cItem
 {
 public:
-	cWeapon(string name, olcSprite* sprite, string desc, int dmg);
+	cWeapon(string name, olcSprite *sprite, string desc, int dmg);
 	bool OnInteract(cDynamic *object) override;
 	bool OnUse(cDynamic *object) override;
 
 public:
 	int nDamage = 0;
 };
-
 
 class cWeapon_Sword : public cWeapon
 {

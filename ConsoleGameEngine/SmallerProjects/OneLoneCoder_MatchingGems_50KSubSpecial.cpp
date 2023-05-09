@@ -50,9 +50,8 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019
 */
-
 
 // NOTE: THIS CODE IS PROVIDED AS IS FROM THE END OF THE
 // LIVE STREAM. SO ITS A MESS. ENJOY!
@@ -65,7 +64,6 @@
 
 #undef min
 #undef max
-
 
 class Gems : public olcConsoleGameEngine
 {
@@ -81,19 +79,18 @@ public:
 		bool bExist;
 		bool bRemove;
 		bool bBomb;
-
 	};
-
 
 	enum STATES
 	{
-		STATE_USER, 
+		STATE_USER,
 		STATE_SWAP,
 		STATE_CHECK,
-		STATE_ERASE, 
+		STATE_ERASE,
 		STATE_COMPRESS,
 		STATE_NEWGEMS,
-	} nState, nNextState;
+	} nState,
+		nNextState;
 
 	sGem gems[8][8];
 
@@ -108,19 +105,16 @@ public:
 	bool bSwapFail = false;
 	bool bGemsToRemove = false;
 
-
 	struct sFragment
 	{
-		float x; 
-		float y; 
-		float vx; 
+		float x;
+		float y;
+		float vx;
 		float vy;
 		short colour;
 	};
 
-
 	std::list<sFragment> fragments;
-
 
 public:
 	bool OnUserCreate()
@@ -143,13 +137,6 @@ public:
 		sprBomb += L".X.XX.X.";
 		sprBomb += L"...XX...";
 
-
-
-
-
-
-
-
 		for (int x = 0; x < 8; x++)
 		{
 			for (int y = 0; y < 8; y++)
@@ -162,8 +149,6 @@ public:
 
 		nState = STATE_USER;
 		nNextState = STATE_USER;
-
-
 
 		return true;
 	}
@@ -183,17 +168,13 @@ public:
 					return ((float)rand() / (float)RAND_MAX) * (max - min) + min;
 				};
 
-
 				for (int i = 0; i < size; i++)
 				{
 					float a = random_float(0, 2.0f * 3.14159f);
-					sFragment f = { (float)x, (float)y, cos(a) * random_float(30.0f, 75.0), sin(a) * random_float(30.0f, 75.0), colour };
+					sFragment f = {(float)x, (float)y, cos(a) * random_float(30.0f, 75.0), sin(a) * random_float(30.0f, 75.0), colour};
 					fragments.push_back(f);
 				}
-
 			};
-
-
 
 			// Gameplay
 			switch (nState)
@@ -205,24 +186,37 @@ public:
 				{
 					if (!GetKey(VK_SPACE).bHeld)
 					{
-						if (GetKey(VK_LEFT).bPressed) nCursorX--;
-						if (GetKey(VK_RIGHT).bPressed) nCursorX++;
-						if (GetKey(VK_UP).bPressed) nCursorY--;
-						if (GetKey(VK_DOWN).bPressed) nCursorY++;
-						if (nCursorX < 0) nCursorX = 0;
-						if (nCursorX > 7) nCursorX = 7;
-						if (nCursorY < 0) nCursorY = 0;
-						if (nCursorY > 7) nCursorY = 7;
+						if (GetKey(VK_LEFT).bPressed)
+							nCursorX--;
+						if (GetKey(VK_RIGHT).bPressed)
+							nCursorX++;
+						if (GetKey(VK_UP).bPressed)
+							nCursorY--;
+						if (GetKey(VK_DOWN).bPressed)
+							nCursorY++;
+						if (nCursorX < 0)
+							nCursorX = 0;
+						if (nCursorX > 7)
+							nCursorX = 7;
+						if (nCursorY < 0)
+							nCursorY = 0;
+						if (nCursorY > 7)
+							nCursorY = 7;
 					}
 					else
 					{
 						nSwapX = nCursorX;
 						nSwapY = nCursorY;
-						if (GetKey(VK_LEFT).bPressed && nCursorX > 0) nSwapX = nCursorX - 1;
-						if (GetKey(VK_RIGHT).bPressed && nCursorX < 7) nSwapX = nCursorX + 1;
-						if (GetKey(VK_UP).bPressed && nCursorY > 0) nSwapY = nCursorY - 1;
-						if (GetKey(VK_DOWN).bPressed && nCursorY < 7) nSwapY = nCursorY + 1;
-						if (nSwapX != nCursorX || nSwapY != nCursorY) nNextState = STATE_SWAP;
+						if (GetKey(VK_LEFT).bPressed && nCursorX > 0)
+							nSwapX = nCursorX - 1;
+						if (GetKey(VK_RIGHT).bPressed && nCursorX < 7)
+							nSwapX = nCursorX + 1;
+						if (GetKey(VK_UP).bPressed && nCursorY > 0)
+							nSwapY = nCursorY - 1;
+						if (GetKey(VK_DOWN).bPressed && nCursorY < 7)
+							nSwapY = nCursorY + 1;
+						if (nSwapX != nCursorX || nSwapY != nCursorY)
+							nNextState = STATE_SWAP;
 					}
 				}
 
@@ -247,10 +241,12 @@ public:
 
 							// Check Horizontally
 							int nChain = 1;
-							while (gems[x][y].colour == gems[x + nChain][y].colour && (nChain + x) < 8) nChain++;
+							while (gems[x][y].colour == gems[x + nChain][y].colour && (nChain + x) < 8)
+								nChain++;
 							if (nChain >= 3)
 							{
-								if (nChain >= 4) bPlaceBomb = true;
+								if (nChain >= 4)
+									bPlaceBomb = true;
 
 								while (nChain > 0)
 								{
@@ -275,18 +271,18 @@ public:
 								}
 							}
 
-
 							// Check Vertically
 							nChain = 1;
-							while (gems[x][y].colour == gems[x][y + nChain].colour && (nChain + y) < 8) nChain++;
+							while (gems[x][y].colour == gems[x][y + nChain].colour && (nChain + y) < 8)
+								nChain++;
 							if (nChain >= 3)
 							{
-								if (nChain >= 4) bPlaceBomb = true;
+								if (nChain >= 4)
+									bPlaceBomb = true;
 
 								while (nChain > 0)
 								{
 									gems[x][y + nChain - 1].bRemove = true;
-
 
 									if (gems[x][y + nChain - 1].bBomb)
 									{
@@ -312,9 +308,7 @@ public:
 								gems[x][y].bBomb = true;
 								gems[x][y].bRemove = false;
 							}
-
 						}
-
 					}
 				}
 
@@ -387,18 +381,12 @@ public:
 				else
 					nNextState = STATE_CHECK;
 
-
 				break;
 			}
-
 
 			nState = nNextState;
 
 		} // End Gameplay
-
-	
-
-
 
 		// Rendering
 		Fill(0, 0, ScreenWidth(), ScreenHeight(), L' ');
@@ -415,7 +403,7 @@ public:
 						for (int j = 0; j < 8; j++)
 						{
 							std::wstring &source = gems[x][y].bBomb ? sprBomb : sprGem;
-							
+
 							if (source[j * 8 + i] != L'.')
 								Draw(x * 8 + i, y * 8 + j, gems[x][y].bRemove ? PIXEL_QUARTER : PIXEL_SOLID, gems[x][y].colour);
 						}
@@ -427,9 +415,6 @@ public:
 		// Draw Cursor
 		DrawRect(nCursorX * 8, nCursorY * 8, 7, 7, PIXEL_SOLID, FG_WHITE);
 
-
-
-
 		for (auto &f : fragments)
 		{
 			Draw(f.x, f.y, PIXEL_SOLID, f.colour);
@@ -437,18 +422,15 @@ public:
 			f.y += f.vy * fElapsedTime;
 		}
 
-		std::remove_if(fragments.begin(), fragments.end(), 
-		[&](const sFragment &f)
-		{
-			return f.x < 0 || f.x > ScreenWidth() || f.y < 0 || f.y > ScreenHeight();
-		});
-
+		std::remove_if(fragments.begin(), fragments.end(),
+					   [&](const sFragment &f)
+					   {
+						   return f.x < 0 || f.x > ScreenWidth() || f.y < 0 || f.y > ScreenHeight();
+					   });
 
 		return true;
 	}
-
 };
-
 
 int main()
 {

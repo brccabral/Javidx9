@@ -7,7 +7,7 @@ License
 Copyright (C) 2018  Javidx9
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
-under certain conditions; See license for details. 
+under certain conditions; See license for details.
 Original works located at:
 https://www.github.com/onelonecoder
 https://www.onelonecoder.com
@@ -18,10 +18,10 @@ https://github.com/OneLoneCoder/videos/blob/master/LICENSE
 
 From Javidx9 :)
 ~~~~~~~~~~~~~~~
-Hello! Ultimately I don't care what you use this for. It's intended to be 
-educational, and perhaps to the oddly minded - a little bit of fun. 
-Please hack this, change it and use it in any way you see fit. You acknowledge 
-that I am not responsible for anything bad that happens as a result of 
+Hello! Ultimately I don't care what you use this for. It's intended to be
+educational, and perhaps to the oddly minded - a little bit of fun.
+Please hack this, change it and use it in any way you see fit. You acknowledge
+that I am not responsible for anything bad that happens as a result of
 your actions. However this code is protected by GNU GPLv3, see the license in the
 github repo. This means you must attribute me if you use it. You can view this
 license here: https://github.com/OneLoneCoder/videos/blob/master/LICENSE
@@ -87,15 +87,15 @@ struct sSpline
 		float tt = t * t;
 		float ttt = tt * t;
 
-		float q1 = -ttt + 2.0f*tt - t;
-		float q2 = 3.0f*ttt - 5.0f*tt + 2.0f;
-		float q3 = -3.0f*ttt + 4.0f*tt + t;
+		float q1 = -ttt + 2.0f * tt - t;
+		float q2 = 3.0f * ttt - 5.0f * tt + 2.0f;
+		float q3 = -3.0f * ttt + 4.0f * tt + t;
 		float q4 = ttt - tt;
 
 		float tx = 0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 + points[p3].x * q4);
 		float ty = 0.5f * (points[p0].y * q1 + points[p1].y * q2 + points[p2].y * q3 + points[p3].y * q4);
 
-		return{ tx, ty };
+		return {tx, ty};
 	}
 
 	sPoint2D GetSplineGradient(float t, bool bLooped = false)
@@ -121,15 +121,15 @@ struct sSpline
 		float tt = t * t;
 		float ttt = tt * t;
 
-		float q1 = -3.0f * tt + 4.0f*t - 1;
-		float q2 = 9.0f*tt - 10.0f*t;
-		float q3 = -9.0f*tt + 8.0f*t + 1.0f;
-		float q4 = 3.0f*tt - 2.0f*t;
+		float q1 = -3.0f * tt + 4.0f * t - 1;
+		float q2 = 9.0f * tt - 10.0f * t;
+		float q3 = -9.0f * tt + 8.0f * t + 1.0f;
+		float q4 = 3.0f * tt - 2.0f * t;
 
 		float tx = 0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 + points[p3].x * q4);
 		float ty = 0.5f * (points[p0].y * q1 + points[p1].y * q2 + points[p2].y * q3 + points[p3].y * q4);
 
-		return{ tx, ty };
+		return {tx, ty};
 	}
 };
 
@@ -150,8 +150,8 @@ protected:
 	// Called by olcConsoleGameEngine
 	virtual bool OnUserCreate()
 	{
-		//path.points = { { 10, 41 },{ 40, 41 },{ 70, 41 },{ 100, 41 } };
-		path.points = { { 10, 41 },{ 20, 41 },{ 30, 41 },{ 40, 41 },{ 50, 41 },{ 60, 41 },{ 70, 41 },{ 80, 41 },{ 90, 41 },{ 100, 41 } };
+		// path.points = { { 10, 41 },{ 40, 41 },{ 70, 41 },{ 100, 41 } };
+		path.points = {{10, 41}, {20, 41}, {30, 41}, {40, 41}, {50, 41}, {60, 41}, {70, 41}, {80, 41}, {90, 41}, {100, 41}};
 		return true;
 	}
 

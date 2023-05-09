@@ -55,13 +55,11 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019
 */
-
 
 #include "cGameSettings.h"
 #include "cCarCrimeCity.h"
-
 
 int main()
 {
@@ -82,15 +80,15 @@ int main()
 	return 0;
 }
 
-//#define OLC_PGE_APPLICATION
-//#include "olcPixelGameEngine.h"
+// #define OLC_PGE_APPLICATION
+// #include "olcPixelGameEngine.h"
 //
-//#define OLC_PGEX_GRAPHICS3D
-//#include "olcPGEX_Graphics3D.h"
+// #define OLC_PGEX_GRAPHICS3D
+// #include "olcPGEX_Graphics3D.h"
 //
 //
 //
-//enum CELLTYPE
+// enum CELLTYPE
 //{
 //	CELL_BLANK = 0,
 //	CELL_GRASS = 1,
@@ -108,16 +106,16 @@ int main()
 //	CELL_ROAD_T3 = 13,
 //	CELL_ROAD_T4 = 14,
 //	CELL_ROAD_X = 15,
-//};
+// };
 //
-//struct cCityCell
+// struct cCityCell
 //{
 //	int nType = 5;// CELL_GRASS;
-//};
+// };
 //
-//class cCityMap
+// class cCityMap
 //{
-//public:
+// public:
 //	// Construct a "blank" city w units wide by h units high
 //	cCityMap(int w, int h);
 //
@@ -125,7 +123,7 @@ int main()
 //	~cCityMap();
 //
 //
-//public:
+// public:
 //	// Return width of city in cells
 //	int GetWidth();
 //	// Return height of city in cells
@@ -133,47 +131,47 @@ int main()
 //	// Return a specific cell reference if inside city limits, or nullptr
 //	cCityCell* Cell(int x, int y);
 //
-//private:
+// private:
 //	int m_nWidth = 0;
 //	int m_nHeight = 0;
 //	cCityCell *m_pCells = nullptr;
 //
-//private:
+// private:
 //	// Creates a "default" city of specified size
 //	void CreateCity(int w, int h);
 //	// Destroy city
 //	void ReleaseCity();
-//};
+// };
 //
-//cCityMap::cCityMap(int w, int h)
+// cCityMap::cCityMap(int w, int h)
 //{
 //	CreateCity(w, h);
-//}
+// }
 //
-//cCityMap::~cCityMap()
+// cCityMap::~cCityMap()
 //{
 //	//ReleaseCity();
-//}
+// }
 //
-//int cCityMap::GetWidth()
+// int cCityMap::GetWidth()
 //{
 //	return m_nWidth;
-//}
+// }
 //
-//int cCityMap::GetHeight()
+// int cCityMap::GetHeight()
 //{
 //	return m_nHeight;
-//}
+// }
 //
-//cCityCell* cCityMap::Cell(int x, int y)
+// cCityCell* cCityMap::Cell(int x, int y)
 //{
 //	if (x >= 0 && x < m_nWidth && y >= 0 && y < m_nHeight)
 //		return &m_pCells[y*m_nWidth + x];
 //	else
 //		return nullptr;
-//}
+// }
 //
-//void cCityMap::CreateCity(int w, int h)
+// void cCityMap::CreateCity(int w, int h)
 //{
 //	//ReleaseCity();
 //	m_nWidth = w;
@@ -193,19 +191,19 @@ int main()
 //			//Cell(x, y)->bBuilding = false;
 //		}
 //	}
-//}
+// }
 //
-//void cCityMap::ReleaseCity()
+// void cCityMap::ReleaseCity()
 //{
 //	if (m_pCells != nullptr) delete m_pCells;
 //	m_nWidth = 0;
 //	m_nHeight = 0;
-//}
+// }
 //
 //
-//class cCarCrimeCity : public olc::PixelGameEngine
+// class cCarCrimeCity : public olc::PixelGameEngine
 //{
-//public:
+// public:
 //	cCarCrimeCity()
 //	{
 //		sAppName = "Car Crime City";
@@ -230,11 +228,11 @@ int main()
 //				{ 0.0f, 0.0f, 0.0f, 1.0f,	    0.0f, 1.0f, 0.0f, 1.0f,		 1.0f, 1.0f, 0.0f, 1.0f,	0.0f, 0.0f, 0.0f,	0.0f, 1.0f, 0.0f, 		1.0f, 1.0f, 0.0f, olc::RED },
 //				{ 0.0f, 0.0f, 0.0f, 1.0f,  		1.0f, 1.0f, 0.0f, 1.0f,		 1.0f, 0.0f, 0.0f, 1.0f,	0.0f, 0.0f, 0.0f,	1.0f, 1.0f, 0.0f, 		1.0f, 0.0f, 0.0f, olc::RED},
 //		};
-//		
+//
 //
 //		sprOld = new olc::Sprite("assets/system/grass1.png");
 //
-//		
+//
 //
 //		SetDrawTarget(nullptr);
 //		return true;
@@ -258,7 +256,7 @@ int main()
 //		olc::GFX3D::vec3d vLookTarget = olc::GFX3D::Math::Vec_Add(vEye, vLookDir);
 //		olc::GFX3D::mat4x4 matProj = olc::GFX3D::Math::Mat_MakeProjection(90.0f, (float)ScreenHeight() / (float)ScreenWidth(), 0.5f, 1000.0f);
 //		olc::GFX3D::mat4x4 matView = olc::GFX3D::Math::Mat_PointAt(vEye, vLookTarget, vUp);
-//		
+//
 //
 //
 //		// Render Scene
@@ -270,7 +268,7 @@ int main()
 //		pipe.SetProjection(90.0f, (float)ScreenHeight() / (float)ScreenWidth(), 0.5f, 1000.0f, 0.0f, 0.0f, (float)ScreenWidth(), (float)ScreenHeight());
 //		pipe.SetCamera(vEye, vLookTarget, vUp);
 //
-//		
+//
 //
 //		int nStartX = 0;
 //		int nEndX = pCity->GetWidth();
@@ -301,7 +299,7 @@ int main()
 //					//pipe.Render(vecMeshSystem[0].tris, olc::GFX3D::RENDER_FLAT);
 //					break;
 //				}
-//				
+//
 //
 //				default:
 //				{
@@ -314,12 +312,12 @@ int main()
 //				}
 //
 //
-//				
+//
 //
 //			}
 //		}
 //
-//		
+//
 //
 //		return true;
 //	}
@@ -330,7 +328,7 @@ int main()
 //	}
 //
 //
-//private:
+// private:
 //	olc::GFX3D::vec3d vCamera = { 0.0f, 0.0f, -10.0f };
 //	olc::GFX3D::vec3d vUp = { 0.0f, 1.0f, 0.0f };
 //	olc::GFX3D::vec3d vEye = { 0.0f, 0.0f, -10.0f };
@@ -345,9 +343,9 @@ int main()
 //
 //
 //
-//};
+// };
 //
-//int main()
+// int main()
 //{
 //	// Load the settings singleton
 //	/*cGameSettings config;
@@ -364,4 +362,4 @@ int main()
 //
 //	// Exit!
 //	return 0;
-//}
+// }

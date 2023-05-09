@@ -60,7 +60,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019
 */
 
 #define OLC_PGE_APPLICATION
@@ -108,7 +108,7 @@ struct sShape
 	// change depending on how many nodes have been placed. Once the
 	// maximum number of nodes for a shape have been placed, it returns
 	// nullptr
-	sNode* GetNextNode(const olc::vf2d &p)
+	sNode *GetNextNode(const olc::vf2d &p)
 	{
 		if (vecNodes.size() == nMaxNodes)
 			return nullptr; // Shape is complete so no new nodes to be issued
@@ -126,7 +126,7 @@ struct sShape
 	// Test to see if supplied coordinate exists at same location
 	// as any of the nodes for this shape. Return a pointer to that
 	// node if it does
-	sNode* HitNode(olc::vf2d &p)
+	sNode *HitNode(olc::vf2d &p)
 	{
 		for (auto &n : vecNodes)
 		{
@@ -151,9 +151,7 @@ struct sShape
 
 // We must provide an implementation of our static variables
 float sShape::fWorldScale = 1.0f;
-olc::vf2d sShape::vWorldOffset = { 0,0 };
-
-
+olc::vf2d sShape::vWorldOffset = {0, 0};
 
 // LINE sub class, inherits from sShape
 struct sLine : public sShape
@@ -162,10 +160,10 @@ struct sLine : public sShape
 	{
 		nMaxNodes = 2;
 		vecNodes.reserve(nMaxNodes); // We're gonna be getting pointers to vector elements
-		// though we have defined already how much capacity our vector will have. This makes
-		// it safe to do this as we know the vector will not be maniupulated as we add nodes
-		// to it. Is this bad practice? Possibly, but as with all thing programming, if you
-		// know what you are doing, it's ok :D
+									 // though we have defined already how much capacity our vector will have. This makes
+									 // it safe to do this as we know the vector will not be maniupulated as we add nodes
+									 // to it. Is this bad practice? Possibly, but as with all thing programming, if you
+									 // know what you are doing, it's ok :D
 	}
 
 	// Implements custom DrawYourself Function, meaning the shape
@@ -179,14 +177,13 @@ struct sLine : public sShape
 	}
 };
 
-
 // BOX
 struct sBox : public sShape
 {
 	sBox()
 	{
 		nMaxNodes = 2;
-		vecNodes.reserve(nMaxNodes); 
+		vecNodes.reserve(nMaxNodes);
 	}
 
 	void DrawYourself(olc::PixelGameEngine *pge) override
@@ -197,7 +194,6 @@ struct sBox : public sShape
 		pge->DrawRect(sx, sy, ex - sx, ey - sy, col);
 	}
 };
-
 
 // CIRCLE
 struct sCircle : public sShape
@@ -259,18 +255,15 @@ struct sCurve : public sShape
 			olc::vf2d np = op;
 			for (float t = 0; t < 1.0f; t += 0.01f)
 			{
-				np = (1 - t)*(1 - t)*vecNodes[0].pos + 2 * (1 - t)*t*vecNodes[1].pos + t * t * vecNodes[2].pos;
+				np = (1 - t) * (1 - t) * vecNodes[0].pos + 2 * (1 - t) * t * vecNodes[1].pos + t * t * vecNodes[2].pos;
 				WorldToScreen(op, sx, sy);
 				WorldToScreen(np, ex, ey);
 				pge->DrawLine(sx, sy, ex, ey, col);
 				op = np;
 			}
 		}
-
 	}
 };
-
-
 
 // APPLICATION STARTS HERE
 
@@ -284,8 +277,8 @@ public:
 
 private:
 	// Pan & Zoom variables
-	olc::vf2d vOffset = { 0.0f, 0.0f };
-	olc::vf2d vStartPan = { 0.0f, 0.0f };
+	olc::vf2d vOffset = {0.0f, 0.0f};
+	olc::vf2d vStartPan = {0.0f, 0.0f};
 	float fScale = 10.0f;
 	float fGrid = 1.0f;
 
@@ -303,21 +296,20 @@ private:
 		v.y = (float)(nScreenY) / fScale + vOffset.y;
 	}
 
-
 	// A pointer to a shape that is currently being defined
 	// by the placment of nodes
-	sShape* tempShape = nullptr;
+	sShape *tempShape = nullptr;
 
 	// A list of pointers to all shapes which have been drawn
 	// so far
-	std::list<sShape*> listShapes;
+	std::list<sShape *> listShapes;
 
-	// A pointer to a node that is currently selected. Selected 
+	// A pointer to a node that is currently selected. Selected
 	// nodes follow the mouse cursor
 	sNode *selectedNode = nullptr;
 
 	// "Snapped" mouse location
-	olc::vf2d vCursor = { 0, 0 };
+	olc::vf2d vCursor = {0, 0};
 
 	// NOTE! No direct instances of lines, circles, boxes or curves,
 	// the application is only aware of the existence of shapes!
@@ -327,15 +319,14 @@ public:
 	bool OnUserCreate() override
 	{
 		// Configure world space (0,0) to be middle of screen space
-		vOffset = { (float)(-ScreenWidth() / 2) / fScale, (float)(-ScreenHeight() / 2) / fScale };
+		vOffset = {(float)(-ScreenWidth() / 2) / fScale, (float)(-ScreenHeight() / 2) / fScale};
 		return true;
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
 		// Get mouse location this frame
-		olc::vf2d vMouse = { (float)GetMouseX(), (float)GetMouseY() };
-
+		olc::vf2d vMouse = {(float)GetMouseX(), (float)GetMouseY()};
 
 		// Handle Pan & Zoom
 		if (GetMouse(2).bPressed)
@@ -366,11 +357,9 @@ public:
 		ScreenToWorld((int)vMouse.x, (int)vMouse.y, vMouseAfterZoom);
 		vOffset += (vMouseBeforeZoom - vMouseAfterZoom);
 
-
 		// Snap mouse cursor to nearest grid interval
 		vCursor.x = floorf((vMouseAfterZoom.x + 0.5f) * fGrid);
 		vCursor.y = floorf((vMouseAfterZoom.y + 0.5f) * fGrid);
-
 
 		if (GetKey(olc::Key::L).bPressed)
 		{
@@ -382,7 +371,6 @@ public:
 			// Get Second node
 			selectedNode = tempShape->GetNextNode(vCursor);
 		}
-
 
 		if (GetKey(olc::Key::B).bPressed)
 		{
@@ -432,14 +420,12 @@ public:
 			}
 		}
 
-
 		// If a node is selected, make it follow the mouse cursor
 		// by updating its position
 		if (selectedNode != nullptr)
 		{
 			selectedNode->pos = vCursor;
 		}
-
 
 		// As the user left clicks to place nodes, the shape can grow
 		// until it requires no more nodes, at which point it is completed
@@ -455,15 +441,12 @@ public:
 					listShapes.push_back(tempShape);
 					tempShape = nullptr; // Thanks @howlevergreen /Disord
 				}
-				
 			}
 			else
 			{
 				selectedNode = nullptr;
 			}
 		}
-
-
 
 		// Clear Screen
 		Clear(olc::VERY_DARK_BLUE);
@@ -487,17 +470,17 @@ public:
 		{
 			for (float y = vWorldTopLeft.y; y < vWorldBottomRight.y; y += fGrid)
 			{
-				WorldToScreen({ x, y }, sx, sy);
+				WorldToScreen({x, y}, sx, sy);
 				Draw(sx, sy, olc::BLUE);
 			}
 		}
 
 		// Draw World Axis
-		WorldToScreen({ 0,vWorldTopLeft.y }, sx, sy);
-		WorldToScreen({ 0,vWorldBottomRight.y }, ex, ey);
+		WorldToScreen({0, vWorldTopLeft.y}, sx, sy);
+		WorldToScreen({0, vWorldBottomRight.y}, ex, ey);
 		DrawLine(sx, sy, ex, ey, olc::GREY, 0xF0F0F0F0);
-		WorldToScreen({ vWorldTopLeft.x,0 }, sx, sy);
-		WorldToScreen({ vWorldBottomRight.x,0 }, ex, ey);
+		WorldToScreen({vWorldTopLeft.x, 0}, sx, sy);
+		WorldToScreen({vWorldBottomRight.x, 0}, ex, ey);
 		DrawLine(sx, sy, ex, ey, olc::GREY, 0xF0F0F0F0);
 
 		// Update shape translation coefficients
@@ -528,7 +511,6 @@ public:
 	}
 };
 
-
 int main()
 {
 	Polymorphism demo;
@@ -536,7 +518,3 @@ int main()
 		demo.Start();
 	return 0;
 }
-
-
-
-

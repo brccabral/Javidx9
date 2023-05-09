@@ -7,7 +7,7 @@ License
 Copyright (C) 2018  Javidx9
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
-under certain conditions; See license for details. 
+under certain conditions; See license for details.
 Original works located at:
 https://www.github.com/onelonecoder
 https://www.onelonecoder.com
@@ -18,10 +18,10 @@ https://github.com/OneLoneCoder/videos/blob/master/LICENSE
 
 From Javidx9 :)
 ~~~~~~~~~~~~~~~
-Hello! Ultimately I don't care what you use this for. It's intended to be 
-educational, and perhaps to the oddly minded - a little bit of fun. 
-Please hack this, change it and use it in any way you see fit. You acknowledge 
-that I am not responsible for anything bad that happens as a result of 
+Hello! Ultimately I don't care what you use this for. It's intended to be
+educational, and perhaps to the oddly minded - a little bit of fun.
+Please hack this, change it and use it in any way you see fit. You acknowledge
+that I am not responsible for anything bad that happens as a result of
 your actions. However this code is protected by GNU GPLv3, see the license in the
 github repo. This means you must attribute me if you use it. You can view this
 license here: https://github.com/OneLoneCoder/videos/blob/master/LICENSE
@@ -54,10 +54,6 @@ Last Updated:
 using namespace std;
 
 #include "olcConsoleGameEngine.h"
-
-
-
-
 
 class OneLoneCoder_SpriteEditor : public olcConsoleGameEngine
 {
@@ -94,21 +90,27 @@ protected:
 	virtual bool OnUserUpdate(float fElapsedTime)
 	{
 
-		// Zooming 
+		// Zooming
 		if (m_keys[VK_PRIOR].bReleased)
 			nZoom <<= 1;
 
 		if (m_keys[VK_NEXT].bReleased)
 			nZoom >>= 1;
 
-		if (nZoom > 32) nZoom = 32;
-		if (nZoom < 2) nZoom = 2;
+		if (nZoom > 32)
+			nZoom = 32;
+		if (nZoom < 2)
+			nZoom = 2;
 
 		// Brushes
-		if (m_keys[VK_F1].bReleased) nCurrentGlyph = PIXEL_SOLID;
-		if (m_keys[VK_F2].bReleased) nCurrentGlyph = PIXEL_THREEQUARTERS;
-		if (m_keys[VK_F3].bReleased) nCurrentGlyph = PIXEL_HALF;
-		if (m_keys[VK_F4].bReleased) nCurrentGlyph = PIXEL_QUARTER;
+		if (m_keys[VK_F1].bReleased)
+			nCurrentGlyph = PIXEL_SOLID;
+		if (m_keys[VK_F2].bReleased)
+			nCurrentGlyph = PIXEL_THREEQUARTERS;
+		if (m_keys[VK_F3].bReleased)
+			nCurrentGlyph = PIXEL_HALF;
+		if (m_keys[VK_F4].bReleased)
+			nCurrentGlyph = PIXEL_QUARTER;
 
 		// Colours
 		for (int i = 0; i < 8; i++)
@@ -118,38 +120,51 @@ protected:
 				else
 					nCurrentColourFG = i;
 
-
 		if (m_keys[VK_F7].bReleased)
 			nCurrentColourBG--;
 
 		if (m_keys[VK_F8].bReleased)
 			nCurrentColourBG++;
 
-		if (nCurrentColourBG < 0) nCurrentColourBG = 15;
-		if (nCurrentColourBG > 15) nCurrentColourBG = 0;
+		if (nCurrentColourBG < 0)
+			nCurrentColourBG = 15;
+		if (nCurrentColourBG > 15)
+			nCurrentColourBG = 0;
 
 		// Cursing :-)
 		if (m_keys[VK_SHIFT].bHeld)
 		{
-			if (m_keys[VK_UP].bReleased) nOffsetY++;
-			if (m_keys[VK_DOWN].bReleased) nOffsetY--;
-			if (m_keys[VK_LEFT].bReleased) nOffsetX++;
-			if (m_keys[VK_RIGHT].bReleased) nOffsetX--;
+			if (m_keys[VK_UP].bReleased)
+				nOffsetY++;
+			if (m_keys[VK_DOWN].bReleased)
+				nOffsetY--;
+			if (m_keys[VK_LEFT].bReleased)
+				nOffsetX++;
+			if (m_keys[VK_RIGHT].bReleased)
+				nOffsetX--;
 		}
 		else
 		{
-			if (m_keys[VK_UP].bReleased) nPosY--;
-			if (m_keys[VK_DOWN].bReleased) nPosY++;
-			if (m_keys[VK_LEFT].bReleased) nPosX--;
-			if (m_keys[VK_RIGHT].bReleased) nPosX++;
+			if (m_keys[VK_UP].bReleased)
+				nPosY--;
+			if (m_keys[VK_DOWN].bReleased)
+				nPosY++;
+			if (m_keys[VK_LEFT].bReleased)
+				nPosX--;
+			if (m_keys[VK_RIGHT].bReleased)
+				nPosX++;
 		}
 
 		if (sprite != nullptr)
 		{
-			if (nPosX < 0) nPosX = 0;
-			if (nPosX >= sprite->nWidth) nPosX = sprite->nWidth - 1;
-			if (nPosY < 0) nPosY = 0;
-			if (nPosY >= sprite->nHeight) nPosY = sprite->nHeight - 1;
+			if (nPosX < 0)
+				nPosX = 0;
+			if (nPosX >= sprite->nWidth)
+				nPosX = sprite->nWidth - 1;
+			if (nPosY < 0)
+				nPosY = 0;
+			if (nPosY >= sprite->nHeight)
+				nPosY = sprite->nHeight - 1;
 
 			if (m_keys[VK_SPACE].bReleased)
 			{
@@ -173,10 +188,6 @@ protected:
 				sprite->Save(sCurrentSpriteFile);
 			}
 		}
-
-
-
-
 
 		// Erase All
 		Fill(0, 0, ScreenWidth(), ScreenHeight(), L' ', 0);
@@ -220,31 +231,26 @@ protected:
 					if (x - nOffsetX < sprite->nWidth && y - nOffsetY < sprite->nHeight && x - nOffsetX >= 0 && y - nOffsetY >= 0)
 					{
 						// Draw Sprite
-						Fill(x * nZoom + 10, y*nZoom + 10, (x + 1)*nZoom + 10, (y + 1)*nZoom + 10, sprite->GetGlyph(x - nOffsetX, y - nOffsetY), sprite->GetColour(x - nOffsetX, y - nOffsetY));
-
+						Fill(x * nZoom + 10, y * nZoom + 10, (x + 1) * nZoom + 10, (y + 1) * nZoom + 10, sprite->GetGlyph(x - nOffsetX, y - nOffsetY), sprite->GetColour(x - nOffsetX, y - nOffsetY));
 
 						// Draw Pixel Markers
 						if (sprite->GetGlyph(x - nOffsetX, y - nOffsetY) == L' ')
-							Draw((x)* nZoom + 10, (y)* nZoom + 10, L'.');
+							Draw((x)*nZoom + 10, (y)*nZoom + 10, L'.');
 					}
 
 					if (x - nOffsetX == nPosX && y - nOffsetY == nPosY)
-						Draw((x)* nZoom + 10, (y)* nZoom + 10, L'O');
+						Draw((x)*nZoom + 10, (y)*nZoom + 10, L'O');
 				}
 		}
-
 
 		// Draw Actual Sprite
 		for (int x = 0; x < sprite->nWidth; x++)
 			for (int y = 0; y < sprite->nHeight; y++)
 				Draw(x + 10, y + 80, sprite->GetGlyph(x, y), sprite->GetColour(x, y));
 
-
-
 		return true;
 	}
 };
-
 
 int main()
 {

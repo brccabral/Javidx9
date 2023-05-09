@@ -66,19 +66,17 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #include "RPG_Engine.h"
 
-#define X(n) m_script.AddCommand(new cCommand_ ## n)
+#define X(n) m_script.AddCommand(new cCommand_##n)
 
 RPG_Engine::RPG_Engine()
 {
 	m_sAppName = L"Top Down Role Playing Game";
 }
-
-
 
 bool RPG_Engine::OnUserCreate()
 {
@@ -104,13 +102,7 @@ bool RPG_Engine::OnUserCreate()
 
 	m_listItems.push_back(RPG_Assets::get().GetItem("Basic Sword"));
 
-
 	ChangeMap("coder town", 5, 5);
-
-
-
-	
-
 
 	return true;
 }
@@ -119,16 +111,16 @@ bool RPG_Engine::OnUserUpdate(float fElapsedTime)
 {
 	switch (m_nGameMode)
 	{
-	//case MODE_TITLE:
-		//return UpdateTitleScreen(fElapsedTime);
+	// case MODE_TITLE:
+	// return UpdateTitleScreen(fElapsedTime);
 	case MODE_LOCAL_MAP:
 		return UpdateLocalMap(fElapsedTime);
-	//case MODE_WORLD_MAP:
+	// case MODE_WORLD_MAP:
 	//	return UpdateWorldMap(fElapsedTime);
 	case MODE_INVENTORY:
 		return UpdateInventory(fElapsedTime);
-	//case MODE_SHOP:
-		//return UpdateShop(fElapsedTime);
+		// case MODE_SHOP:
+		// return UpdateShop(fElapsedTime);
 	}
 
 	return true;
@@ -140,10 +132,12 @@ bool RPG_Engine::UpdateLocalMap(float fElapsedTime)
 	// Update script
 	m_script.ProcessCommands(fElapsedTime);
 
-	// Erase and delete redundant projectiles	
+	// Erase and delete redundant projectiles
 	m_vecProjectiles.erase(
 		remove_if(m_vecProjectiles.begin(), m_vecProjectiles.end(),
-			[](const cDynamic* d) {return ((cDynamic_Projectile*)d)->bRedundant; }), m_vecProjectiles.end());
+				  [](const cDynamic *d)
+				  { return ((cDynamic_Projectile *)d)->bRedundant; }),
+		m_vecProjectiles.end());
 
 	if (m_script.bUserControlEnabled)
 	{
@@ -181,7 +175,7 @@ bool RPG_Engine::UpdateLocalMap(float fElapsedTime)
 
 				if (GetKey(VK_SPACE).bReleased) // Interaction requested
 				{
-					// Grab a point from the direction the player is facing and check for interactions										
+					// Grab a point from the direction the player is facing and check for interactions
 					float fTestX, fTestY;
 
 					if (m_pPlayer->GetFacingDirection() == 0) // South
@@ -246,7 +240,6 @@ bool RPG_Engine::UpdateLocalMap(float fElapsedTime)
 					{
 						m_pPlayer->PerformAttack();
 					}
-
 				}
 			}
 		}
@@ -265,7 +258,7 @@ bool RPG_Engine::UpdateLocalMap(float fElapsedTime)
 	}
 
 	bool bWorkingWithProjectiles = false;
-	for (auto &source : { &m_vecDynamics, &m_vecProjectiles })
+	for (auto &source : {&m_vecDynamics, &m_vecProjectiles})
 	{
 		for (auto &object : *source)
 		{
@@ -292,7 +285,6 @@ bool RPG_Engine::UpdateLocalMap(float fElapsedTime)
 					fNewObjectPosX = (int)fNewObjectPosX;
 					object->vx = 0;
 					bCollisionWithMap = true;
-
 				}
 			}
 
@@ -352,7 +344,6 @@ bool RPG_Engine::UpdateLocalMap(float fElapsedTime)
 							else
 								fDynamicObjectPosY = dyn->py - 1.0f;
 						}
-
 					}
 					else
 					{
@@ -384,22 +375,19 @@ bool RPG_Engine::UpdateLocalMap(float fElapsedTime)
 									if (dyn->bFriendly != object->bFriendly)
 									{
 										// We know object is a projectile, so dyn is something
-										// opposite that it has overlapped with											
+										// opposite that it has overlapped with
 										if (dyn->bIsAttackable)
 										{
 											// Dynamic object is a creature
-											Damage((cDynamic_Projectile*)object, (cDynamic_Creature*)dyn);
+											Damage((cDynamic_Projectile *)object, (cDynamic_Creature *)dyn);
 										}
 									}
 								}
 							}
-
-
 						}
 					}
 				}
 			}
-
 
 			object->px = fDynamicObjectPosX;
 			object->py = fDynamicObjectPosY;
@@ -408,15 +396,15 @@ bool RPG_Engine::UpdateLocalMap(float fElapsedTime)
 		bWorkingWithProjectiles = true;
 	}
 
-	for (auto &source : { &m_vecDynamics, &m_vecProjectiles })
+	for (auto &source : {&m_vecDynamics, &m_vecProjectiles})
 		for (auto &dyns : *source)
 			dyns->Update(fElapsedTime, m_pPlayer);
 
 	// Remove quests that have been completed
-	auto i = remove_if(m_listQuests.begin(), m_listQuests.end(), [](const cQuest* d) {return d->bCompleted; });
+	auto i = remove_if(m_listQuests.begin(), m_listQuests.end(), [](const cQuest *d)
+					   { return d->bCompleted; });
 	if (i != m_listQuests.end())
 		m_listQuests.erase(i);
-
 
 	fCameraPosX = m_pPlayer->px;
 	fCameraPosY = m_pPlayer->py;
@@ -432,10 +420,14 @@ bool RPG_Engine::UpdateLocalMap(float fElapsedTime)
 	float fOffsetY = fCameraPosY - (float)nVisibleTilesY / 2.0f;
 
 	// Clamp camera to game boundaries
-	if (fOffsetX < 0) fOffsetX = 0;
-	if (fOffsetY < 0) fOffsetY = 0;
-	if (fOffsetX > m_pCurrentMap->nWidth - nVisibleTilesX) fOffsetX = m_pCurrentMap->nWidth - nVisibleTilesX;
-	if (fOffsetY > m_pCurrentMap->nHeight - nVisibleTilesY) fOffsetY = m_pCurrentMap->nHeight - nVisibleTilesY;
+	if (fOffsetX < 0)
+		fOffsetX = 0;
+	if (fOffsetY < 0)
+		fOffsetY = 0;
+	if (fOffsetX > m_pCurrentMap->nWidth - nVisibleTilesX)
+		fOffsetX = m_pCurrentMap->nWidth - nVisibleTilesX;
+	if (fOffsetY > m_pCurrentMap->nHeight - nVisibleTilesY)
+		fOffsetY = m_pCurrentMap->nHeight - nVisibleTilesY;
 
 	// Get offsets for smooth movement
 	float fTileOffsetX = (fOffsetX - (int)fOffsetX) * nTileWidth;
@@ -455,20 +447,18 @@ bool RPG_Engine::UpdateLocalMap(float fElapsedTime)
 	}
 
 	// Draw Object
-	for (auto &source : { &m_vecDynamics, &m_vecProjectiles })
+	for (auto &source : {&m_vecDynamics, &m_vecProjectiles})
 		for (auto &dyns : *source)
 			dyns->DrawSelf(this, fOffsetX, fOffsetY);
 
 	m_pPlayer->DrawSelf(this, fOffsetX, fOffsetY);
 
 	string sHealth = "HP: " + to_string(m_pPlayer->nHealth) + "/" + to_string(m_pPlayer->nHealthMax);
-	DisplayDialog({ sHealth }, 160, 10);
-
+	DisplayDialog({sHealth}, 160, 10);
 
 	// Draw any dialog being displayed
 	if (m_bShowDialog)
 		DisplayDialog(m_vecDialogToShow, 20, 20);
-
 
 	return true;
 }
@@ -484,7 +474,9 @@ void RPG_Engine::DisplayDialog(vector<string> vecText, int x, int y)
 	int nMaxLineLength = 0;
 	int nLines = vecText.size();
 
-	for (auto l : vecText)	if (l.size() > nMaxLineLength) nMaxLineLength = l.size();
+	for (auto l : vecText)
+		if (l.size() > nMaxLineLength)
+			nMaxLineLength = l.size();
 
 	// Draw Box
 	Fill(x - 1, y - 1, x + nMaxLineLength * 8 + 1, y + nLines * 8 + 1, PIXEL_SOLID, FG_DARK_BLUE);
@@ -493,7 +485,7 @@ void RPG_Engine::DisplayDialog(vector<string> vecText, int x, int y)
 	DrawLine(x - 2, y - 2, x + nMaxLineLength * 8 + 1, y - 2);
 	DrawLine(x - 2, y + nLines * 8 + 1, x + nMaxLineLength * 8 + 1, y + nLines * 8 + 1);
 
-	for (int l = 0; l<vecText.size(); l++)
+	for (int l = 0; l < vecText.size(); l++)
 		DrawBigText(vecText[l], x, y + l * 8);
 }
 
@@ -507,7 +499,6 @@ void RPG_Engine::DrawBigText(string sText, int x, int y)
 		DrawPartialSprite(x + i * 8, y, m_sprFont, sx, sy, 8, 8);
 		i++;
 	}
-
 }
 
 void RPG_Engine::ChangeMap(string sMapName, float x, float y)
@@ -531,19 +522,19 @@ void RPG_Engine::ChangeMap(string sMapName, float x, float y)
 		q->PopulateDynamics(m_vecDynamics, m_pCurrentMap->sName);
 }
 
-void RPG_Engine::AddQuest(cQuest* quest)
+void RPG_Engine::AddQuest(cQuest *quest)
 {
 	m_listQuests.push_front(quest);
 }
 
-bool RPG_Engine::GiveItem(cItem* item)
+bool RPG_Engine::GiveItem(cItem *item)
 {
-	//m_script.AddCommand(new cCommand_ShowDialog({ "You have found a" , item->sName }));
+	// m_script.AddCommand(new cCommand_ShowDialog({ "You have found a" , item->sName }));
 	m_listItems.push_back(item);
 	return true;
 }
 
-bool RPG_Engine::TakeItem(cItem* item)
+bool RPG_Engine::TakeItem(cItem *item)
 {
 	if (item != nullptr)
 	{
@@ -554,7 +545,7 @@ bool RPG_Engine::TakeItem(cItem* item)
 		return false;
 }
 
-bool RPG_Engine::HasItem(cItem* item)
+bool RPG_Engine::HasItem(cItem *item)
 {
 	if (item != nullptr)
 		return find(m_listItems.begin(), m_listItems.end(), item) != m_listItems.end();
@@ -567,9 +558,8 @@ bool RPG_Engine::UpdateInventory(float fElapsedTime)
 	Fill(0, 0, ScreenWidth(), ScreenHeight(), L' ');
 	DrawBigText("INVENTORY", 4, 4);
 
-
 	int i = 0;
-	cItem* highlighted = nullptr;
+	cItem *highlighted = nullptr;
 
 	// Draw Consumables
 	for (auto &item : m_listItems)
@@ -585,19 +575,27 @@ bool RPG_Engine::UpdateInventory(float fElapsedTime)
 	}
 
 	// Draw selection reticule
-	DrawLine(6 + (m_nInvSelectX) * 20, 18 + (m_nInvSelectY) * 20, 6 + (m_nInvSelectX + 1) * 20, 18 + (m_nInvSelectY) * 20);
-	DrawLine(6 + (m_nInvSelectX) * 20, 18 + (m_nInvSelectY + 1) * 20, 6 + (m_nInvSelectX + 1) * 20, 18 + (m_nInvSelectY + 1) * 20);
-	DrawLine(6 + (m_nInvSelectX) * 20, 18 + (m_nInvSelectY) * 20, 6 + (m_nInvSelectX) * 20, 18 + (m_nInvSelectY + 1) * 20);
-	DrawLine(6 + (m_nInvSelectX + 1) * 20, 18 + (m_nInvSelectY) * 20, 6 + (m_nInvSelectX + 1) * 20, 18 + (m_nInvSelectY + 1) * 20);
+	DrawLine(6 + (m_nInvSelectX)*20, 18 + (m_nInvSelectY)*20, 6 + (m_nInvSelectX + 1) * 20, 18 + (m_nInvSelectY)*20);
+	DrawLine(6 + (m_nInvSelectX)*20, 18 + (m_nInvSelectY + 1) * 20, 6 + (m_nInvSelectX + 1) * 20, 18 + (m_nInvSelectY + 1) * 20);
+	DrawLine(6 + (m_nInvSelectX)*20, 18 + (m_nInvSelectY)*20, 6 + (m_nInvSelectX)*20, 18 + (m_nInvSelectY + 1) * 20);
+	DrawLine(6 + (m_nInvSelectX + 1) * 20, 18 + (m_nInvSelectY)*20, 6 + (m_nInvSelectX + 1) * 20, 18 + (m_nInvSelectY + 1) * 20);
 
-	if (GetKey(VK_LEFT).bReleased)	m_nInvSelectX--;
-	if (GetKey(VK_RIGHT).bReleased)	m_nInvSelectX++;
-	if (GetKey(VK_UP).bReleased)	m_nInvSelectY--;
-	if (GetKey(VK_DOWN).bReleased)	m_nInvSelectY++;
-	if (m_nInvSelectX < 0) m_nInvSelectX = 3;
-	if (m_nInvSelectX >= 4) m_nInvSelectX = 0;
-	if (m_nInvSelectY < 0) m_nInvSelectY = 3;
-	if (m_nInvSelectY >= 4) m_nInvSelectY = 0;
+	if (GetKey(VK_LEFT).bReleased)
+		m_nInvSelectX--;
+	if (GetKey(VK_RIGHT).bReleased)
+		m_nInvSelectX++;
+	if (GetKey(VK_UP).bReleased)
+		m_nInvSelectY--;
+	if (GetKey(VK_DOWN).bReleased)
+		m_nInvSelectY++;
+	if (m_nInvSelectX < 0)
+		m_nInvSelectX = 3;
+	if (m_nInvSelectX >= 4)
+		m_nInvSelectX = 0;
+	if (m_nInvSelectY < 0)
+		m_nInvSelectY = 3;
+	if (m_nInvSelectY >= 4)
+		m_nInvSelectY = 0;
 
 	if (GetKey(L'Z').bReleased)
 		m_nGameMode = MODE_LOCAL_MAP;
@@ -619,7 +617,7 @@ bool RPG_Engine::UpdateInventory(float fElapsedTime)
 
 		if (GetKey(VK_SPACE).bReleased)
 		{
-			// Use selected item 
+			// Use selected item
 			if (!highlighted->bKeyItem)
 			{
 				if (highlighted->OnUse(m_pPlayer))
@@ -630,7 +628,6 @@ bool RPG_Engine::UpdateInventory(float fElapsedTime)
 			}
 			else
 			{
-				
 			}
 		}
 	}
@@ -643,7 +640,7 @@ bool RPG_Engine::UpdateInventory(float fElapsedTime)
 	return true;
 }
 
-void RPG_Engine::Attack(cDynamic_Creature* aggressor, cWeapon *weapon)
+void RPG_Engine::Attack(cDynamic_Creature *aggressor, cWeapon *weapon)
 {
 	weapon->OnUse(aggressor);
 }
@@ -653,8 +650,7 @@ void RPG_Engine::AddProjectile(cDynamic_Projectile *proj)
 	m_vecProjectiles.push_back(proj);
 }
 
-
-void RPG_Engine::Damage(cDynamic_Projectile* projectile, cDynamic_Creature* victim)
+void RPG_Engine::Damage(cDynamic_Projectile *projectile, cDynamic_Creature *victim)
 {
 	if (victim != nullptr)
 	{
@@ -664,8 +660,9 @@ void RPG_Engine::Damage(cDynamic_Projectile* projectile, cDynamic_Creature* vict
 		// Knock victim back
 		float tx = victim->px - projectile->px;
 		float ty = victim->py - projectile->py;
-		float d = sqrtf(tx*tx + ty * ty);
-		if (d < 1) d = 1.0f;
+		float d = sqrtf(tx * tx + ty * ty);
+		if (d < 1)
+			d = 1.0f;
 
 		// After a hit, they object experiences knock back, where it is temporarily
 		// under system control. This delivers two functions, the first being
@@ -685,7 +682,6 @@ void RPG_Engine::Damage(cDynamic_Projectile* projectile, cDynamic_Creature* vict
 			// become trapped, and must fight their way out
 			victim->bSolidVsDyn = true;
 		}
-
 
 		if (projectile->bOneHit)
 			projectile->bRedundant = true;

@@ -66,7 +66,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #include "RPG_Assets.h"
@@ -77,7 +77,6 @@ RPG_Assets::RPG_Assets()
 {
 }
 
-
 RPG_Assets::~RPG_Assets()
 {
 }
@@ -86,7 +85,7 @@ void RPG_Assets::LoadSprites()
 {
 	auto load = [&](string sName, wstring sFileName)
 	{
-		olcSprite* s = new olcSprite(sFileName);
+		olcSprite *s = new olcSprite(sFileName);
 		m_mapSprites[sName] = s;
 	};
 
@@ -112,20 +111,18 @@ void RPG_Assets::LoadSprites()
 
 void RPG_Assets::LoadMaps()
 {
-	auto load = [&](cMap* m)
+	auto load = [&](cMap *m)
 	{
 		m_mapMaps[m->sName] = m;
 	};
 
 	load(new cMap_Village1());
 	load(new cMap_Home1());
-
 }
-
 
 void RPG_Assets::LoadItems()
 {
-	auto load = [&](cItem* i)
+	auto load = [&](cItem *i)
 	{
 		m_mapItems[i->sName] = i;
 	};

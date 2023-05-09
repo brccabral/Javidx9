@@ -48,7 +48,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018
 */
 
 #define OLC_PGE_APPLICATION
@@ -76,15 +76,13 @@ private:
 	static float fSynthFrequency;
 	static float fFilterVolume;
 
-	const olc::Key keys[12] = { olc::Key::Z, olc::Key::S, olc::Key::X, olc::Key::D, olc::Key::C,
-				olc::Key::V, olc::Key::G, olc::Key::B, olc::Key::H, olc::Key::N, olc::Key::J, olc::Key::M};
+	const olc::Key keys[12] = {olc::Key::Z, olc::Key::S, olc::Key::X, olc::Key::D, olc::Key::C,
+							   olc::Key::V, olc::Key::G, olc::Key::B, olc::Key::H, olc::Key::N, olc::Key::J, olc::Key::M};
 
 	static float fPreviousSamples[128];
 	static int nSamplePos;
-	
 
 private:
-
 	// This is an optional function that allows the user to generate or synthesize sounds
 	// in a custom way, it is fed into the output mixer bu the extension
 	static float MyCustomSynthFunction(int nChannel, float fGlobalTime, float fTimeStep)
@@ -96,7 +94,7 @@ private:
 			return 0.0f;
 	}
 
-	// This is an optional function that allows the user to filter the output from 
+	// This is an optional function that allows the user to filter the output from
 	// the internal mixer of the extension. Here you could add effects or just
 	// control volume. I also like to use it to extract information about
 	// the currently playing output waveform
@@ -113,11 +111,10 @@ private:
 		return fOutput;
 	}
 
-
 	bool OnUserCreate()
 	{
 		olc::SOUND::InitialiseAudio(44100, 1, 8, 512);
-		
+
 		sndSampleA = olc::SOUND::LoadAudioSample("SampleA.wav");
 		sndSampleB = olc::SOUND::LoadAudioSample("SampleB.wav");
 		sndSampleC = olc::SOUND::LoadAudioSample("SampleC.wav");
@@ -133,7 +130,7 @@ private:
 
 	bool OnUserUpdate(float fElapsedTime)
 	{
-		//olc::SOUND::PlaySample(sndTest);
+		// olc::SOUND::PlaySample(sndTest);
 
 		auto PointInRect = [&](int x, int y, int rx, int ry, int rw, int rh)
 		{
@@ -143,7 +140,7 @@ private:
 		int nMouseX = GetMouseX();
 		int nMouseY = GetMouseY();
 
-		if(GetMouse(0).bPressed && PointInRect(nMouseX, nMouseY, 16, 16, 128, 24))
+		if (GetMouse(0).bPressed && PointInRect(nMouseX, nMouseY, 16, 16, 128, 24))
 			olc::SOUND::PlaySample(sndSampleA); // Plays the sample once
 
 		if (GetMouse(0).bPressed && PointInRect(nMouseX, nMouseY, 16, 48, 128, 24))
@@ -168,8 +165,10 @@ private:
 		if (GetMouse(0).bHeld && PointInRect(nMouseX, nMouseY, 160, 48, 90, 24))
 			fFilterVolume -= 2.0f * fElapsedTime;
 
-		if (fFilterVolume < 0.0f) fFilterVolume = 0.0f;
-		if (fFilterVolume > 1.0f) fFilterVolume = 1.0f;
+		if (fFilterVolume < 0.0f)
+			fFilterVolume = 0.0f;
+		if (fFilterVolume > 1.0f)
+			fFilterVolume = 1.0f;
 
 		// Detect keyboard - very simple synthesizer
 		if (IsFocused())
@@ -181,7 +180,7 @@ private:
 				if (GetKey(keys[i]).bHeld)
 				{
 					bKeyIsPressed = true;
-					float fOctaveBaseFrequency = 220.0f; 
+					float fOctaveBaseFrequency = 220.0f;
 					float f12thRootOf2 = pow(2.0f, 1.0f / 12.0f);
 					fFrequency = fOctaveBaseFrequency * powf(f12thRootOf2, (float)i);
 				}
@@ -190,7 +189,6 @@ private:
 			fSynthFrequency = fFrequency;
 			bSynthPlaying = bKeyIsPressed;
 		}
-		
 
 		// Draw Buttons
 		Clear(olc::BLUE);
@@ -204,13 +202,11 @@ private:
 		DrawRect(16, 80, 128, 24);
 		DrawString(20, 84, (bToggle ? "Stop Sample C" : "Loop Sample C"));
 
-
 		DrawRect(160, 16, 90, 24);
 		DrawString(164, 20, "Volume +");
 
 		DrawRect(160, 48, 90, 24);
 		DrawString(164, 52, "Volume -");
-
 
 		DrawString(164, 80, "Volume: " + std::to_string((int)(fFilterVolume * 10.0f)));
 
@@ -243,10 +239,8 @@ private:
 			DrawLine(124 + i, 210, 124 + i, 210 + (int)(fSample * 20.0f), olc::RED);
 		}
 
-
 		return true;
 	}
-
 
 	// Note we must shut down the sound system too!!
 	bool OnUserDestroy()
@@ -265,7 +259,7 @@ float SoundTest::fPreviousSamples[128];
 int main()
 {
 	SoundTest demo;
-	if(demo.Construct(256, 240, 4, 4))
+	if (demo.Construct(256, 240, 4, 4))
 		demo.Start();
 
 	return 0;

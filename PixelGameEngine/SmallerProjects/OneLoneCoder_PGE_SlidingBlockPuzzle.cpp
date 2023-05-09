@@ -52,18 +52,16 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019, 2020
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019, 2020
 */
 
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
 
-
 constexpr int NORTH = 0;
 constexpr int EAST = 1;
 constexpr int SOUTH = 2;
 constexpr int WEST = 3;
-
 
 class BlockPuzzle : public olc::PixelGameEngine
 {
@@ -90,8 +88,8 @@ public:
 		"#..............#"
 		"################";
 
-	olc::vf2d vLevelSize = { 16, 15 };
-	olc::vf2d vBlockSize = { 16, 16 };
+	olc::vf2d vLevelSize = {16, 15};
+	olc::vf2d vBlockSize = {16, 16};
 
 	std::vector<olc::vi2d> vGoals;
 
@@ -101,12 +99,10 @@ public:
 	{
 		block()
 		{
-
 		}
 
-		virtual void DrawSelf(olc::PixelGameEngine* pge, const olc::vi2d& pos, const olc::vi2d& size, const olc::Renderable& skin)
+		virtual void DrawSelf(olc::PixelGameEngine *pge, const olc::vi2d &pos, const olc::vi2d &size, const olc::Renderable &skin)
 		{
-
 		}
 
 		virtual bool Push(const int from)
@@ -116,31 +112,26 @@ public:
 
 		virtual void Move()
 		{
-
 		}
-
 	};
 
 	struct block_solid : public block
-	{		
-		void DrawSelf(olc::PixelGameEngine* pge, const olc::vi2d& pos, const olc::vi2d& size, const olc::Renderable& skin) override
+	{
+		void DrawSelf(olc::PixelGameEngine *pge, const olc::vi2d &pos, const olc::vi2d &size, const olc::Renderable &skin) override
 		{
-			//pge->FillRect(pos * size, size, olc::BLUE);
+			// pge->FillRect(pos * size, size, olc::BLUE);
 			pge->DrawPartialSprite(pos * size, skin.Sprite(), olc::vi2d(0, 0) * size, size);
-
 		}
 
 		bool Push(const int from) override
 		{
 			return false;
 		}
-
 	};
-
 
 	struct block_player : public block
 	{
-		void DrawSelf(olc::PixelGameEngine* pge, const olc::vi2d& pos, const olc::vi2d& size, const olc::Renderable& skin) override
+		void DrawSelf(olc::PixelGameEngine *pge, const olc::vi2d &pos, const olc::vi2d &size, const olc::Renderable &skin) override
 		{
 			pge->FillRect(pos * size, size, olc::WHITE);
 		}
@@ -151,12 +142,11 @@ public:
 		}
 	};
 
-
 	struct block_simple : public block
 	{
-		void DrawSelf(olc::PixelGameEngine* pge, const olc::vi2d& pos, const olc::vi2d& size, const olc::Renderable& skin) override
+		void DrawSelf(olc::PixelGameEngine *pge, const olc::vi2d &pos, const olc::vi2d &size, const olc::Renderable &skin) override
 		{
-			//pge->FillRect(pos * size, size, olc::RED);
+			// pge->FillRect(pos * size, size, olc::RED);
 			pge->DrawPartialSprite(pos * size, skin.Sprite(), olc::vi2d(1, 0) * size, size);
 		}
 
@@ -166,12 +156,11 @@ public:
 		}
 	};
 
-
 	struct block_horizontal : public block
 	{
-		void DrawSelf(olc::PixelGameEngine* pge, const olc::vi2d& pos, const olc::vi2d& size, const olc::Renderable& skin) override
+		void DrawSelf(olc::PixelGameEngine *pge, const olc::vi2d &pos, const olc::vi2d &size, const olc::Renderable &skin) override
 		{
-			//pge->FillRect(pos * size, size, olc::GREEN);
+			// pge->FillRect(pos * size, size, olc::GREEN);
 			pge->DrawPartialSprite(pos * size, skin.Sprite(), olc::vi2d(3, 0) * size, size);
 		}
 
@@ -183,9 +172,9 @@ public:
 
 	struct block_vertical : public block
 	{
-		void DrawSelf(olc::PixelGameEngine* pge, const olc::vi2d& pos, const olc::vi2d& size, const olc::Renderable& skin) override
+		void DrawSelf(olc::PixelGameEngine *pge, const olc::vi2d &pos, const olc::vi2d &size, const olc::Renderable &skin) override
 		{
-			//pge->FillRect(pos * size, size, olc::YELLOW);
+			// pge->FillRect(pos * size, size, olc::YELLOW);
 			pge->DrawPartialSprite(pos * size, skin.Sprite(), olc::vi2d(2, 0) * size, size);
 		}
 
@@ -202,9 +191,9 @@ public:
 			nMoves = m;
 		}
 
-		void DrawSelf(olc::PixelGameEngine* pge, const olc::vi2d& pos, const olc::vi2d& size, const olc::Renderable& skin) override
+		void DrawSelf(olc::PixelGameEngine *pge, const olc::vi2d &pos, const olc::vi2d &size, const olc::Renderable &skin) override
 		{
-			//pge->FillRect(pos * size, size, olc::CYAN);
+			// pge->FillRect(pos * size, size, olc::CYAN);
 			pge->DrawPartialSprite(pos * size, skin.Sprite(), olc::vi2d(4, 0) * size, size);
 			pge->DrawString(pos * size + olc::vi2d(4, 4), std::to_string(nMoves), olc::BLACK);
 		}
@@ -222,17 +211,14 @@ public:
 		int nMoves = 0;
 	};
 
-
 	olc::vi2d vPlayer;
 	std::vector<std::unique_ptr<block>> vLevel;
-
 
 public:
 	void LoadLevel(int n)
 	{
 		vLevel.clear();
 		vGoals.clear();
-
 
 		for (int y = 0; y < vLevelSize.y; y++)
 		{
@@ -246,7 +232,7 @@ public:
 
 				case 'P':
 					vLevel.emplace_back(std::make_unique<block_player>());
-					vPlayer = { x, y };
+					vPlayer = {x, y};
 					break;
 
 				case '+':
@@ -266,10 +252,9 @@ public:
 					break;
 
 				case '@':
-					vGoals.push_back({ x, y });
+					vGoals.push_back({x, y});
 					vLevel.emplace_back(nullptr);
 					break;
-			
 
 				default:
 					vLevel.emplace_back(nullptr);
@@ -320,7 +305,8 @@ public:
 			LoadLevel(0);
 		}
 
-		auto id = [&](olc::vi2d& pos) { return pos.y * vLevelSize.x + pos.x; };
+		auto id = [&](olc::vi2d &pos)
+		{ return pos.y * vLevelSize.x + pos.x; };
 
 		if (bPushing)
 		{
@@ -338,10 +324,18 @@ public:
 						// Block allows push
 						switch (dirPush)
 						{
-						case NORTH: vBlock.y--; break;
-						case SOUTH: vBlock.y++; break;
-						case EAST: vBlock.x++; break;
-						case WEST: vBlock.x--; break;
+						case NORTH:
+							vBlock.y--;
+							break;
+						case SOUTH:
+							vBlock.y++;
+							break;
+						case EAST:
+							vBlock.x++;
+							break;
+						case WEST:
+							vBlock.x--;
+							break;
 						}
 					}
 					else
@@ -361,14 +355,22 @@ public:
 					olc::vi2d vSource = vBlock;
 					switch (dirPush)
 					{
-					case NORTH: vSource.y++; break;
-					case SOUTH: vSource.y--; break;
-					case EAST: vSource.x--; break;
-					case WEST: vSource.x++; break;
+					case NORTH:
+						vSource.y++;
+						break;
+					case SOUTH:
+						vSource.y--;
+						break;
+					case EAST:
+						vSource.x--;
+						break;
+					case WEST:
+						vSource.x++;
+						break;
 					}
 
-
-					if (vLevel[id(vSource)] != nullptr) vLevel[id(vSource)]->Move();
+					if (vLevel[id(vSource)] != nullptr)
+						vLevel[id(vSource)]->Move();
 					std::swap(vLevel[id(vSource)], vLevel[id(vBlock)]);
 
 					vBlock = vSource;
@@ -376,37 +378,39 @@ public:
 
 				switch (dirPush)
 				{
-				case NORTH: vPlayer.y--; break;
-				case SOUTH: vPlayer.y++; break;
-				case EAST: vPlayer.x++; break;
-				case WEST: vPlayer.x--; break;
+				case NORTH:
+					vPlayer.y--;
+					break;
+				case SOUTH:
+					vPlayer.y++;
+					break;
+				case EAST:
+					vPlayer.x++;
+					break;
+				case WEST:
+					vPlayer.x--;
+					break;
 				}
-
 			}
-
 		}
 
-
 		int nGoals = 0;
-		for (auto& g : vGoals)
-			if (vLevel[id(g)]) nGoals++;
-
+		for (auto &g : vGoals)
+			if (vLevel[id(g)])
+				nGoals++;
 
 		Clear(olc::BLACK);
 
-
-		for (auto& g : vGoals)
+		for (auto &g : vGoals)
 			FillCircle(g * vBlockSize + vBlockSize / 2, vBlockSize.x / 2 - 2, olc::YELLOW);
 
-
-		olc::vi2d vTilePos = { 0,0 };
+		olc::vi2d vTilePos = {0, 0};
 		for (vTilePos.y = 0; vTilePos.y < vLevelSize.y; vTilePos.y++)
 		{
 			for (vTilePos.x = 0; vTilePos.x < vLevelSize.x; vTilePos.x++)
 			{
 
-				auto& b = vLevel[id(vTilePos)];
-
+				auto &b = vLevel[id(vTilePos)];
 
 				if (b)
 				{
@@ -416,7 +420,6 @@ public:
 		}
 
 		DrawString(4, 4, "Goals: " + std::to_string(nGoals) + " / " + std::to_string(vGoals.size()), olc::WHITE);
-
 
 		return true;
 	}

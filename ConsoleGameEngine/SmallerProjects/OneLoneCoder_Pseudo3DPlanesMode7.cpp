@@ -57,7 +57,6 @@ public:
 		m_sAppName = L"Pseudo 3D Planes";
 	}
 
-
 private:
 	float fWorldX = 1000.0f;
 	float fWorldY = 1000.0f;
@@ -75,9 +74,9 @@ protected:
 	virtual bool OnUserCreate()
 	{
 		// Create a large sprite and fill it with horizontal and vertical lines
-		//sprGround = new olcSprite(nMapSize, nMapSize);
+		// sprGround = new olcSprite(nMapSize, nMapSize);
 
-		//for (int x = 0; x <= nMapSize; x += 32)
+		// for (int x = 0; x <= nMapSize; x += 32)
 		//{
 		//	for (int y = 0; y < nMapSize; y++)
 		//	{
@@ -110,17 +109,22 @@ protected:
 
 	virtual bool OnUserUpdate(float fElapsedTime)
 	{
-		
+
 		// Control rendering parameters dynamically
-		if (GetKey(L'Q').bHeld) fNear += 0.1f * fElapsedTime;
-		if (GetKey(L'A').bHeld) fNear -= 0.1f * fElapsedTime;
+		if (GetKey(L'Q').bHeld)
+			fNear += 0.1f * fElapsedTime;
+		if (GetKey(L'A').bHeld)
+			fNear -= 0.1f * fElapsedTime;
 
-		if (GetKey(L'W').bHeld) fFar += 0.1f * fElapsedTime;
-		if (GetKey(L'S').bHeld) fFar -= 0.1f * fElapsedTime;
+		if (GetKey(L'W').bHeld)
+			fFar += 0.1f * fElapsedTime;
+		if (GetKey(L'S').bHeld)
+			fFar -= 0.1f * fElapsedTime;
 
-		if (GetKey(L'Z').bHeld) fFoVHalf += 0.1f * fElapsedTime;
-		if (GetKey(L'X').bHeld) fFoVHalf -= 0.1f * fElapsedTime;
-
+		if (GetKey(L'Z').bHeld)
+			fFoVHalf += 0.1f * fElapsedTime;
+		if (GetKey(L'X').bHeld)
+			fFoVHalf -= 0.1f * fElapsedTime;
 
 		// Create Frustum corner points
 		float fFarX1 = fWorldX + cosf(fWorldA - fFoVHalf) * fFar;
@@ -139,7 +143,7 @@ protected:
 		for (int y = 0; y < ScreenHeight() / 2; y++)
 		{
 			// Take a sample point for depth linearly related to rows down screen
-			float fSampleDepth = (float)y / ((float)ScreenHeight() / 2.0f);		
+			float fSampleDepth = (float)y / ((float)ScreenHeight() / 2.0f);
 
 			// Use sample point in non-linear (1/x) way to enable perspective
 			// and grab start and end points for lines across the screen
@@ -163,7 +167,7 @@ protected:
 				// pixel to the screen
 				wchar_t sym = sprGround->SampleGlyph(fSampleX, fSampleY);
 				short col = sprGround->SampleColour(fSampleX, fSampleY);
-				Draw(x, y + (ScreenHeight() / 2), sym, col);		
+				Draw(x, y + (ScreenHeight() / 2), sym, col);
 
 				// Sample symbol and colour from sky sprite, we can use same
 				// coordinates, but we need to draw the "inverted" y-location
@@ -197,9 +201,6 @@ protected:
 
 		return true;
 	}
-
-
-
 };
 
 int main()

@@ -66,7 +66,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #pragma once
@@ -91,34 +91,31 @@ public:
 	cQuest();
 
 public:
-	virtual bool OnInteraction(vector<cDynamic*> &vecDynobs, cDynamic *target, NATURE nature);
-	virtual bool PopulateDynamics(vector<cDynamic*> &vecDyns, string sMap);
+	virtual bool OnInteraction(vector<cDynamic *> &vecDynobs, cDynamic *target, NATURE nature);
+	virtual bool PopulateDynamics(vector<cDynamic *> &vecDyns, string sMap);
 
 public:
 	string sName;
 	bool bCompleted = false;
-	static cScriptProcessor* g_script;
-	static RPG_Engine* g_engine;
+	static cScriptProcessor *g_script;
+	static RPG_Engine *g_engine;
 };
-
-
 
 class cQuest_MainQuest : public cQuest
 {
 public:
-	bool PopulateDynamics(vector<cDynamic*> &vecDyns, string sMap) override;
-	bool OnInteraction(vector<cDynamic*> &vecDynobs, cDynamic *target, NATURE nature) override;
+	bool PopulateDynamics(vector<cDynamic *> &vecDyns, string sMap) override;
+	bool OnInteraction(vector<cDynamic *> &vecDynobs, cDynamic *target, NATURE nature) override;
 
 private:
 	int m_nPhase = 0;
 };
 
-
 class cQuest_BobsQuest : public cQuest
 {
 public:
-	bool PopulateDynamics(vector<cDynamic*> &vecDyns, string sMap) override;
-	bool OnInteraction(vector<cDynamic*> &vecDynobs, cDynamic *target, NATURE nature) override;
+	bool PopulateDynamics(vector<cDynamic *> &vecDyns, string sMap) override;
+	bool OnInteraction(vector<cDynamic *> &vecDynobs, cDynamic *target, NATURE nature) override;
 
 private:
 	int m_nPhase = 0;

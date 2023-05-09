@@ -14,7 +14,7 @@ Cheers!
 Background
 ~~~~~~~~~~
 If you've seen any of my videos - I like to do things using the windows console. It's quick
-and easy, and allows you to focus on just the code that matters - ideal when you're 
+and easy, and allows you to focus on just the code that matters - ideal when you're
 experimenting. Thing is, I have to keep doing the same initialisation and display code
 each time, so this class wraps that up.
 
@@ -70,7 +70,7 @@ the current cursor position, and m_mouse[1..5] returns the mouse buttons.
 The draw routines treat characters like pixels. By default they are set to white solid
 blocks - but you can draw any unicode character, using any of the colours listed below.
 
-There may be bugs! 
+There may be bugs!
 
 See my other videos for examples!
 http://www.youtube.com/javidx9
@@ -104,41 +104,40 @@ using namespace std;
 
 #include <windows.h>
 
-
 enum COLOUR
 {
-	FG_BLACK		= 0x0000,
-	FG_DARK_BLUE    = 0x0001,	
-	FG_DARK_GREEN   = 0x0002,
-	FG_DARK_CYAN    = 0x0003,
-	FG_DARK_RED     = 0x0004,
+	FG_BLACK = 0x0000,
+	FG_DARK_BLUE = 0x0001,
+	FG_DARK_GREEN = 0x0002,
+	FG_DARK_CYAN = 0x0003,
+	FG_DARK_RED = 0x0004,
 	FG_DARK_MAGENTA = 0x0005,
-	FG_DARK_YELLOW  = 0x0006,
-	FG_GREY			= 0x0007, // Thanks MS :-/
-	FG_DARK_GREY    = 0x0008,
-	FG_BLUE			= 0x0009,
-	FG_GREEN		= 0x000A,
-	FG_CYAN			= 0x000B,
-	FG_RED			= 0x000C,
-	FG_MAGENTA		= 0x000D,
-	FG_YELLOW		= 0x000E,
-	FG_WHITE		= 0x000F,
-	BG_BLACK		= 0x0000,
-	BG_DARK_BLUE	= 0x0010,
-	BG_DARK_GREEN	= 0x0020,
-	BG_DARK_CYAN	= 0x0030,
-	BG_DARK_RED		= 0x0040,
+	FG_DARK_YELLOW = 0x0006,
+	FG_GREY = 0x0007, // Thanks MS :-/
+	FG_DARK_GREY = 0x0008,
+	FG_BLUE = 0x0009,
+	FG_GREEN = 0x000A,
+	FG_CYAN = 0x000B,
+	FG_RED = 0x000C,
+	FG_MAGENTA = 0x000D,
+	FG_YELLOW = 0x000E,
+	FG_WHITE = 0x000F,
+	BG_BLACK = 0x0000,
+	BG_DARK_BLUE = 0x0010,
+	BG_DARK_GREEN = 0x0020,
+	BG_DARK_CYAN = 0x0030,
+	BG_DARK_RED = 0x0040,
 	BG_DARK_MAGENTA = 0x0050,
-	BG_DARK_YELLOW	= 0x0060,
-	BG_GREY			= 0x0070,
-	BG_DARK_GREY	= 0x0080,
-	BG_BLUE			= 0x0090,
-	BG_GREEN		= 0x00A0,
-	BG_CYAN			= 0x00B0,
-	BG_RED			= 0x00C0,
-	BG_MAGENTA		= 0x00D0,
-	BG_YELLOW		= 0x00E0,
-	BG_WHITE		= 0x00F0,
+	BG_DARK_YELLOW = 0x0060,
+	BG_GREY = 0x0070,
+	BG_DARK_GREY = 0x0080,
+	BG_BLUE = 0x0090,
+	BG_GREEN = 0x00A0,
+	BG_CYAN = 0x00B0,
+	BG_RED = 0x00C0,
+	BG_MAGENTA = 0x00D0,
+	BG_YELLOW = 0x00E0,
+	BG_WHITE = 0x00F0,
 };
 
 enum PIXEL_TYPE
@@ -154,7 +153,6 @@ class olcSprite
 public:
 	olcSprite()
 	{
-
 	}
 
 	olcSprite(int w, int h)
@@ -179,9 +177,9 @@ private:
 	{
 		nWidth = w;
 		nHeight = h;
-		m_Glyphs = new wchar_t[w*h];
-		m_Colours = new short[w*h];
-		for (int i = 0; i < w*h; i++)
+		m_Glyphs = new wchar_t[w * h];
+		m_Colours = new short[w * h];
+		for (int i = 0; i < w * h; i++)
 		{
 			m_Glyphs[i] = L' ';
 			m_Colours[i] = FG_BLACK;
@@ -191,7 +189,7 @@ private:
 public:
 	void SetGlyph(int x, int y, wchar_t c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Glyphs[y * nWidth + x] = c;
@@ -199,7 +197,7 @@ public:
 
 	void SetColour(int x, int y, short c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Colours[y * nWidth + x] = c;
@@ -207,7 +205,7 @@ public:
 
 	wchar_t GetGlyph(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[y * nWidth + x];
@@ -215,7 +213,7 @@ public:
 
 	short GetColour(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[y * nWidth + x];
@@ -224,8 +222,8 @@ public:
 	wchar_t SampleGlyph(float x, float y)
 	{
 		int sx = (int)(x * (float)nWidth);
-		int sy = (int)(y * (float)nHeight-1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		int sy = (int)(y * (float)nHeight - 1.0f);
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[sy * nWidth + sx];
@@ -234,8 +232,8 @@ public:
 	short SampleColour(float x, float y)
 	{
 		int sx = (int)(x * (float)nWidth);
-		int sy = (int)(y * (float)nHeight-1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		int sy = (int)(y * (float)nHeight - 1.0f);
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[sy * nWidth + sx];
@@ -281,9 +279,7 @@ public:
 		fclose(f);
 		return true;
 	}
-
 };
-
 
 class olcConsoleGameEngine
 {
@@ -319,7 +315,7 @@ public:
 		// by way of useful information, and so the resulting sequence is the reult of experiment
 		// that seems to work in multiple cases.
 		//
-		// The problem seems to be that the SetConsoleXXX functions are somewhat circular and 
+		// The problem seems to be that the SetConsoleXXX functions are somewhat circular and
 		// fail depending on the state of the current console properties, i.e. you can't set
 		// the buffer size until you set the screen size, but you can't change the screen size
 		// until the buffer size is correct. This coupled with a precise ordering of calls
@@ -327,18 +323,18 @@ public:
 
 		// Change console visual size to a minimum so ScreenBuffer can shrink
 		// below the actual visual size
-		m_rectWindow = { 0, 0, 1, 1 };
+		m_rectWindow = {0, 0, 1, 1};
 		SetConsoleWindowInfo(m_hConsole, TRUE, &m_rectWindow);
 
 		// Set the size of the screen buffer
-		COORD coord = { (short)m_nScreenWidth, (short)m_nScreenHeight };
+		COORD coord = {(short)m_nScreenWidth, (short)m_nScreenHeight};
 		if (!SetConsoleScreenBufferSize(m_hConsole, coord))
 			Error(L"SetConsoleScreenBufferSize");
 
 		// Assign screen buffer to the console
 		if (!SetConsoleActiveScreenBuffer(m_hConsole))
 			return Error(L"SetConsoleActiveScreenBuffer");
-		
+
 		// Set the font size now that the screen buffer has been assigned to the console
 		CONSOLE_FONT_INFOEX cfi;
 		cfi.cbSize = sizeof(cfi);
@@ -348,8 +344,8 @@ public:
 		cfi.FontFamily = FF_DONTCARE;
 		cfi.FontWeight = FW_NORMAL;
 		wcscpy_s(cfi.FaceName, L"Lucida Console");
-		//wcscpy_s(cfi.FaceName, L"Liberation Mono");
-		//wcscpy_s(cfi.FaceName, L"Consolas");
+		// wcscpy_s(cfi.FaceName, L"Liberation Mono");
+		// wcscpy_s(cfi.FaceName, L"Consolas");
 		if (!SetCurrentConsoleFontEx(m_hConsole, false, &cfi))
 			return Error(L"SetCurrentConsoleFontEx");
 
@@ -364,16 +360,16 @@ public:
 			return Error(L"Screen Width / Font Width Too Big");
 
 		// Set Physical Console Window Size
-		m_rectWindow = { 0, 0, (short)m_nScreenWidth - 1, (short)m_nScreenHeight - 1 };
+		m_rectWindow = {0, 0, (short)m_nScreenWidth - 1, (short)m_nScreenHeight - 1};
 		if (!SetConsoleWindowInfo(m_hConsole, TRUE, &m_rectWindow))
 			return Error(L"SetConsoleWindowInfo");
 
-		// Set flags to allow mouse input		
+		// Set flags to allow mouse input
 		if (!SetConsoleMode(m_hConsoleIn, ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT))
 			return Error(L"SetConsoleMode");
 
 		// Allocate memory for screen buffer
-		m_bufScreen = new CHAR_INFO[m_nScreenWidth*m_nScreenHeight];
+		m_bufScreen = new CHAR_INFO[m_nScreenWidth * m_nScreenHeight];
 		memset(m_bufScreen, 0, sizeof(CHAR_INFO) * m_nScreenWidth * m_nScreenHeight);
 
 		return 1;
@@ -420,10 +416,14 @@ public:
 
 	void Clip(int &x, int &y)
 	{
-		if (x < 0) x = 0;
-		if (x >= m_nScreenWidth) x = m_nScreenWidth;
-		if (y < 0) y = 0;
-		if (y >= m_nScreenHeight) y = m_nScreenHeight;
+		if (x < 0)
+			x = 0;
+		if (x >= m_nScreenWidth)
+			x = m_nScreenWidth;
+		if (y < 0)
+			y = 0;
+		if (y >= m_nScreenHeight)
+			y = m_nScreenHeight;
 	}
 
 	void DrawLine(int x1, int y1, int x2, int y2, wchar_t c = 0x2588, short col = 0x000F)
@@ -450,14 +450,14 @@ public:
 				xe = x1;
 			}
 			Draw(x, y, c, col);
-			for (i = 0; x<xe; i++)
+			for (i = 0; x < xe; i++)
 			{
 				x = x + 1;
-				if (px<0)
+				if (px < 0)
 					px = px + 2 * dy1;
 				else
 				{
-					if ((dx<0 && dy<0) || (dx>0 && dy>0))
+					if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
 						y = y + 1;
 					else
 						y = y - 1;
@@ -481,14 +481,14 @@ public:
 				ye = y1;
 			}
 			Draw(x, y, c, col);
-			for (i = 0; y<ye; i++)
+			for (i = 0; y < ye; i++)
 			{
 				y = y + 1;
 				if (py <= 0)
 					py = py + 2 * dx1;
 				else
 				{
-					if ((dx<0 && dy<0) || (dx>0 && dy>0))
+					if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
 						x = x + 1;
 					else
 						x = x - 1;
@@ -504,20 +504,23 @@ public:
 		int x = 0;
 		int y = r;
 		int p = 3 - 2 * r;
-		if (!r) return;
+		if (!r)
+			return;
 
 		while (y >= x) // only formulate 1/8 of circle
 		{
-			Draw(xc - x, yc - y, c, col);//upper left left
-			Draw(xc - y, yc - x, c, col);//upper upper left
-			Draw(xc + y, yc - x, c, col);//upper upper right
-			Draw(xc + x, yc - y, c, col);//upper right right
-			Draw(xc - x, yc + y, c, col);//lower left left
-			Draw(xc - y, yc + x, c, col);//lower lower left
-			Draw(xc + y, yc + x, c, col);//lower lower right
-			Draw(xc + x, yc + y, c, col);//lower right right
-			if (p < 0) p += 4 * x++ + 6;
-			else p += 4 * (x++ - y--) + 10;
+			Draw(xc - x, yc - y, c, col); // upper left left
+			Draw(xc - y, yc - x, c, col); // upper upper left
+			Draw(xc + y, yc - x, c, col); // upper upper right
+			Draw(xc + x, yc - y, c, col); // upper right right
+			Draw(xc - x, yc + y, c, col); // lower left left
+			Draw(xc - y, yc + x, c, col); // lower lower left
+			Draw(xc + y, yc + x, c, col); // lower lower right
+			Draw(xc + x, yc + y, c, col); // lower right right
+			if (p < 0)
+				p += 4 * x++ + 6;
+			else
+				p += 4 * (x++ - y--) + 10;
 		}
 	}
 
@@ -527,7 +530,8 @@ public:
 		int x = 0;
 		int y = r;
 		int p = 3 - 2 * r;
-		if (!r) return;
+		if (!r)
+			return;
 
 		auto drawline = [&](int sx, int ex, int ny)
 		{
@@ -542,8 +546,10 @@ public:
 			drawline(xc - y, xc + y, yc - x);
 			drawline(xc - x, xc + x, yc + y);
 			drawline(xc - y, xc + y, yc + x);
-			if (p < 0) p += 4 * x++ + 6;
-			else p += 4 * (x++ - y--) + 10;
+			if (p < 0)
+				p += 4 * x++ + 6;
+			else
+				p += 4 * (x++ - y--) + 10;
 		}
 	};
 
@@ -571,8 +577,8 @@ public:
 		{
 			for (int j = 0; j < h; j++)
 			{
-				if (sprite->GetGlyph(i+ox, j+oy) != L' ')
-					Draw(x + i, y + j, sprite->GetGlyph(i+ox, j+oy), sprite->GetColour(i+ox, j+oy));
+				if (sprite->GetGlyph(i + ox, j + oy) != L' ')
+					Draw(x + i, y + j, sprite->GetGlyph(i + ox, j + oy), sprite->GetColour(i + ox, j + oy));
 			}
 		}
 	}
@@ -613,7 +619,7 @@ public:
 		{
 			int j = (i + 1);
 			DrawLine((int)vecTransformedCoordinates[i % verts].first, (int)vecTransformedCoordinates[i % verts].second,
-				(int)vecTransformedCoordinates[j % verts].first, (int)vecTransformedCoordinates[j % verts].second, PIXEL_SOLID, col);
+					 (int)vecTransformedCoordinates[j % verts].first, (int)vecTransformedCoordinates[j % verts].second, PIXEL_SOLID, col);
 		}
 	}
 
@@ -640,7 +646,7 @@ public:
 		return m_nScreenWidth;
 	}
 
-	int ScreenHeight() 
+	int ScreenHeight()
 	{
 		return m_nScreenHeight;
 	}
@@ -725,7 +731,6 @@ private:
 						{
 							for (int m = 0; m < 5; m++)
 								m_mouseNewState[m] = (inBuf[i].Event.MouseEvent.dwButtonState & (1 << m)) > 0;
-
 						}
 						break;
 
@@ -763,7 +768,6 @@ private:
 					m_mouseOldState[m] = m_mouseNewState[m];
 				}
 
-
 				// Handle Frame Update
 				if (!OnUserUpdate(fElapsedTime))
 					m_bAtomActive = false;
@@ -772,7 +776,7 @@ private:
 				wchar_t s[256];
 				swprintf_s(s, 256, L"OneLoneCoder.com - Console Game Engine - %s - FPS: %3.2f - %d ", m_sAppName.c_str(), 1.0f / fElapsedTime, events);
 				SetConsoleTitle(s);
-				WriteConsoleOutput(m_hConsole, m_bufScreen, { (short)m_nScreenWidth, (short)m_nScreenHeight }, { 0,0 }, &m_rectWindow);
+				WriteConsoleOutput(m_hConsole, m_bufScreen, {(short)m_nScreenWidth, (short)m_nScreenHeight}, {0, 0}, &m_rectWindow);
 			}
 
 			if (OnUserDestroy())
@@ -794,18 +798,15 @@ private:
 public:
 	// User MUST OVERRIDE THESE!!
 	virtual bool OnUserCreate() = 0;
-	virtual bool OnUserUpdate(float fElapsedTime) = 0;	
+	virtual bool OnUserUpdate(float fElapsedTime) = 0;
 
-	// Optional for clean up 
+	// Optional for clean up
 	virtual bool OnUserDestroy()
 	{
 		return true;
 	}
 
-
 protected:
-	
-
 	struct sKeyState
 	{
 		bool bPressed;
@@ -817,12 +818,11 @@ protected:
 	int m_mousePosY;
 
 public:
-	sKeyState GetKey(int nKeyID){ return m_keys[nKeyID]; }
+	sKeyState GetKey(int nKeyID) { return m_keys[nKeyID]; }
 	int GetMouseX() { return m_mousePosX; }
 	int GetMouseY() { return m_mousePosY; }
 	sKeyState GetMouse(int nMouseButtonID) { return m_mouse[nMouseButtonID]; }
 	bool IsFocused() { return m_bConsoleInFocus; }
-
 
 protected:
 	int Error(const wchar_t *msg)
@@ -860,10 +860,10 @@ protected:
 	HANDLE m_hConsole;
 	HANDLE m_hConsoleIn;
 	SMALL_RECT m_rectWindow;
-	short m_keyOldState[256] = { 0 };
-	short m_keyNewState[256] = { 0 };
-	bool m_mouseOldState[5] = { 0 };
-	bool m_mouseNewState[5] = { 0 };
+	short m_keyOldState[256] = {0};
+	short m_keyNewState[256] = {0};
+	bool m_mouseOldState[5] = {0};
+	bool m_mouseNewState[5] = {0};
 	bool m_bConsoleInFocus = true;
 	static atomic<bool> m_bAtomActive;
 	static condition_variable m_cvGameFinished;

@@ -16,7 +16,7 @@ public:
 protected:
 	bool OnClientConnect(std::shared_ptr<olc::net::connection<GameMsg>> client) override
 	{
-		// For now we will allow all 
+		// For now we will allow all
 		return true;
 	}
 
@@ -39,16 +39,15 @@ protected:
 			}
 			else
 			{
-				auto& pd = m_mapPlayerRoster[client->GetID()];
+				auto &pd = m_mapPlayerRoster[client->GetID()];
 				std::cout << "[UNGRACEFUL REMOVAL]:" + std::to_string(pd.nUniqueID) + "\n";
 				m_mapPlayerRoster.erase(client->GetID());
 				m_vGarbageIDs.push_back(client->GetID());
 			}
 		}
-
 	}
 
-	void OnMessage(std::shared_ptr<olc::net::connection<GameMsg>> client, olc::net::message<GameMsg>& msg) override
+	void OnMessage(std::shared_ptr<olc::net::connection<GameMsg>> client, olc::net::message<GameMsg> &msg) override
 	{
 		if (!m_vGarbageIDs.empty())
 		{
@@ -62,8 +61,6 @@ protected:
 			}
 			m_vGarbageIDs.clear();
 		}
-
-
 
 		switch (msg.header.id)
 		{
@@ -84,7 +81,7 @@ protected:
 			msgAddPlayer << desc;
 			MessageAllClients(msgAddPlayer);
 
-			for (const auto& player : m_mapPlayerRoster)
+			for (const auto &player : m_mapPlayerRoster)
 			{
 				olc::net::message<GameMsg> msgAddOtherPlayers;
 				msgAddOtherPlayers.header.id = GameMsg::Game_AddPlayer;
@@ -106,14 +103,9 @@ protected:
 			MessageAllClients(msg, client);
 			break;
 		}
-
 		}
-
 	}
-
 };
-
-
 
 int main()
 {

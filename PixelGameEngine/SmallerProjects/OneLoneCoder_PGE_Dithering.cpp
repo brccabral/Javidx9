@@ -1,7 +1,7 @@
 /*
 	Blithering About Dithering (Floyd-Steinberg)
 	"2022 lets go!" - javidx9
-	
+
 	License (OLC-3)
 	~~~~~~~~~~~~~~~
 	Copyright 2018 - 2021 OneLoneCoder.com
@@ -31,14 +31,14 @@
 	THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 	OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-	
+
 	Video:
 	~~~~~~
 	https://youtu.be/lseR6ZguBNY
 
 	Use Q and W keys to view quantised image and dithered image respectively
 	Use Left mouse button to pan, and mouse wheel to zoom to cursor
-	
+
 	Links
 	~~~~~
 	YouTube:	https://www.youtube.com/javidx9
@@ -48,12 +48,11 @@
 	Twitch:		https://www.twitch.tv/javidx9
 	GitHub:		https://www.github.com/onelonecoder
 	Homepage:	https://www.onelonecoder.com
-	
+
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019, 2020, 2021, 2022
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019, 2020, 2021, 2022
 */
-
 
 // Using olc::PixelGameEngine for input and visualisation
 #define OLC_PGE_APPLICATION
@@ -63,14 +62,14 @@
 #define OLC_PGEX_TRANSFORMEDVIEW
 #include "olcPGEX_TransformedView.h"
 
-//#include <algorithm>
+// #include <algorithm>
 
 // Override base class with your custom functionality
 class Dithering : public olc::PixelGameEngine
 {
 public:
 	Dithering()
-	{		
+	{
 		sAppName = "Floyd Steinberg Dithering";
 	}
 
@@ -84,7 +83,7 @@ public:
 	bool OnUserCreate() override
 	{
 		// Prepare Pan & Zoom
-		tv.Initialise({ ScreenWidth(), ScreenHeight() });
+		tv.Initialise({ScreenWidth(), ScreenHeight()});
 
 		// Load Test Image
 		m_pImage = std::make_unique<olc::Sprite>("./assets/Flower_640x480.png");
@@ -100,7 +99,6 @@ public:
 			uint8_t greyscale = uint8_t(0.2162f * float(in.r) + 0.7152f * float(in.g) + 0.0722f * float(in.b));
 			return olc::Pixel(greyscale, greyscale, greyscale);
 		};
-
 
 		// Quantising functions
 		auto Quantise_Greyscale_1Bit = [](const olc::Pixel in)
@@ -128,12 +126,12 @@ public:
 
 		auto Quantise_RGB_CustomPalette = [](const olc::Pixel in)
 		{
-			std::array<olc::Pixel, 5> nShades = { olc::BLACK, olc::WHITE, olc::YELLOW, olc::MAGENTA, olc::CYAN };
-			
+			std::array<olc::Pixel, 5> nShades = {olc::BLACK, olc::WHITE, olc::YELLOW, olc::MAGENTA, olc::CYAN};
+
 			float fClosest = INFINITY;
 			olc::Pixel pClosest;
 
-			for (const auto& c : nShades)
+			for (const auto &c : nShades)
 			{
 				float fDistance = float(
 					std::sqrt(
@@ -147,18 +145,16 @@ public:
 					pClosest = c;
 				}
 			}
-						
+
 			return pClosest;
 		};
 
-
 		// We don't need greyscale for the final demonstration, which uses
 		// RGB, but I've left this here as reference
-		//std::transform(
-		//	m_pImage->pColData.begin(), 
-		//	m_pImage->pColData.end(), 
+		// std::transform(
+		//	m_pImage->pColData.begin(),
+		//	m_pImage->pColData.end(),
 		//	m_pImage->pColData.begin(), Convert_RGB_To_Greyscale);
-
 
 		// Quantise The Image
 		std::transform(
@@ -166,20 +162,18 @@ public:
 			m_pImage->pColData.end(),
 			m_pQuantised->pColData.begin(), Quantise_RGB_NBit);
 
-		// Perform Dither 
+		// Perform Dither
 		Dither_FloydSteinberg(m_pImage.get(), m_pDithered.get(), Quantise_RGB_NBit);
 
 		return true;
 	}
 
-	
-
-	void Dither_FloydSteinberg(const olc::Sprite* pSource, olc::Sprite* pDest, 
-		std::function<olc::Pixel(const olc::Pixel)> funcQuantise)
-	{		
+	void Dither_FloydSteinberg(const olc::Sprite *pSource, olc::Sprite *pDest,
+							   std::function<olc::Pixel(const olc::Pixel)> funcQuantise)
+	{
 		// The destination image is primed with the source image as the pixel
 		// values become altered as the algorithm executes
-		std::copy(pSource->pColData.begin(), pSource->pColData.end(), pDest->pColData.begin());		
+		std::copy(pSource->pColData.begin(), pSource->pColData.end(), pDest->pColData.begin());
 
 		// Iterate through each pixel from top left to bottom right, compare the pixel
 		// with that on the "allowed" list, and distribute that error to neighbours
@@ -198,33 +192,32 @@ public:
 				// ...which means they cant be negative. This hampers us a tad here,
 				// so will resort to manual alteration using a signed type
 				int32_t error[3] =
-				{
-					op.r - qp.r,
-					op.g - qp.g,
-					op.b - qp.b
-				};
-				
+					{
+						op.r - qp.r,
+						op.g - qp.g,
+						op.b - qp.b};
+
 				// Set destination pixel with nearest match from quantisation function
 				pDest->SetPixel(vPixel, qp);
 
 				// Distribute Error - Using a little utility lambda to keep the messy code
 				// all in one place. It's important to allow pixels to temporarily become
 				// negative in order to distribute the error to the neighbours in both
-				// directions... value directions that is, not spatial!				
-				auto UpdatePixel = [&vPixel, &pDest, &error](const olc::vi2d& vOffset, const float fErrorBias)
+				// directions... value directions that is, not spatial!
+				auto UpdatePixel = [&vPixel, &pDest, &error](const olc::vi2d &vOffset, const float fErrorBias)
 				{
 					olc::Pixel p = pDest->GetPixel(vPixel + vOffset);
-					int32_t k[3] = { p.r, p.g, p.b };
+					int32_t k[3] = {p.r, p.g, p.b};
 					k[0] += int32_t(float(error[0]) * fErrorBias);
 					k[1] += int32_t(float(error[1]) * fErrorBias);
 					k[2] += int32_t(float(error[2]) * fErrorBias);
 					pDest->SetPixel(vPixel + vOffset, olc::Pixel(std::clamp(k[0], 0, 255), std::clamp(k[1], 0, 255), std::clamp(k[2], 0, 255)));
 				};
 
-				UpdatePixel({ +1,  0 }, 7.0f / 16.0f);
-				UpdatePixel({ -1, +1 }, 3.0f / 16.0f);
-				UpdatePixel({  0, +1 }, 5.0f / 16.0f);
-				UpdatePixel({ +1, +1 }, 1.0f / 16.0f);
+				UpdatePixel({+1, 0}, 7.0f / 16.0f);
+				UpdatePixel({-1, +1}, 3.0f / 16.0f);
+				UpdatePixel({0, +1}, 5.0f / 16.0f);
+				UpdatePixel({+1, +1}, 1.0f / 16.0f);
 			}
 		}
 	}
@@ -241,15 +234,15 @@ public:
 		// Draw Source Image
 		if (GetKey(olc::Key::Q).bHeld)
 		{
-			tv.DrawSprite({ 0,0 }, m_pQuantised.get());
+			tv.DrawSprite({0, 0}, m_pQuantised.get());
 		}
 		else if (GetKey(olc::Key::W).bHeld)
 		{
-			tv.DrawSprite({ 0,0 }, m_pDithered.get());
+			tv.DrawSprite({0, 0}, m_pDithered.get());
 		}
 		else
 		{
-			tv.DrawSprite({ 0,0 }, m_pImage.get());
+			tv.DrawSprite({0, 0}, m_pImage.get());
 		}
 
 		return true;

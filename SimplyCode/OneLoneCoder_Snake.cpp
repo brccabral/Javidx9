@@ -7,7 +7,7 @@ License
 Copyright (C) 2018  Javidx9
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
-under certain conditions; See license for details. 
+under certain conditions; See license for details.
 Original works located at:
 https://www.github.com/onelonecoder
 https://www.onelonecoder.com
@@ -18,10 +18,10 @@ https://github.com/OneLoneCoder/videos/blob/master/LICENSE
 
 From Javidx9 :)
 ~~~~~~~~~~~~~~~
-Hello! Ultimately I don't care what you use this for. It's intended to be 
-educational, and perhaps to the oddly minded - a little bit of fun. 
-Please hack this, change it and use it in any way you see fit. You acknowledge 
-that I am not responsible for anything bad that happens as a result of 
+Hello! Ultimately I don't care what you use this for. It's intended to be
+educational, and perhaps to the oddly minded - a little bit of fun.
+Please hack this, change it and use it in any way you see fit. You acknowledge
+that I am not responsible for anything bad that happens as a result of
 your actions. However this code is protected by GNU GPLv3, see the license in the
 github repo. This means you must attribute me if you use it. You can view this
 license here: https://github.com/OneLoneCoder/videos/blob/master/LICENSE
@@ -64,16 +64,17 @@ struct sSnakeSegment
 int main()
 {
 	// Create Screen Buffer
-	wchar_t *screen = new wchar_t[nScreenWidth*nScreenHeight];
-	for (int i = 0; i < nScreenWidth*nScreenHeight; i++) screen[i] = L' ';
+	wchar_t *screen = new wchar_t[nScreenWidth * nScreenHeight];
+	for (int i = 0; i < nScreenWidth * nScreenHeight; i++)
+		screen[i] = L' ';
 	HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
 	SetConsoleActiveScreenBuffer(hConsole);
 	DWORD dwBytesWritten = 0;
 
-	while(1)
+	while (1)
 	{
 		// Reset to known state
-		list<sSnakeSegment> snake = { {60,15},{61,15},{62,15},{63,15},{64,15},{65,15},{66,15},{67,15},{68,15},{69,15} };
+		list<sSnakeSegment> snake = {{60, 15}, {61, 15}, {62, 15}, {63, 15}, {64, 15}, {65, 15}, {66, 15}, {67, 15}, {68, 15}, {69, 15}};
 		int nFoodX = 30;
 		int nFoodY = 15;
 		int nScore = 0;
@@ -87,20 +88,22 @@ int main()
 			auto t1 = chrono::system_clock::now();
 			while ((chrono::system_clock::now() - t1) < ((nSnakeDirection % 2 == 1) ? 120ms : 200ms))
 			{
-				// Get Input, 
+				// Get Input,
 				bKeyRight = (0x8000 & GetAsyncKeyState((unsigned char)('\x27'))) != 0;
 				bKeyLeft = (0x8000 & GetAsyncKeyState((unsigned char)('\x25'))) != 0;
 
 				if (bKeyRight && !bKeyRightOld)
 				{
 					nSnakeDirection++;
-					if (nSnakeDirection == 4) nSnakeDirection = 0;
+					if (nSnakeDirection == 4)
+						nSnakeDirection = 0;
 				}
 
 				if (bKeyLeft && !bKeyLeftOld)
 				{
 					nSnakeDirection--;
-					if (nSnakeDirection == -1) nSnakeDirection = 3;
+					if (nSnakeDirection == -1)
+						nSnakeDirection = 3;
 				}
 
 				bKeyRightOld = bKeyRight;
@@ -114,16 +117,16 @@ int main()
 			switch (nSnakeDirection)
 			{
 			case 0: // UP
-				snake.push_front({ snake.front().x, snake.front().y - 1 });
+				snake.push_front({snake.front().x, snake.front().y - 1});
 				break;
 			case 1: // RIGHT
-				snake.push_front({ snake.front().x + 1, snake.front().y });
+				snake.push_front({snake.front().x + 1, snake.front().y});
 				break;
 			case 2: // DOWN
-				snake.push_front({ snake.front().x, snake.front().y + 1 });
+				snake.push_front({snake.front().x, snake.front().y + 1});
 				break;
 			case 3: // LEFT
-				snake.push_front({ snake.front().x - 1, snake.front().y });
+				snake.push_front({snake.front().x - 1, snake.front().y});
 				break;
 			}
 
@@ -134,11 +137,11 @@ int main()
 				while (screen[nFoodY * nScreenWidth + nFoodX] != L' ')
 				{
 					nFoodX = rand() % nScreenWidth;
-					nFoodY = (rand() % (nScreenHeight-3))+3;
+					nFoodY = (rand() % (nScreenHeight - 3)) + 3;
 				}
 
 				for (int i = 0; i < 5; i++)
-					snake.push_back({ snake.back().x, snake.back().y });
+					snake.push_back({snake.back().x, snake.back().y});
 			}
 
 			// Collision Detect Snake V World
@@ -158,7 +161,8 @@ int main()
 			// ==== Presentation
 
 			// Clear Screen
-			for (int i = 0; i < nScreenWidth*nScreenHeight; i++) screen[i] = L' ';
+			for (int i = 0; i < nScreenWidth * nScreenHeight; i++)
+				screen[i] = L' ';
 
 			// Draw Stats & Border
 			for (int i = 0; i < nScreenWidth; i++)
@@ -167,7 +171,6 @@ int main()
 				screen[2 * nScreenWidth + i] = L'=';
 			}
 			wsprintf(&screen[nScreenWidth + 5], L"www.OneLoneCoder.com - S N A K E ! !                SCORE: %d", nScore);
-
 
 			// Draw Snake Body
 			for (auto s : snake)
@@ -183,15 +186,13 @@ int main()
 				wsprintf(&screen[15 * nScreenWidth + 40], L"    PRESS 'SPACE' TO PLAY AGAIN    ");
 
 			// Display Frame
-			WriteConsoleOutputCharacter(hConsole, screen, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
+			WriteConsoleOutputCharacter(hConsole, screen, nScreenWidth * nScreenHeight, {0, 0}, &dwBytesWritten);
 		}
 
 		// Wait for space
-		while ((0x8000 & GetAsyncKeyState((unsigned char)('\x20'))) == 0);
+		while ((0x8000 & GetAsyncKeyState((unsigned char)('\x20'))) == 0)
+			;
 	}
 
 	return 0;
 }
-
-
-

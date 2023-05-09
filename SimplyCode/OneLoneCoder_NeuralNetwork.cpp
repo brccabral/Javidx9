@@ -79,7 +79,7 @@ public:
 					// Create synapse
 					Synapse syn;
 					syn.nAfferentNeuron = p;
-					syn.fWeight = (float)rand() / (float)RAND_MAX; //0.0f;
+					syn.fWeight = (float)rand() / (float)RAND_MAX; // 0.0f;
 					syn.nEfferentNeuron = vecNodes.size() - 1;
 					vecSynapses.push_back(syn);
 
@@ -109,7 +109,7 @@ public:
 				// Create synapse
 				Synapse syn;
 				syn.nAfferentNeuron = p;
-				syn.fWeight = (float)rand() / (float)RAND_MAX; //0.0f;
+				syn.fWeight = (float)rand() / (float)RAND_MAX; // 0.0f;
 				syn.nEfferentNeuron = vecNodes.size() - 1;
 				vecSynapses.push_back(syn);
 
@@ -179,14 +179,13 @@ public:
 		for (auto &s : vecSynapses)
 			s.fWeight += fDelta * vecNodes[s.nEfferentNeuron].fError * vecNodes[s.nAfferentNeuron].fOutput;
 	}
-
 };
 
 int main()
 {
-	vector<float> input = { 0,0 };
-	vector<float> output = { 0 };
-	vector<float> train = { 0 };
+	vector<float> input = {0, 0};
+	vector<float> output = {0};
+	vector<float> train = {0};
 
 	NeuralNetwork nn(input, output, 1);
 
@@ -208,7 +207,6 @@ int main()
 		nn.PropagateBackwards(train, 0.5f);
 	}
 
-
-	//system("pause");
+	// system("pause");
 	return 0;
 };

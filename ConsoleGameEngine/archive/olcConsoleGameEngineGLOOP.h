@@ -127,10 +127,9 @@ Character Set -> Use Unicode. Thanks! For now, I'll try enabling it for you - Ja
 #include <atomic>
 #include <condition_variable>
 using namespace std;
-#define GL_GENERATE_MIPMAP                0x8191
-#define GL_GENERATE_MIPMAP_HINT           0x8192
-typedef BOOL(WINAPI wglSwapInterval_t) (int interval);
-
+#define GL_GENERATE_MIPMAP 0x8191
+#define GL_GENERATE_MIPMAP_HINT 0x8192
+typedef BOOL(WINAPI wglSwapInterval_t)(int interval);
 
 enum COLOUR
 {
@@ -175,13 +174,11 @@ enum PIXEL_TYPE
 	PIXEL_QUARTER = 0x2591,
 };
 
-
 class olcSprite
 {
 public:
 	olcSprite()
 	{
-
 	}
 
 	olcSprite(int w, int h)
@@ -198,8 +195,8 @@ public:
 	int nWidth = 0;
 	int nHeight = 0;
 
-	//Yer touching private things king!
-	//private:
+	// Yer touching private things king!
+	// private:
 	wchar_t *m_Glyphs = nullptr;
 	short *m_Colours = nullptr;
 
@@ -208,9 +205,9 @@ private:
 	{
 		nWidth = w;
 		nHeight = h;
-		m_Glyphs = new wchar_t[w*h];
-		m_Colours = new short[w*h];
-		for (int i = 0; i < w*h; i++)
+		m_Glyphs = new wchar_t[w * h];
+		m_Colours = new short[w * h];
+		for (int i = 0; i < w * h; i++)
 		{
 			m_Glyphs[i] = L' ';
 			m_Colours[i] = FG_BLACK;
@@ -220,7 +217,7 @@ private:
 public:
 	void SetGlyph(int x, int y, wchar_t c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Glyphs[y * nWidth + x] = c;
@@ -228,7 +225,7 @@ public:
 
 	void SetColour(int x, int y, short c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Colours[y * nWidth + x] = c;
@@ -236,7 +233,7 @@ public:
 
 	wchar_t GetGlyph(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[y * nWidth + x];
@@ -244,7 +241,7 @@ public:
 
 	short GetColour(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[y * nWidth + x];
@@ -254,7 +251,7 @@ public:
 	{
 		int sx = (int)(x * (float)nWidth);
 		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[sy * nWidth + sx];
@@ -264,7 +261,7 @@ public:
 	{
 		int sx = (int)(x * (float)nWidth);
 		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[sy * nWidth + sx];
@@ -310,30 +307,29 @@ public:
 		fclose(f);
 		return true;
 	}
-
 };
 
 class olcConsoleGameEngineGLOOP
 {
 	// Mega Thanks to KrossX for completely converting the olcConsoleGameEngine to OpenGL!
 	uint32_t m_ColourPalette[16] = // 0xAABBGGRR
-	{
-		0xFF000000, // BLACK
-		0xFF800000, // DARK_BLUE
-		0xFF008000, // DARK_GREEN
-		0xFF808000, // DARK_CYAN
-		0xFF000080, // DARK_RED
-		0xFF800080, // DARK_MAGENTA
-		0xFF008080, // DARK_YELLOW
-		0xFFC0C0C0, // GREY
-		0xFF808080, // DARK_GREY
-		0xFFFF0000, // BLUE
-		0xFF00FF00, // GREEN
-		0xFFFFFF00, // CYAN
-		0xFF0000FF, // RED
-		0xFFFF00FF, // MAGENTA
-		0xFF00FFFF, // YELLOW
-		0xFFFFFFFF  // WHITE
+		{
+			0xFF000000, // BLACK
+			0xFF800000, // DARK_BLUE
+			0xFF008000, // DARK_GREEN
+			0xFF808000, // DARK_CYAN
+			0xFF000080, // DARK_RED
+			0xFF800080, // DARK_MAGENTA
+			0xFF008080, // DARK_YELLOW
+			0xFFC0C0C0, // GREY
+			0xFF808080, // DARK_GREY
+			0xFFFF0000, // BLUE
+			0xFF00FF00, // GREEN
+			0xFFFFFF00, // CYAN
+			0xFF0000FF, // RED
+			0xFFFF00FF, // MAGENTA
+			0xFF00FFFF, // YELLOW
+			0xFFFFFFFF	// WHITE
 	};
 
 	void UpdateMousePosition(int x, int y);
@@ -343,7 +339,7 @@ class olcConsoleGameEngineGLOOP
 	int SetPixelFormatGL(void);
 	static LRESULT CALLBACK olcWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	HWND ConstructWindow(int width, int height);
-	
+
 public:
 	olcConsoleGameEngineGLOOP();
 	int ConstructConsole(int width, int height, int fontw, int fonth);
@@ -361,30 +357,27 @@ public:
 	void DrawPartialSprite(int x, int y, olcSprite *sprite, int ox, int oy, int w, int h);
 	void DrawWireFrameModel(const std::vector<std::pair<float, float>> &vecModelCoordinates, float x, float y, float r = 0.0f, float s = 1.0f, short col = FG_WHITE, short c = PIXEL_SOLID);
 	~olcConsoleGameEngineGLOOP();
-	
 
 	void GenerateMipmapPow2(uint8_t *tex_new, uint8_t *tex_old, uint8_t *ref_alpha, int size);
-	
+
 public:
 	void Start();
-	int ScreenWidth(){	return m_nScreenWidth; }
-	int ScreenHeight(){	return m_nScreenHeight; }
+	int ScreenWidth() { return m_nScreenWidth; }
+	int ScreenHeight() { return m_nScreenHeight; }
 
 private:
 	void GameThread();
-	
 
 public:
 	// User MUST OVERRIDE THESE!!
 	virtual bool OnUserCreate() = 0;
 	virtual bool OnUserUpdate(float fElapsedTime) = 0;
 
-	// Optional for clean up 
+	// Optional for clean up
 	virtual bool OnUserDestroy()
 	{
 		return true;
 	}
-
 
 protected:
 	struct sKeyState
@@ -404,19 +397,15 @@ public:
 	sKeyState GetMouse(int nMouseButtonID) { return m_mouse[nMouseButtonID]; }
 	bool IsFocused() { return m_bConsoleInFocus; }
 
-
 protected:
 	int Error(const wchar_t *msg);
-	
 
 protected: // Audio Engine =====================================================================
-
 	class olcAudioSample
 	{
 	public:
 		olcAudioSample()
 		{
-
 		}
 
 		olcAudioSample(std::wstring sWavFile)
@@ -429,19 +418,21 @@ protected: // Audio Engine =====================================================
 
 			char dump[4];
 			std::fread(&dump, sizeof(char), 4, f); // Read "RIFF"
-			if (strncmp(dump, "RIFF", 4) != 0) return;
+			if (strncmp(dump, "RIFF", 4) != 0)
+				return;
 			std::fread(&dump, sizeof(char), 4, f); // Not Interested
 			std::fread(&dump, sizeof(char), 4, f); // Read "WAVE"
-			if (strncmp(dump, "WAVE", 4) != 0) return;
+			if (strncmp(dump, "WAVE", 4) != 0)
+				return;
 
 			// Read Wave description chunk
-			std::fread(&dump, sizeof(char), 4, f); // Read "fmt "
-			std::fread(&dump, sizeof(char), 4, f); // Not Interested
+			std::fread(&dump, sizeof(char), 4, f);					// Read "fmt "
+			std::fread(&dump, sizeof(char), 4, f);					// Not Interested
 			std::fread(&wavHeader, sizeof(WAVEFORMATEX) - 2, 1, f); // Read Wave Format Structure chunk
 																	// Note the -2, because the structure has 2 bytes to indicate its own size
 																	// which are not in the wav file
 
-																	// Just check if wave format is compatible with olcCGE
+			// Just check if wave format is compatible with olcCGE
 			if (wavHeader.wBitsPerSample != 16 || wavHeader.nSamplesPerSec != 44100)
 			{
 				std::fclose(f);
@@ -450,7 +441,7 @@ protected: // Audio Engine =====================================================
 
 			// Search for audio data chunk
 			long nChunksize = 0;
-			std::fread(&dump, sizeof(char), 4, f); // Read chunk header
+			std::fread(&dump, sizeof(char), 4, f);		 // Read chunk header
 			std::fread(&nChunksize, sizeof(long), 1, f); // Read chunk size
 			while (strncmp(dump, "data", 4) != 0)
 			{
@@ -512,37 +503,35 @@ protected: // Audio Engine =====================================================
 	// Load a 16-bit WAVE file @ 44100Hz ONLY into memory. A sample ID
 	// number is returned if successful, otherwise -1
 	unsigned int LoadAudioSample(std::wstring sWavFile);
-	
+
 	// Add sample 'id' to the mixers sounds to play list
 	void PlaySample(int id, bool bLoop = false);
 	void StopSample(int id);
-	
+
 	// The audio system uses by default a specific wave format
 	bool CreateAudio(unsigned int nSampleRate = 44100, unsigned int nChannels = 1,
-		unsigned int nBlocks = 8, unsigned int nBlockSamples = 512);
-	
+					 unsigned int nBlocks = 8, unsigned int nBlockSamples = 512);
+
 	// Stop and clean up audio system
 	bool DestroyAudio();
-	
+
 	// Handler for soundcard request for more data
 	void waveOutProc(HWAVEOUT hWaveOut, UINT uMsg, DWORD dwParam1, DWORD dwParam2);
-	
+
 	// Static wrapper for sound card handler
 	static void CALLBACK waveOutProcWrap(HWAVEOUT hWaveOut, UINT uMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2);
-	
+
 	// Audio thread. This loop responds to requests from the soundcard to fill 'blocks'
 	// with audio data. If no requests are available it goes dormant until the sound
 	// card is ready for more data. The block is fille by the "user" in some manner
 	// and then issued to the soundcard.
 	void AudioThread();
-	
+
 	// Overridden by user if they want to generate sound in real-time
 	virtual float onUserSoundSample(int nChannel, float fGlobalTime, float fTimeStep);
 
-
 	// Overriden by user if they want to manipulate the sound before it is played
 	virtual float onUserSoundFilter(int nChannel, float fGlobalTime, float fSample);
-	
 
 	// The Sound Mixer - If the user wants to play many sounds simultaneously, and
 	// perhaps the same sound overlapping itself, then you need a mixer, which
@@ -562,7 +551,6 @@ protected: // Audio Engine =====================================================
 	// user gets one final chance to "filter" the sound, perhaps changing the volume
 	// or adding funky effects
 	float GetMixerOutput(int nChannel, float fGlobalTime, float fTimeStep);
-	
 
 	unsigned int m_nSampleRate;
 	unsigned int m_nChannels;
@@ -570,7 +558,7 @@ protected: // Audio Engine =====================================================
 	unsigned int m_nBlockSamples;
 	unsigned int m_nBlockCurrent;
 
-	short* m_pBlockMemory = nullptr;
+	short *m_pBlockMemory = nullptr;
 	WAVEHDR *m_pWaveHeaders = nullptr;
 	HWAVEOUT m_hwDevice = nullptr;
 
@@ -602,15 +590,15 @@ protected:
 	uint8_t *m_bufMemory;
 	wstring m_sAppName;
 	SMALL_RECT m_rectWindow;
-	short m_keyOldState[256] = { 0 };
-	short m_keyNewState[256] = { 0 };
-	bool m_mouseOldState[5] = { 0 };
-	bool m_mouseNewState[5] = { 0 };
+	short m_keyOldState[256] = {0};
+	short m_keyNewState[256] = {0};
+	bool m_mouseOldState[5] = {0};
+	bool m_mouseNewState[5] = {0};
 	bool m_bConsoleInFocus = true;
 	bool m_bDoWindowUpdate = false;
-	HWND  m_hConsole = nullptr;
-	HWND  m_hWnd = nullptr;
-	HDC   m_hDevCtx = nullptr;
+	HWND m_hConsole = nullptr;
+	HWND m_hWnd = nullptr;
+	HDC m_hDevCtx = nullptr;
 	HGLRC m_hRenCtx = nullptr;
 	GLuint m_uFontTexture;
 	static atomic<bool> m_bAtomActive;

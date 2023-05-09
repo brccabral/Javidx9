@@ -17,7 +17,7 @@ Worms is a classic game where several teams of worms use a variety of weaponry
 to elimiate each other from a randomly generated terrain.
 
 This code is the first part of a series that show how to make your own Worms game
-from scratch in C++! 
+from scratch in C++!
 
 Author
 ~~~~~~
@@ -49,11 +49,11 @@ public:
 
 	float radius = 4.0f;	// Bounding circle for collision
 	bool bStable = false;	// Has object stopped moving
-	float fFriction = 0.8f;	// Actually, a dampening factor is a more accurate name
+	float fFriction = 0.8f; // Actually, a dampening factor is a more accurate name
 
-	int nBounceBeforeDeath = -1;	// How many time object can bounce before death
-									// -1 = infinite
-	bool bDead = false;		// Flag to indicate object should be removed
+	int nBounceBeforeDeath = -1; // How many time object can bounce before death
+								 // -1 = infinite
+	bool bDead = false;			 // Flag to indicate object should be removed
 
 	cPhysicsObject(float x = 0.0f, float y = 0.0f)
 	{
@@ -66,12 +66,12 @@ public:
 	virtual int BounceDeathAction() = 0;
 };
 
-
 class cDummy : public cPhysicsObject // Does nothing, shows a marker that helps with physics debug and test
 {
 public:
 	cDummy(float x = 0.0f, float y = 0.0f) : cPhysicsObject(x, y)
-	{	}
+	{
+	}
 
 	virtual void Draw(olcConsoleGameEngine *engine, float fOffsetX, float fOffsetY)
 	{
@@ -91,13 +91,12 @@ vector<pair<float, float>> DefineDummy()
 {
 	// Defines a circle with a line fom center to edge
 	vector<pair<float, float>> vecModel;
-	vecModel.push_back({ 0.0f, 0.0f });
+	vecModel.push_back({0.0f, 0.0f});
 	for (int i = 0; i < 10; i++)
-		vecModel.push_back({ cosf(i / 9.0f * 2.0f * 3.14159f) , sinf(i / 9.0f * 2.0f * 3.14159f) });
+		vecModel.push_back({cosf(i / 9.0f * 2.0f * 3.14159f), sinf(i / 9.0f * 2.0f * 3.14159f)});
 	return vecModel;
 }
 vector<pair<float, float>> cDummy::vecModel = DefineDummy();
-
 
 class cDebris : public cPhysicsObject // a small rock that bounces
 {
@@ -130,14 +129,13 @@ vector<pair<float, float>> DefineDebris()
 {
 	// A small unit rectangle
 	vector<pair<float, float>> vecModel;
-	vecModel.push_back({ 0.0f, 0.0f });
-	vecModel.push_back({ 1.0f, 0.0f });
-	vecModel.push_back({ 1.0f, 1.0f });
-	vecModel.push_back({ 0.0f, 1.0f });
+	vecModel.push_back({0.0f, 0.0f});
+	vecModel.push_back({1.0f, 0.0f});
+	vecModel.push_back({1.0f, 1.0f});
+	vecModel.push_back({0.0f, 1.0f});
 	return vecModel;
 }
 vector<pair<float, float>> cDebris::vecModel = DefineDebris();
-
 
 class cMissile : public cPhysicsObject // A projectile weapon
 {
@@ -170,28 +168,28 @@ vector<pair<float, float>> DefineMissile()
 {
 	// Defines a rocket like shape
 	vector<pair<float, float>> vecModel;
-	vecModel.push_back({ 0.0f, 0.0f });
-	vecModel.push_back({ 1.0f, 1.0f });
-	vecModel.push_back({ 2.0f, 1.0f });
-	vecModel.push_back({ 2.5f, 0.0f });
-	vecModel.push_back({ 2.0f, -1.0f });
-	vecModel.push_back({ 1.0f, -1.0f });
-	vecModel.push_back({ 0.0f, 0.0f });
-	vecModel.push_back({ -1.0f, -1.0f });
-	vecModel.push_back({ -2.5f, -1.0f });
-	vecModel.push_back({ -2.0f, 0.0f });
-	vecModel.push_back({ -2.5f, 1.0f });
-	vecModel.push_back({ -1.0f, 1.0f });
-	
+	vecModel.push_back({0.0f, 0.0f});
+	vecModel.push_back({1.0f, 1.0f});
+	vecModel.push_back({2.0f, 1.0f});
+	vecModel.push_back({2.5f, 0.0f});
+	vecModel.push_back({2.0f, -1.0f});
+	vecModel.push_back({1.0f, -1.0f});
+	vecModel.push_back({0.0f, 0.0f});
+	vecModel.push_back({-1.0f, -1.0f});
+	vecModel.push_back({-2.5f, -1.0f});
+	vecModel.push_back({-2.0f, 0.0f});
+	vecModel.push_back({-2.5f, 1.0f});
+	vecModel.push_back({-1.0f, 1.0f});
+
 	// Scale points to make shape unit sized
 	for (auto &v : vecModel)
 	{
-		v.first /= 2.5f; v.second /= 2.5f;
+		v.first /= 2.5f;
+		v.second /= 2.5f;
 	}
 	return vecModel;
 }
 vector<pair<float, float>> cMissile::vecModel = DefineMissile();
-
 
 class cWorm : public cPhysicsObject // A unit, or worm
 {
@@ -222,10 +220,7 @@ private:
 	static olcSprite *sprWorm;
 };
 
-olcSprite* cWorm::sprWorm = nullptr;
-
-
-
+olcSprite *cWorm::sprWorm = nullptr;
 
 // Main Game Engine Class
 class OneLoneCoder_Worms : public olcConsoleGameEngine
@@ -237,7 +232,6 @@ public:
 	}
 
 private:
-
 	// Terrain size
 	int nMapWidth = 1024;
 	int nMapHeight = 512;
@@ -250,13 +244,12 @@ private:
 	// list of things that exist in game world
 	list<unique_ptr<cPhysicsObject>> listObjects;
 
-
 	virtual bool OnUserCreate()
 	{
 		// Create Map
 		map = new unsigned char[nMapWidth * nMapHeight];
-		memset(map, 0, nMapWidth*nMapHeight * sizeof(unsigned char));
-		CreateMap();		
+		memset(map, 0, nMapWidth * nMapHeight * sizeof(unsigned char));
+		CreateMap();
 		return true;
 	}
 
@@ -280,16 +273,24 @@ private:
 
 		// Mouse Edge Map Scroll
 		float fMapScrollSpeed = 400.0f;
-		if (m_mousePosX < 5) fCameraPosX -= fMapScrollSpeed * fElapsedTime;
-		if (m_mousePosX > ScreenWidth() - 5) fCameraPosX += fMapScrollSpeed * fElapsedTime;
-		if (m_mousePosY < 5) fCameraPosY -= fMapScrollSpeed * fElapsedTime;
-		if (m_mousePosY > ScreenHeight() - 5) fCameraPosY += fMapScrollSpeed * fElapsedTime;
+		if (m_mousePosX < 5)
+			fCameraPosX -= fMapScrollSpeed * fElapsedTime;
+		if (m_mousePosX > ScreenWidth() - 5)
+			fCameraPosX += fMapScrollSpeed * fElapsedTime;
+		if (m_mousePosY < 5)
+			fCameraPosY -= fMapScrollSpeed * fElapsedTime;
+		if (m_mousePosY > ScreenHeight() - 5)
+			fCameraPosY += fMapScrollSpeed * fElapsedTime;
 
 		// Clamp map boundaries
-		if (fCameraPosX < 0) fCameraPosX = 0;
-		if (fCameraPosX >= nMapWidth - ScreenWidth()) fCameraPosX = nMapWidth - ScreenWidth();
-		if (fCameraPosY < 0) fCameraPosY = 0;
-		if (fCameraPosY >= nMapHeight - ScreenHeight()) fCameraPosY = nMapHeight - ScreenHeight();
+		if (fCameraPosX < 0)
+			fCameraPosX = 0;
+		if (fCameraPosX >= nMapWidth - ScreenWidth())
+			fCameraPosX = nMapWidth - ScreenWidth();
+		if (fCameraPosY < 0)
+			fCameraPosY = 0;
+		if (fCameraPosY >= nMapHeight - ScreenHeight())
+			fCameraPosY = nMapHeight - ScreenHeight();
 
 		// Do 10 physics iterations per frame - this allows smaller physics steps
 		// giving rise to more accurate and controllable calculations
@@ -328,10 +329,14 @@ private:
 					float fTestPosY = (p->radius) * sinf(r) + fPotentialY;
 
 					// Constrain to test within map boundary
-					if (fTestPosX >= nMapWidth) fTestPosX = nMapWidth - 1;
-					if (fTestPosY >= nMapHeight) fTestPosY = nMapHeight - 1;
-					if (fTestPosX < 0) fTestPosX = 0;
-					if (fTestPosY < 0) fTestPosY = 0;
+					if (fTestPosX >= nMapWidth)
+						fTestPosX = nMapWidth - 1;
+					if (fTestPosY >= nMapHeight)
+						fTestPosY = nMapHeight - 1;
+					if (fTestPosX < 0)
+						fTestPosX = 0;
+					if (fTestPosY < 0)
+						fTestPosY = 0;
 
 					// Test if any points on semicircle intersect with terrain
 					if (map[(int)fTestPosY * nMapWidth + (int)fTestPosX] != 0)
@@ -345,23 +350,23 @@ private:
 				}
 
 				// Calculate magnitudes of response and velocity vectors
-				float fMagVelocity = sqrtf(p->vx*p->vx + p->vy*p->vy);
-				float fMagResponse = sqrtf(fResponseX*fResponseX + fResponseY*fResponseY);
+				float fMagVelocity = sqrtf(p->vx * p->vx + p->vy * p->vy);
+				float fMagResponse = sqrtf(fResponseX * fResponseX + fResponseY * fResponseY);
 
 				// Collision occurred
 				if (bCollision)
 				{
 					// Force object to be stable, this stops the object penetrating the terrain
 					p->bStable = true;
-					
+
 					// Calculate reflection vector of objects velocity vector, using response vector as normal
 					float dot = p->vx * (fResponseX / fMagResponse) + p->vy * (fResponseY / fMagResponse);
-					
+
 					// Use friction coefficient to dampen response (approximating energy loss)
 					p->vx = p->fFriction * (-2.0f * dot * (fResponseX / fMagResponse) + p->vx);
 					p->vy = p->fFriction * (-2.0f * dot * (fResponseY / fMagResponse) + p->vy);
 
-					//Some objects will "die" after several bounces
+					// Some objects will "die" after several bounces
 					if (p->nBounceBeforeDeath > 0)
 					{
 						p->nBounceBeforeDeath--;
@@ -372,13 +377,12 @@ private:
 						{
 							// Action upon object death
 							// = 0 Nothing
-							// > 0 Explosion 
+							// > 0 Explosion
 							int nResponse = p->BounceDeathAction();
 							if (nResponse > 0)
 								Boom(p->px, p->py, nResponse);
 						}
 					}
-
 				}
 				else
 				{
@@ -388,12 +392,14 @@ private:
 				}
 
 				// Turn off movement when tiny
-				if (fMagVelocity < 0.1f) p->bStable = true;
+				if (fMagVelocity < 0.1f)
+					p->bStable = true;
 			}
 
 			// Remove dead objects from the list, so they are not processed further. As the object
 			// is a unique pointer, it will go out of scope too, deleting the object automatically. Nice :-)
-			listObjects.remove_if([](unique_ptr<cPhysicsObject> &o) {return o->bDead; });
+			listObjects.remove_if([](unique_ptr<cPhysicsObject> &o)
+								  { return o->bDead; });
 		}
 
 		// Draw Landscape
@@ -401,7 +407,7 @@ private:
 			for (int y = 0; y < ScreenHeight(); y++)
 			{
 				// Offset screen coordinates into world coordinates
-				switch (map[(y + (int)fCameraPosY)*nMapWidth + (x + (int)fCameraPosX)])
+				switch (map[(y + (int)fCameraPosY) * nMapWidth + (x + (int)fCameraPosX)])
 				{
 				case 0:
 					Draw(x, y, PIXEL_SOLID, FG_CYAN); // Sky
@@ -428,24 +434,27 @@ private:
 			int x = 0;
 			int y = r;
 			int p = 3 - 2 * r;
-			if (!r) return;
+			if (!r)
+				return;
 
 			auto drawline = [&](int sx, int ex, int ny)
 			{
 				for (int i = sx; i < ex; i++)
 					if (ny >= 0 && ny < nMapHeight && i >= 0 && i < nMapWidth)
-						map[ny*nMapWidth + i] = 0;
+						map[ny * nMapWidth + i] = 0;
 			};
 
-			while (y >= x) 
+			while (y >= x)
 			{
 				// Modified to draw scan-lines instead of edges
 				drawline(xc - x, xc + x, yc - y);
 				drawline(xc - y, xc + y, yc - x);
 				drawline(xc - x, xc + x, yc + y);
 				drawline(xc - y, xc + y, yc + x);
-				if (p < 0) p += 4 * x++ + 6;
-				else p += 4 * (x++ - y--) + 10;
+				if (p < 0)
+					p += 4 * x++ + 6;
+				else
+					p += 4 * (x++ - y--) + 10;
 			}
 		};
 
@@ -458,8 +467,9 @@ private:
 			// Work out distance between explosion origin and object
 			float dx = p->px - fWorldX;
 			float dy = p->py - fWorldY;
-			float fDist = sqrt(dx*dx + dy*dy);
-			if (fDist < 0.0001f) fDist = 0.0001f;
+			float fDist = sqrt(dx * dx + dy * dy);
+			if (fDist < 0.0001f)
+				fDist = 0.0001f;
 
 			// If within blast radius
 			if (fDist < fRadius)
@@ -475,8 +485,6 @@ private:
 		for (int i = 0; i < (int)fRadius; i++)
 			listObjects.push_back(unique_ptr<cDebris>(new cDebris(fWorldX, fWorldY)));
 	}
-
-
 
 	void CreateMap()
 	{
@@ -536,7 +544,6 @@ private:
 		}
 	}
 };
-
 
 int main()
 {

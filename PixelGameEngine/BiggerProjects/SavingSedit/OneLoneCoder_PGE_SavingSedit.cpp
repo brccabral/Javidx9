@@ -57,7 +57,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019
 */
 
 #define OLC_PGE_APPLICATION
@@ -78,18 +78,16 @@
 #include <map>
 using namespace std;
 
-
 class cAnimator
 {
 public:
-	std::map<std::string, std::vector<olc::Sprite*>> mapStates;
+	std::map<std::string, std::vector<olc::Sprite *>> mapStates;
 
 public:
 	std::string sCurrentState;
 	int nCurrentFrame = 0;
 	float fTimeBetweenFrames = 0.1f;
 	float fTimeCounter = 0.0f;
-	
 
 	void ChangeState(std::string s)
 	{
@@ -117,7 +115,6 @@ public:
 	{
 		olc::GFX2D::DrawSprite(mapStates[sCurrentState][nCurrentFrame], t);
 	}
-
 };
 
 // Override base class with your custom functionality
@@ -130,16 +127,15 @@ public:
 	}
 
 private:
-	
 	int nTileSizeX = 64;
 	int nTileSizeY = 64;
-	olc::TILE::Layer<olc::TILE::BasicTile>	layerWorld;
-	olc::TILE::Layer<olc::TILE::BasicTile>	layerCollectibles;
-	olc::TILE::Layer<olc::TILE::BasicTile>	layerJavid;
-	olc::TILE::Atlas						atlasWorldMagetzub;
-	olc::TILE::Atlas						atlasWorldJavid;
-	olc::TILE::Atlas						atlasWorldHopson;
-	olc::TILE::Atlas						atlasCollectibles;
+	olc::TILE::Layer<olc::TILE::BasicTile> layerWorld;
+	olc::TILE::Layer<olc::TILE::BasicTile> layerCollectibles;
+	olc::TILE::Layer<olc::TILE::BasicTile> layerJavid;
+	olc::TILE::Atlas atlasWorldMagetzub;
+	olc::TILE::Atlas atlasWorldJavid;
+	olc::TILE::Atlas atlasWorldHopson;
+	olc::TILE::Atlas atlasCollectibles;
 
 	olc::ResourcePack rpPlayer;
 
@@ -151,7 +147,7 @@ private:
 	olc::Sprite *sprControlScreen;
 	olc::Sprite *sprCreditScreen;
 	olc::Sprite *sprCompleteScreen;
-	
+
 	float fBackdropScaleX = 1.0f;
 	float fBackdropScaleY = 1.0f;
 
@@ -159,8 +155,6 @@ private:
 
 	olc::Sprite *backBuff;
 
-	
-	
 	cAnimator animPlayer;
 	ControllerManager controller;
 
@@ -218,7 +212,6 @@ private:
 
 	} nRenderEffect;
 
-
 	enum
 	{
 		GS_LOADING,
@@ -232,12 +225,12 @@ private:
 
 	int nChallengeMapSizeX = 8;
 	int nChallengeMapSizeY = 8;
-	int nChallengePathSizeX = 4; 
+	int nChallengePathSizeX = 4;
 	int nChallengePathSizeY = 4;
 
-	void CreateMaze(bool* &pMap, int nCellWidth, int nCellHeight, int nCellsX, int nCellsY, int &nMapWidth, int &nMapHeight)
+	void CreateMaze(bool *&pMap, int nCellWidth, int nCellHeight, int nCellsX, int nCellsY, int &nMapWidth, int &nMapHeight)
 	{
-		int *pLevel = new int[nCellsX * nCellsY]{ 0 };
+		int *pLevel = new int[nCellsX * nCellsY]{0};
 
 		enum
 		{
@@ -249,7 +242,6 @@ private:
 		};
 
 		std::stack<std::pair<int, int>> m_stack;
-
 
 		auto offset = [&](int x, int y)
 		{
@@ -279,7 +271,6 @@ private:
 			// West neighbour
 			if (m_stack.top().first > 0 && (pLevel[offset(-1, 0)] & CELL_VISITED) == 0)
 				neighbours.push_back(3);
-
 
 			// Are there any neighbours available?
 			if (!neighbours.empty())
@@ -313,7 +304,6 @@ private:
 					pLevel[offset(0, 0)] |= CELL_PATH_W;
 					m_stack.push(std::make_pair((m_stack.top().first - 1), (m_stack.top().second + 0)));
 					break;
-
 				}
 
 				nVisitedCells++;
@@ -323,13 +313,13 @@ private:
 				m_stack.pop(); // Backtrack
 			}
 		}
-		
+
 		printf("M1 %d\n", m_stack.size());
 
 		// Convert Maze into tile map
 		nMapWidth = (nCellWidth + 1) * nCellsX + 1;
 		nMapHeight = (nCellHeight + 1) * nCellsY + 1;
-		pMap = new bool[nMapWidth * nMapHeight]{ 0 };
+		pMap = new bool[nMapWidth * nMapHeight]{0};
 		printf("M1\n");
 
 		// Draw Maze
@@ -341,9 +331,9 @@ private:
 					for (int px = 0; px < nCellWidth; px++)
 					{
 						if (pLevel[y * nCellsX + x] & CELL_VISITED)
-							pMap[(y* (nCellHeight + 1) + py + 1) * nMapWidth + (x * (nCellWidth + 1) + px) + 1] = true;
+							pMap[(y * (nCellHeight + 1) + py + 1) * nMapWidth + (x * (nCellWidth + 1) + px) + 1] = true;
 						else
-							pMap[(y* (nCellHeight + 1) + py + 1) * nMapWidth + (x * (nCellWidth + 1) + px + 1)] = false;
+							pMap[(y * (nCellHeight + 1) + py + 1) * nMapWidth + (x * (nCellWidth + 1) + px + 1)] = false;
 					}
 
 				for (int p = 0; p < nCellWidth; p++)
@@ -378,17 +368,13 @@ private:
 				if (x == 0 || x == (nFlowWidth - 1) || y == 0 || y == (nFlowHeight - 1))
 					layerJavid.GetTile(x, y)->edge_id[0] = -1;
 				else
-					//layerJavid.GetTile(x, y)->exist = layerWorld.GetTile(x, y)->exist;
+					// layerJavid.GetTile(x, y)->exist = layerWorld.GetTile(x, y)->exist;
 					layerJavid.GetTile(x, y)->edge_id[0] = layerWorld.GetTile(x, y)->exist ? -1 : 0;
-
-				
 			}
 
-		
-
 		list<tuple<int, int, int>> nodes;
-		
-		nodes.push_back({ listKeys.back().first,listKeys.back().second, 1 });
+
+		nodes.push_back({listKeys.back().first, listKeys.back().second, 1});
 
 		while (!nodes.empty())
 		{
@@ -406,26 +392,21 @@ private:
 				layerJavid.GetTile(x, y)->edge_id[0] = d;
 
 				// Add neigbour nodes if unmarked
-				if ((x + 1) < nFlowWidth && layerJavid.GetTile(x+1, y)->edge_id[0] == 0)
-					new_nodes.push_back({ x + 1, y, d + 1 });
+				if ((x + 1) < nFlowWidth && layerJavid.GetTile(x + 1, y)->edge_id[0] == 0)
+					new_nodes.push_back({x + 1, y, d + 1});
 				if ((x - 1) >= 0 && layerJavid.GetTile(x - 1, y)->edge_id[0] == 0)
-					new_nodes.push_back({ x - 1, y, d + 1});
-				if ((y + 1) < nFlowHeight && layerJavid.GetTile(x, y+1)->edge_id[0] == 0)
-					new_nodes.push_back({ x, y + 1, d + 1 });
-				if ((y - 1) >= 0 && layerJavid.GetTile(x, y-1)->edge_id[0] == 0)
-					new_nodes.push_back({ x, y - 1, d + 1 });
+					new_nodes.push_back({x - 1, y, d + 1});
+				if ((y + 1) < nFlowHeight && layerJavid.GetTile(x, y + 1)->edge_id[0] == 0)
+					new_nodes.push_back({x, y + 1, d + 1});
+				if ((y - 1) >= 0 && layerJavid.GetTile(x, y - 1)->edge_id[0] == 0)
+					new_nodes.push_back({x, y - 1, d + 1});
 			}
 
 			new_nodes.sort([&](const tuple<int, int, int> &n1, const tuple<int, int, int> &n2)
-			{
-				return (get<1>(n1) * layerJavid.nLayerWidth + get<0>(n1)) < (get<1>(n2) * layerJavid.nLayerWidth + get<0>(n2));
-			});
+						   { return (get<1>(n1) * layerJavid.nLayerWidth + get<0>(n1)) < (get<1>(n2) * layerJavid.nLayerWidth + get<0>(n2)); });
 
 			new_nodes.unique([&](const tuple<int, int, int> &n1, const tuple<int, int, int> &n2)
-			{
-				return (get<1>(n1) * layerJavid.nLayerWidth + get<0>(n1)) == (get<1>(n2) * layerJavid.nLayerWidth + get<0>(n2));
-			});
-
+							 { return (get<1>(n1) * layerJavid.nLayerWidth + get<0>(n1)) == (get<1>(n2) * layerJavid.nLayerWidth + get<0>(n2)); });
 
 			nodes.clear();
 			nodes.insert(nodes.begin(), new_nodes.begin(), new_nodes.end());
@@ -440,16 +421,16 @@ private:
 					int flow_xa, flow_xb, flow_ya, flow_yb;
 					flow_xa = flow_xb = flow_ya = flow_yb = layerJavid.GetTile(x, y)->edge_id[0];
 
-					if ((x + 1) < nFlowWidth && layerJavid.GetTile(x+1, y)->edge_id[0] > 0)
+					if ((x + 1) < nFlowWidth && layerJavid.GetTile(x + 1, y)->edge_id[0] > 0)
 						flow_xb = layerJavid.GetTile(x + 1, y)->edge_id[0];
 
-					if ((x - 1) >= 0 && layerJavid.GetTile(x-1, y)->edge_id[0] > 0)
+					if ((x - 1) >= 0 && layerJavid.GetTile(x - 1, y)->edge_id[0] > 0)
 						flow_xa = layerJavid.GetTile(x - 1, y)->edge_id[0];
 
-					if ((y + 1) < nFlowHeight && layerJavid.GetTile(x, y+1)->edge_id[0] > 0)
+					if ((y + 1) < nFlowHeight && layerJavid.GetTile(x, y + 1)->edge_id[0] > 0)
 						flow_yb = layerJavid.GetTile(x, y + 1)->edge_id[0];
 
-					if ((y - 1) >= 0 && layerJavid.GetTile(x, y-1)->edge_id[0] > 0)
+					if ((y - 1) >= 0 && layerJavid.GetTile(x, y - 1)->edge_id[0] > 0)
 						flow_ya = layerJavid.GetTile(x, y - 1)->edge_id[0];
 
 					float fdx = (float)(flow_xa - flow_xb);
@@ -504,13 +485,20 @@ private:
 
 				if (a(x, y))
 				{
-					s |= a(x - 1, y + 0) ? 1 : 0; s <<= 1;
-					s |= a(x - 1, y + 1) ? 1 : 0; s <<= 1;
-					s |= a(x + 0, y + 1) ? 1 : 0; s <<= 1;
-					s |= a(x + 1, y + 1) ? 1 : 0; s <<= 1;
-					s |= a(x + 1, y + 0) ? 1 : 0; s <<= 1;
-					s |= a(x + 1, y - 1) ? 1 : 0; s <<= 1;
-					s |= a(x - 0, y - 1) ? 1 : 0; s <<= 1;
+					s |= a(x - 1, y + 0) ? 1 : 0;
+					s <<= 1;
+					s |= a(x - 1, y + 1) ? 1 : 0;
+					s <<= 1;
+					s |= a(x + 0, y + 1) ? 1 : 0;
+					s <<= 1;
+					s |= a(x + 1, y + 1) ? 1 : 0;
+					s <<= 1;
+					s |= a(x + 1, y + 0) ? 1 : 0;
+					s <<= 1;
+					s |= a(x + 1, y - 1) ? 1 : 0;
+					s <<= 1;
+					s |= a(x - 0, y - 1) ? 1 : 0;
+					s <<= 1;
 					s |= a(x - 1, y - 1) ? 1 : 0;
 
 					int ix = s % 16;
@@ -524,7 +512,6 @@ private:
 	}
 
 public:
-
 	int sndHelperChange;
 	int sndJump;
 	int sndWall;
@@ -534,15 +521,13 @@ public:
 	int sndThump;
 	int sndTheme;
 
-
-
 	bool OnUserCreate() override
 	{
 		controller.Initialize();
 		backBuff = new olc::Sprite(ScreenWidth(), ScreenHeight());
-		
+
 		olc::SOUND::InitialiseAudio();
-		
+
 		animPlayer.ChangeState("idle");
 		return true;
 	}
@@ -557,15 +542,13 @@ public:
 
 	bool GameState_Loading(float fElapsedTime)
 	{
-		
-		
-		
+
 		if (bFirstFrameLoading)
 		{
 			Clear(olc::BLACK);
 			DrawString(60, 240, "- Loading, Please Wait - ", olc::WHITE, 2);
 			bFirstFrameLoading = false;
-			
+
 			return true;
 		}
 
@@ -584,47 +567,44 @@ public:
 
 		// Load Game Resources
 		// Define OLC Standard atlas
-		//atlasWorldMagetzub.Create(new olc::Sprite());// new olc::Sprite("thruster_landscape_all3_neo.png"));
-		//atlasWorldMagetzub.sprTileSheet->SaveToPGESprFile("discres\\discovery_magetzub_64x64.olcspr");
-		//atlasWorldMagetzub.sprTileSheet->LoadFromPGESprFile("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_magetzub_64x64.olcspr");
+		// atlasWorldMagetzub.Create(new olc::Sprite());// new olc::Sprite("thruster_landscape_all3_neo.png"));
+		// atlasWorldMagetzub.sprTileSheet->SaveToPGESprFile("discres\\discovery_magetzub_64x64.olcspr");
+		// atlasWorldMagetzub.sprTileSheet->LoadFromPGESprFile("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_magetzub_64x64.olcspr");
 		atlasWorldMagetzub.Create(new olc::Sprite("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_magetzub_64x64.olcspr", &rpPlayer));
 
-		//atlasWorldJavid.Create(new olc::Sprite());//new olc::Sprite("discovery_javid_64x64.png"));
-		//atlasWorldJavid.sprTileSheet->SaveToPGESprFile("discres\\discovery_javid_64x64.olcspr");
-		//atlasWorldJavid.sprTileSheet->LoadFromPGESprFile("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_javid_64x64.olcspr");
+		// atlasWorldJavid.Create(new olc::Sprite());//new olc::Sprite("discovery_javid_64x64.png"));
+		// atlasWorldJavid.sprTileSheet->SaveToPGESprFile("discres\\discovery_javid_64x64.olcspr");
+		// atlasWorldJavid.sprTileSheet->LoadFromPGESprFile("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_javid_64x64.olcspr");
 		atlasWorldJavid.Create(new olc::Sprite("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_javid_64x64.olcspr", &rpPlayer));
 
-		//atlasWorldHopson.Create(new olc::Sprite());//new olc::Sprite("discovery_hopson_64x64.png"));
-		//atlasWorldHopson.sprTileSheet->SaveToPGESprFile("discres\\discovery_hopson_64x64.olcspr");
+		// atlasWorldHopson.Create(new olc::Sprite());//new olc::Sprite("discovery_hopson_64x64.png"));
+		// atlasWorldHopson.sprTileSheet->SaveToPGESprFile("discres\\discovery_hopson_64x64.olcspr");
 		atlasWorldHopson.Create(new olc::Sprite("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_hopson_64x64.olcspr", &rpPlayer));
-		//atlasWorldHopson.sprTileSheet->LoadFromPGESprFile("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_hopson_64x64.olcspr");
+		// atlasWorldHopson.sprTileSheet->LoadFromPGESprFile("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_hopson_64x64.olcspr");
 		for (int i = 0; i < 64; i++)
 			for (int j = 0; j < 64; j++)
 			{
-				//atlasWorld.location.emplace_back(j * 16, i * 16, 16, 16);
+				// atlasWorld.location.emplace_back(j * 16, i * 16, 16, 16);
 				atlasWorldMagetzub.location.emplace_back(j * 64, i * 64, 64, 64);
 				atlasWorldJavid.location.emplace_back(j * 64, i * 64, 64, 64);
 				atlasWorldHopson.location.emplace_back(j * 64, i * 64, 64, 64);
 			}
 
-		//atlasCollectibles.Create(new olc::Sprite());// "discovery_collect1.png"));
-		//atlasCollectibles.sprTileSheet->SaveToPGESprFile("discres\\discovery_collectibles.olcspr");
-		//atlasCollectibles.sprTileSheet->LoadFromPGESprFile("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_collectibles.olcspr");
+		// atlasCollectibles.Create(new olc::Sprite());// "discovery_collect1.png"));
+		// atlasCollectibles.sprTileSheet->SaveToPGESprFile("discres\\discovery_collectibles.olcspr");
+		// atlasCollectibles.sprTileSheet->LoadFromPGESprFile("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_collectibles.olcspr");
 		atlasCollectibles.Create(new olc::Sprite("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_collectibles.olcspr", &rpPlayer));
-		atlasCollectibles.location.emplace_back(0, 0, 16, 16);  // Blank
-		atlasCollectibles.location.emplace_back(16, 0, 16, 16); // Disk
-		atlasCollectibles.location.emplace_back(32, 0, 16, 16); // Exit
-		atlasCollectibles.location.emplace_back(48, 0, 16, 16); // Key
-		atlasCollectibles.location.emplace_back(64, 0, 16, 16); // Javid
-		atlasCollectibles.location.emplace_back(80, 0, 16, 16); // Github
-		atlasCollectibles.location.emplace_back(96, 0, 16, 16); // Hopson
+		atlasCollectibles.location.emplace_back(0, 0, 16, 16);	 // Blank
+		atlasCollectibles.location.emplace_back(16, 0, 16, 16);	 // Disk
+		atlasCollectibles.location.emplace_back(32, 0, 16, 16);	 // Exit
+		atlasCollectibles.location.emplace_back(48, 0, 16, 16);	 // Key
+		atlasCollectibles.location.emplace_back(64, 0, 16, 16);	 // Javid
+		atlasCollectibles.location.emplace_back(80, 0, 16, 16);	 // Github
+		atlasCollectibles.location.emplace_back(96, 0, 16, 16);	 // Hopson
 		atlasCollectibles.location.emplace_back(112, 0, 16, 16); // Up
 		atlasCollectibles.location.emplace_back(128, 0, 16, 16); // Right
 		atlasCollectibles.location.emplace_back(144, 0, 16, 16); // Down
 		atlasCollectibles.location.emplace_back(160, 0, 16, 16); // Left
-
-
-		
 
 		animPlayer.mapStates["idle"].push_back(new olc::Sprite("E:\\linshare\\olcSimpleGameEngine\\discres\\Player_Idle_000.olcspr", &rpPlayer));
 		animPlayer.mapStates["idle"].push_back(new olc::Sprite("E:\\linshare\\olcSimpleGameEngine\\discres\\Player_Idle_001.olcspr", &rpPlayer));
@@ -699,21 +679,21 @@ public:
 		animPlayer.mapStates["air_fire"].push_back(new olc::Sprite("E:\\linshare\\olcSimpleGameEngine\\discres\\Player_AirFire_004.olcspr", &rpPlayer));
 		animPlayer.mapStates["air_fire"].push_back(new olc::Sprite("E:\\linshare\\olcSimpleGameEngine\\discres\\Player_AirFire_005.olcspr", &rpPlayer));
 
-		//sprBackdropMagetzub = new olc::Sprite("discovery_magetzub_bg.png");
-		//sprBackdropHopson = new olc::Sprite("discovery_hopson_bg.png");
-		//sprTitleScreen = new olc::Sprite("discovery_titlescreen.png");
-		//sprStoryScreen = new olc::Sprite("discovery_story.png");
-		//sprCreditScreen = new olc::Sprite("discovery_credits.png");
-		//sprControlScreen = new olc::Sprite("discovery_story2.png");
-		//sprCompleteScreen = new olc::Sprite("discovery_title_bg.png");
+		// sprBackdropMagetzub = new olc::Sprite("discovery_magetzub_bg.png");
+		// sprBackdropHopson = new olc::Sprite("discovery_hopson_bg.png");
+		// sprTitleScreen = new olc::Sprite("discovery_titlescreen.png");
+		// sprStoryScreen = new olc::Sprite("discovery_story.png");
+		// sprCreditScreen = new olc::Sprite("discovery_credits.png");
+		// sprControlScreen = new olc::Sprite("discovery_story2.png");
+		// sprCompleteScreen = new olc::Sprite("discovery_title_bg.png");
 
-		//sprBackdropMagetzub->SaveToPGESprFile("discres\\discovery_magetzub_bg.olcspr");
-		//sprBackdropHopson->SaveToPGESprFile("discres\\discovery_hopson_bg.olcspr");
-		//sprTitleScreen->SaveToPGESprFile("discres\\discovery_titlescreen.olcspr");
-		//sprStoryScreen->SaveToPGESprFile("discres\\discovery_story.olcspr");
-		//sprCreditScreen->SaveToPGESprFile("discres\\discovery_credits.olcspr");
-		//sprControlScreen->SaveToPGESprFile("discres\\discovery_story2.olcspr");
-		//sprCompleteScreen->SaveToPGESprFile("discres\\discovery_title_bg.olcspr");
+		// sprBackdropMagetzub->SaveToPGESprFile("discres\\discovery_magetzub_bg.olcspr");
+		// sprBackdropHopson->SaveToPGESprFile("discres\\discovery_hopson_bg.olcspr");
+		// sprTitleScreen->SaveToPGESprFile("discres\\discovery_titlescreen.olcspr");
+		// sprStoryScreen->SaveToPGESprFile("discres\\discovery_story.olcspr");
+		// sprCreditScreen->SaveToPGESprFile("discres\\discovery_credits.olcspr");
+		// sprControlScreen->SaveToPGESprFile("discres\\discovery_story2.olcspr");
+		// sprCompleteScreen->SaveToPGESprFile("discres\\discovery_title_bg.olcspr");
 
 		sprBackdropMagetzub = new olc::Sprite("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_magetzub_bg.olcspr", &rpPlayer);
 		sprBackdropHopson = new olc::Sprite("E:\\linshare\\olcSimpleGameEngine\\discres\\discovery_hopson_bg.olcspr", &rpPlayer);
@@ -743,20 +723,22 @@ public:
 		DrawString(300, 280, "Story & Help", nTitleSelection == 0 ? olc::WHITE : olc::YELLOW, 2);
 		DrawString(300, 310, "Credits", nTitleSelection == 1 ? olc::WHITE : olc::YELLOW, 2);
 		DrawString(300, 340, "Level: " + to_string(nLevelSeed), nTitleSelection == 2 ? olc::WHITE : olc::YELLOW, 2);
-		DrawString(300, 370, "Size: " + to_string((int)pow(2, (nLevelSize+2))), nTitleSelection == 3 ? olc::WHITE : olc::YELLOW, 2);
+		DrawString(300, 370, "Size: " + to_string((int)pow(2, (nLevelSize + 2))), nTitleSelection == 3 ? olc::WHITE : olc::YELLOW, 2);
 		DrawString(300, 400, "Start", nTitleSelection == 4 ? olc::WHITE : olc::YELLOW, 2);
 
 		if (GetKey(olc::Key::UP).bPressed || controller.GetButton(UP).bPressed)
 		{
 			nTitleSelection--;
-			if (nTitleSelection < 0) nTitleSelection = 4;
+			if (nTitleSelection < 0)
+				nTitleSelection = 4;
 			olc::SOUND::PlaySample(sndThump);
 		}
 
 		if (GetKey(olc::Key::DOWN).bPressed || controller.GetButton(DOWN).bPressed)
 		{
 			nTitleSelection++;
-			if (nTitleSelection > 4 ) nTitleSelection = 0;
+			if (nTitleSelection > 4)
+				nTitleSelection = 0;
 			olc::SOUND::PlaySample(sndThump);
 		}
 
@@ -765,13 +747,15 @@ public:
 			if (nTitleSelection == 2)
 			{
 				nLevelSeed--;
-				if (nLevelSeed < 0) nLevelSeed = 999;
+				if (nLevelSeed < 0)
+					nLevelSeed = 999;
 			}
 
 			if (nTitleSelection == 3)
 			{
 				nLevelSize--;
-				if (nLevelSize < 1) nLevelSize = 3;
+				if (nLevelSize < 1)
+					nLevelSize = 3;
 			}
 		}
 
@@ -780,22 +764,27 @@ public:
 			if (nTitleSelection == 2)
 			{
 				nLevelSeed++;
-				if (nLevelSeed > 999) nLevelSeed = 0;
+				if (nLevelSeed > 999)
+					nLevelSeed = 0;
 			}
 
 			if (nTitleSelection == 3)
 			{
 				nLevelSize++;
-				if (nLevelSize > 3) nLevelSize = 1;
+				if (nLevelSize > 3)
+					nLevelSize = 1;
 			}
 		}
 
 		if (GetKey(olc::Key::SPACE).bPressed || controller.GetButton(A).bPressed)
 		{
-			if (nTitleSelection == 0) nGameState = GS_STORY;
-			if (nTitleSelection == 1) nGameState = GS_CREDITS;
+			if (nTitleSelection == 0)
+				nGameState = GS_STORY;
+			if (nTitleSelection == 1)
+				nGameState = GS_CREDITS;
 
-			if (nTitleSelection == 4) nGameState = GS_GENERATE;
+			if (nTitleSelection == 4)
+				nGameState = GS_GENERATE;
 		}
 
 		return true;
@@ -824,19 +813,19 @@ public:
 		nKeys = 0;
 		fEffectTime = 0.0f;
 		fModeTime = 0.0f;
-		
+
 		nChallengeMapSizeX = (int)pow(2, nLevelSize + 2);
 		nChallengeMapSizeY = (int)pow(2, nLevelSize + 2);
 		srand(nLevelSeed);
-		
-		
+
 		// Generate a boolean maze
 		bool *bTileMaze = nullptr;
 		int nMapWidth, nMapHeight;
 		printf("D\n");
 		CreateMaze(bTileMaze, nChallengePathSizeX - 1, nChallengePathSizeY - 1, nChallengeMapSizeX, nChallengeMapSizeY, nMapWidth, nMapHeight);
 
-		if (sprMiniMap != nullptr) delete sprMiniMap;
+		if (sprMiniMap != nullptr)
+			delete sprMiniMap;
 		sprMiniMap = new olc::Sprite(nChallengeMapSizeX, nChallengeMapSizeY);
 		printf("D\n");
 		// Create tilemap to match dimensions of generated maze
@@ -849,7 +838,7 @@ public:
 		for (int x = 0; x < layerWorld.nLayerWidth; x++)
 			for (int y = 0; y < layerWorld.nLayerHeight; y++)
 			{
-				layerWorld.GetTile(x, y)->exist = !bTileMaze[y*layerWorld.nLayerWidth + x];
+				layerWorld.GetTile(x, y)->exist = !bTileMaze[y * layerWorld.nLayerWidth + x];
 			}
 
 		printf("D\n");
@@ -872,24 +861,30 @@ public:
 				{
 
 					layerCollectibles.GetTile(x, y)->exist = true;
-					if (i < 100)	layerCollectibles.GetTile(x, y)->id = 1; // Place disks
-					if (i == 100)  // Place Exit
+					if (i < 100)
+						layerCollectibles.GetTile(x, y)->id = 1; // Place disks
+					if (i == 100)								 // Place Exit
 					{
-						layerCollectibles.GetTile(x, y)->id = 2; listKeys.push_back(make_pair(x, y));
+						layerCollectibles.GetTile(x, y)->id = 2;
+						listKeys.push_back(make_pair(x, y));
 					}
-					if (i > 100 && i <= 104)// Place Keys
+					if (i > 100 && i <= 104) // Place Keys
 					{
-						layerCollectibles.GetTile(x, y)->id = 3; listKeys.push_back(make_pair(x, y));
+						layerCollectibles.GetTile(x, y)->id = 3;
+						listKeys.push_back(make_pair(x, y));
 					}
-					if (i > 105 && i <= 125)	layerCollectibles.GetTile(x, y)->id = 5; // Place Githubs
-					if (i > 125 && i <= 130)	layerCollectibles.GetTile(x, y)->id = 4; // Place Javids
-					if (i > 130 && i <= 135)	layerCollectibles.GetTile(x, y)->id = 6; // Place Hopsons
+					if (i > 105 && i <= 125)
+						layerCollectibles.GetTile(x, y)->id = 5; // Place Githubs
+					if (i > 125 && i <= 130)
+						layerCollectibles.GetTile(x, y)->id = 4; // Place Javids
+					if (i > 130 && i <= 135)
+						layerCollectibles.GetTile(x, y)->id = 6; // Place Hopsons
 					bDone = true;
 				}
 
 			} while (!bDone);
 		}
-		
+
 		olc::SOUND::PlaySample(sndTheme, true);
 		nGameState = GS_MAIN;
 		printf("Entering Main\n");
@@ -945,13 +940,13 @@ public:
 
 			if (GetKey(olc::Key::LEFT).bHeld || controller.GetButton(LEFT).bHeld)
 			{
-				fPlayerVelX += (bPlayerOnGround ? -25.0f : -15.0f) *fElapsedTime;
+				fPlayerVelX += (bPlayerOnGround ? -25.0f : -15.0f) * fElapsedTime;
 				fFaceDir = -1.0f;
 			}
 
 			if (GetKey(olc::Key::RIGHT).bHeld || controller.GetButton(RIGHT).bHeld)
 			{
-				fPlayerVelX += (bPlayerOnGround ? 25.0f : 15.0f) *fElapsedTime;
+				fPlayerVelX += (bPlayerOnGround ? 25.0f : 15.0f) * fElapsedTime;
 				fFaceDir = +1.0f;
 			}
 
@@ -979,11 +974,10 @@ public:
 				}
 			}
 
-
 			bFire = false;
 			if (GetKey(olc::Key::A).bPressed || controller.GetButton(X).bPressed)
 			{
-				//bFire = true;
+				// bFire = true;
 
 				if (nRenderMode == MODE_HOPSON)
 				{
@@ -1006,7 +1000,6 @@ public:
 							layerWorld.GetTile(bx, by)->exist = false;
 							CreateBorderMap();
 						}
-
 					}
 				}
 			}
@@ -1016,8 +1009,8 @@ public:
 				if (nRenderMode != MODE_JAVID && nJavidTokens > 0)
 				{
 					nJavidTokens--;
-					nRenderMode = MODE_JAVID; 
-					fModeTime = 60.0f; 
+					nRenderMode = MODE_JAVID;
+					fModeTime = 60.0f;
 					CalculateFlowMap();
 					olc::SOUND::PlaySample(sndHelperChange);
 				}
@@ -1029,12 +1022,11 @@ public:
 				{
 					nHopsonTokens--;
 					nRenderMode = MODE_HOPSON;
-					fModeTime = 30.0f;	
+					fModeTime = 30.0f;
 					olc::SOUND::PlaySample(sndHelperChange);
 				}
 			}
 		}
-
 
 		fPlayerVelY += 20.0f * fElapsedTime;
 
@@ -1051,7 +1043,6 @@ public:
 			{
 				animPlayer.ChangeState(bFire ? "run_fire" : "run");
 			}
-
 		}
 		else
 		{
@@ -1065,7 +1056,6 @@ public:
 			else
 				animPlayer.ChangeState("air_fire");
 		}
-
 
 		if (layerCollectibles.GetTile(fPlayerPosX + 0.5f, fPlayerPosY + 0.5f)->id == 1) // Disk
 		{
@@ -1089,10 +1079,10 @@ public:
 			layerCollectibles.GetTile(fPlayerPosX + 0.5f, fPlayerPosY + 0.5f)->id = 0;
 			layerCollectibles.GetTile(fPlayerPosX + 0.5f, fPlayerPosY + 0.5f)->exist = false;
 			nKeys++;
-			
 
 			// Remove key from list
-			listKeys.remove_if([&](pair<int, int> &p) {return p.first == ((int)(fPlayerPosX + 0.5f)) && p.second == ((int)(fPlayerPosY + 0.5f)); });
+			listKeys.remove_if([&](pair<int, int> &p)
+							   { return p.first == ((int)(fPlayerPosX + 0.5f)) && p.second == ((int)(fPlayerPosY + 0.5f)); });
 			CalculateFlowMap();
 			olc::SOUND::PlaySample(sndKeyCollect);
 		}
@@ -1102,15 +1092,15 @@ public:
 			layerCollectibles.GetTile(fPlayerPosX + 0.5f, fPlayerPosY + 0.5f)->id = 0;
 			layerCollectibles.GetTile(fPlayerPosX + 0.5f, fPlayerPosY + 0.5f)->exist = false;
 			nJavidTokens++;
-			
-			//fModeTime = 30.0f;
-			//nRenderMode = MODE_JAVID;
 
-			//if (nRenderMode == MODE_JAVID)
+			// fModeTime = 30.0f;
+			// nRenderMode = MODE_JAVID;
+
+			// if (nRenderMode == MODE_JAVID)
 			//{
 			//	// Javid is helpful and likes to simplify so help out the user
 			//	CalculateFlowMap();
-			//}
+			// }
 			olc::SOUND::PlaySample(sndKeyCollect);
 		}
 
@@ -1132,10 +1122,18 @@ public:
 			fEffectTime = 10.0f;
 			switch (rand() % 4)
 			{
-			case 0: nRenderEffect = EFFECT_UGLYSWEDISHFISH; break;
-			case 1: nRenderEffect = EFFECT_SEDIT; break;
-			case 2: nRenderEffect = EFFECT_GORBIT; break;
-			case 3: nRenderEffect = EFFECT_BRANK; break;
+			case 0:
+				nRenderEffect = EFFECT_UGLYSWEDISHFISH;
+				break;
+			case 1:
+				nRenderEffect = EFFECT_SEDIT;
+				break;
+			case 2:
+				nRenderEffect = EFFECT_GORBIT;
+				break;
+			case 3:
+				nRenderEffect = EFFECT_BRANK;
+				break;
 			}
 			fGameTimeMultiplier = 0.75f;
 			olc::SOUND::PlaySample(sndGithubPatch);
@@ -1151,7 +1149,6 @@ public:
 			fGameTimeMultiplier = 1.0f;
 		}
 
-
 		if (fModeTime > 0.0f)
 		{
 			fModeTime -= fElapsedTime;
@@ -1159,9 +1156,8 @@ public:
 		else
 		{
 			nRenderMode = MODE_MAGETZUB;
-			//olc::SOUND::PlaySample(sndHelperChange);
+			// olc::SOUND::PlaySample(sndHelperChange);
 		}
-
 
 		if (fPlayerVelX > 10.0f)
 			fPlayerVelX = 10.0f;
@@ -1221,7 +1217,6 @@ public:
 				fNewPlayerPosY = (int)fNewPlayerPosY;
 				fPlayerVelY = 0;
 				bPlayerOnGround = true;
-
 			}
 		}
 
@@ -1238,27 +1233,24 @@ public:
 		float fOffsetX = fCameraPosX - (float)nVisibleTilesX / 2.0f;
 		float fOffsetY = fCameraPosY - (float)nVisibleTilesY / 2.0f;
 
-
 		// Clamp camera to game boundaries
-		if (fOffsetX < 0) fOffsetX = 0;
-		if (fOffsetY < 0) fOffsetY = 0;
-		if (fOffsetX > layerWorld.nLayerWidth - nVisibleTilesX) fOffsetX = layerWorld.nLayerWidth - nVisibleTilesX;
-		if (fOffsetY > layerWorld.nLayerHeight - nVisibleTilesY) fOffsetY = layerWorld.nLayerHeight - nVisibleTilesY;
-
-		
-
-
+		if (fOffsetX < 0)
+			fOffsetX = 0;
+		if (fOffsetY < 0)
+			fOffsetY = 0;
+		if (fOffsetX > layerWorld.nLayerWidth - nVisibleTilesX)
+			fOffsetX = layerWorld.nLayerWidth - nVisibleTilesX;
+		if (fOffsetY > layerWorld.nLayerHeight - nVisibleTilesY)
+			fOffsetY = layerWorld.nLayerHeight - nVisibleTilesY;
 
 		SetDrawTarget(backBuff);
-		//Clear(olc::VERY_DARK_BLUE);
-
+		// Clear(olc::VERY_DARK_BLUE);
 
 		if (nRenderMode == MODE_MAGETZUB)
 		{
 			fBackdropScaleX = (float)(sprBackdropMagetzub->width - ScreenWidth()) / (float)((layerWorld.nLayerWidth) + (float)nVisibleTilesX);
 			fBackdropScaleY = (float)(sprBackdropMagetzub->height - ScreenHeight()) / (float)((layerWorld.nLayerHeight) + (float)nVisibleTilesY);
-			DrawPartialSprite(0, 0, sprBackdropMagetzub, fOffsetX  * fBackdropScaleX, fOffsetY * fBackdropScaleY, ScreenWidth(), ScreenHeight());
-
+			DrawPartialSprite(0, 0, sprBackdropMagetzub, fOffsetX * fBackdropScaleX, fOffsetY * fBackdropScaleY, ScreenWidth(), ScreenHeight());
 
 			SetPixelMode(olc::Pixel::ALPHA);
 			olc::TILE::DrawLayer(layerWorld, atlasWorldMagetzub, fOffsetX, fOffsetY, nVisibleTilesX + 1, nVisibleTilesY + 1, 1);
@@ -1271,7 +1263,6 @@ public:
 			fBackdropScaleX = (float)(sprBackdropHopson->width - ScreenWidth()) / (float)((layerWorld.nLayerWidth) + (float)nVisibleTilesX);
 			fBackdropScaleY = (float)(sprBackdropHopson->height - ScreenHeight()) / (float)((layerWorld.nLayerHeight) + (float)nVisibleTilesY);
 			DrawPartialSprite(0, 0, sprBackdropHopson, fOffsetX * fBackdropScaleX, fOffsetY * fBackdropScaleY, ScreenWidth(), ScreenHeight());
-
 
 			SetPixelMode(olc::Pixel::ALPHA);
 			olc::TILE::DrawLayer(layerWorld, atlasWorldHopson, fOffsetX, fOffsetY, nVisibleTilesX + 1, nVisibleTilesY + 1, 1);
@@ -1295,7 +1286,7 @@ public:
 
 		olc::GFX2D::Transform2D t;
 		t.Translate(-220.0f, 174.0f);
-		t.Scale(fFaceDir *  0.25f, 0.25f);
+		t.Scale(fFaceDir * 0.25f, 0.25f);
 
 		t.Translate((fPlayerPosX - fOffsetX) * nTileSizeX + 32, (fPlayerPosY - fOffsetY) * nTileSizeY - 48);
 
@@ -1303,12 +1294,9 @@ public:
 		animPlayer.DrawSelf(this, t);
 		SetPixelMode(olc::Pixel::NORMAL);
 
-
-		//this_thread::sleep_for(20ms);
+		// this_thread::sleep_for(20ms);
 
 		string s = "Disks: " + to_string(nFloppyDisks) + "/100\nJx9: " + to_string(nJavidTokens) + " Hop: " + to_string(nHopsonTokens) + "\nKeys: " + to_string(nKeys) + " /4";
-
-
 
 		DrawString(11, 11, s, olc::BLACK, 2);
 		DrawString(9, 9, s, olc::YELLOW, 2);
@@ -1319,10 +1307,10 @@ public:
 		SetPixelMode(olc::Pixel::NORMAL);
 		SetPixelBlend(1.0f);
 
-		//Draw(10 + (fNewPlayerPosX / nChallengePathSizeX), ScreenHeight() - sprMiniMap->height - 8 + (fNewPlayerPosY / nChallengePathSizeY), olc::YELLOW);
+		// Draw(10 + (fNewPlayerPosX / nChallengePathSizeX), ScreenHeight() - sprMiniMap->height - 8 + (fNewPlayerPosY / nChallengePathSizeY), olc::YELLOW);
 
-		//DrawString(10, ScreenHeight() - (sprMiniMap->height - 16) * 2, "Map", olc::BLACK, 2);
-		//DrawString(9,  ScreenHeight() - (sprMiniMap->height - 17) * 2, "Map", olc::YELLOW, 2);
+		// DrawString(10, ScreenHeight() - (sprMiniMap->height - 16) * 2, "Map", olc::BLACK, 2);
+		// DrawString(9,  ScreenHeight() - (sprMiniMap->height - 17) * 2, "Map", olc::YELLOW, 2);
 
 		// Draw Time Information
 		int minutes = (int)fGameTime / 60;
@@ -1339,7 +1327,6 @@ public:
 		}
 
 		SetDrawTarget(nullptr);
-
 
 		// UglySwedishFisk Mode
 		if (nRenderEffect == EFFECT_UGLYSWEDISHFISH)
@@ -1364,11 +1351,10 @@ public:
 			}
 		}
 
-
 		if (nRenderEffect == EFFECT_SEDIT)
 		{
 			SetPixelMode([](int x, int y, const olc::Pixel &s, const olc::Pixel &d)
-			{
+						 {
 				olc::Pixel p = s;
 				if (y % 2)
 				{
@@ -1377,11 +1363,10 @@ public:
 					p.g = c;
 					p.b = c;
 				}
-				return p;
-			});
+				return p; });
 
 			DrawSprite(0, 0, backBuff);
-			
+
 			SetPixelMode(olc::Pixel::NORMAL);
 		}
 
@@ -1393,14 +1378,12 @@ public:
 				int sy = rand() % 2;
 				int tx = rand() % 2;
 				int ty = rand() % 2;
-				DrawPartialSprite(0, 0, backBuff,  ScreenWidth()/2,ScreenHeight()/2, ScreenWidth()/2, ScreenHeight()/2);
-				DrawPartialSprite(ScreenWidth()/2, 0, backBuff, 0, ScreenHeight() / 2, ScreenWidth() / 2, ScreenHeight() / 2);
-				DrawPartialSprite( 0,ScreenHeight()/2, backBuff, ScreenWidth()/2, 0, ScreenWidth() / 2, ScreenHeight() / 2);
-				DrawPartialSprite(ScreenWidth() / 2, ScreenHeight()/2, backBuff, 0, 0, ScreenWidth() / 2, ScreenHeight() / 2);
+				DrawPartialSprite(0, 0, backBuff, ScreenWidth() / 2, ScreenHeight() / 2, ScreenWidth() / 2, ScreenHeight() / 2);
+				DrawPartialSprite(ScreenWidth() / 2, 0, backBuff, 0, ScreenHeight() / 2, ScreenWidth() / 2, ScreenHeight() / 2);
+				DrawPartialSprite(0, ScreenHeight() / 2, backBuff, ScreenWidth() / 2, 0, ScreenWidth() / 2, ScreenHeight() / 2);
+				DrawPartialSprite(ScreenWidth() / 2, ScreenHeight() / 2, backBuff, 0, 0, ScreenWidth() / 2, ScreenHeight() / 2);
 			}
 		}
-
-
 
 		// No effect mode
 		if (nRenderEffect == EFFECT_NONE)
@@ -1433,17 +1416,17 @@ public:
 		int seconds = (int)fGameTime - (minutes * 60);
 		string sMinutes = (minutes <= 9 ? "0" : "") + to_string(minutes);
 		string sSeconds = (seconds <= 9 ? "0" : "") + to_string(seconds);
-		string sTime = "Your Time: " + sMinutes + ":" + sSeconds;	
+		string sTime = "Your Time: " + sMinutes + ":" + sSeconds;
 		DrawString(10, 200, sTime, olc::YELLOW, 2);
 		DrawString(10, 240, "OS Disks Found: " + to_string(nFloppyDisks) + "/100", olc::YELLOW, 2);
-		DrawString(10, 260, "Level: " + to_string(nLevelSeed) + " Size: " + to_string((int)pow(2,2+nLevelSize)), olc::YELLOW, 2);
+		DrawString(10, 260, "Level: " + to_string(nLevelSeed) + " Size: " + to_string((int)pow(2, 2 + nLevelSize)), olc::YELLOW, 2);
 		DrawString(10, 300, "Jump to Title Screen?", olc::YELLOW, 2);
 
 		if (GetKey(olc::Key::SPACE).bPressed || controller.GetButton(A).bPressed)
 		{
 			nGameState = GS_TITLE;
 		}
-		
+
 		return true;
 	}
 
@@ -1452,12 +1435,12 @@ public:
 	bool GameState_Story(float fElapsedTime)
 	{
 		controller.Update(fElapsedTime);
-		
-		if(nStoryStage == 0)
+
+		if (nStoryStage == 0)
 			DrawSprite(0, 0, sprStoryScreen);
 		else
 			DrawSprite(0, 0, sprControlScreen);
-	
+
 		if (GetKey(olc::Key::SPACE).bPressed || controller.GetButton(A).bPressed)
 		{
 			nStoryStage++;
@@ -1487,13 +1470,27 @@ public:
 
 		switch (nGameState)
 		{
-		case GS_LOADING: GameState_Loading(fElapsedTime); break;
-		case GS_TITLE: GameState_Title(fElapsedTime); break;
-		case GS_GENERATE: GameState_Generating(fElapsedTime); break;
-		case GS_MAIN: GameState_Main(fElapsedTime); break;
-		case GS_STORY: GameState_Story(fElapsedTime); break;
-		case GS_CREDITS: GameState_Credits(fElapsedTime); break;
-		case GS_COMPLETE: GameState_Complete(fElapsedTime); break;
+		case GS_LOADING:
+			GameState_Loading(fElapsedTime);
+			break;
+		case GS_TITLE:
+			GameState_Title(fElapsedTime);
+			break;
+		case GS_GENERATE:
+			GameState_Generating(fElapsedTime);
+			break;
+		case GS_MAIN:
+			GameState_Main(fElapsedTime);
+			break;
+		case GS_STORY:
+			GameState_Story(fElapsedTime);
+			break;
+		case GS_CREDITS:
+			GameState_Credits(fElapsedTime);
+			break;
+		case GS_COMPLETE:
+			GameState_Complete(fElapsedTime);
+			break;
 		}
 
 		return true;

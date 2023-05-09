@@ -66,16 +66,16 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #include "RPG_Maps.h"
 
 #include <fstream>
 
-cScriptProcessor* cMap::g_script = nullptr;
+cScriptProcessor *cMap::g_script = nullptr;
 
-#define X(n) g_script->AddCommand(new cCommand_ ## n)
+#define X(n) g_script->AddCommand(new cCommand_##n)
 
 cMap::cMap()
 {
@@ -86,7 +86,6 @@ cMap::cMap()
 	m_indices = nullptr;
 }
 
-
 cMap::~cMap()
 {
 	delete[] m_solids;
@@ -96,7 +95,7 @@ cMap::~cMap()
 int cMap::GetIndex(int x, int y)
 {
 	if (x >= 0 && x < nWidth && y >= 0 && y < nHeight)
-		return m_indices[y*nWidth + x];
+		return m_indices[y * nWidth + x];
 	else
 		return 0;
 }
@@ -104,12 +103,12 @@ int cMap::GetIndex(int x, int y)
 bool cMap::GetSolid(int x, int y)
 {
 	if (x >= 0 && x < nWidth && y >= 0 && y < nHeight)
-		return m_solids[y*nWidth + x];
+		return m_solids[y * nWidth + x];
 	else
 		return true;
 }
 
-bool cMap::Create(string fileData, olcSprite* sprite, string name)
+bool cMap::Create(string fileData, olcSprite *sprite, string name)
 {
 	sName = name;
 	pSprite = sprite;
@@ -130,19 +129,12 @@ bool cMap::Create(string fileData, olcSprite* sprite, string name)
 	return false;
 }
 
-
-
-
-
-
-
-
 cMap_Village1::cMap_Village1()
 {
 	Create("rpgdata/map/village1.lvl", RPG_Assets::get().GetSprite("village"), "coder town");
 }
 
-bool cMap_Village1::PopulateDynamics(vector<cDynamic*> &vecDyns)
+bool cMap_Village1::PopulateDynamics(vector<cDynamic *> &vecDyns)
 {
 	// Add Teleporters
 	vecDyns.push_back(new cDynamic_Teleport(12.0f, 6.0f, "home", 5.0f, 12.0f));
@@ -153,7 +145,7 @@ bool cMap_Village1::PopulateDynamics(vector<cDynamic*> &vecDyns)
 
 	for (int i = 0; i < 3; i++)
 	{
-		cDynamic* g1 = new cDynamic_Creature_Skelly();
+		cDynamic *g1 = new cDynamic_Creature_Skelly();
 		vecDyns.push_back(g1);
 		g1->px = rand() % 10 + 5.0f;
 		g1->py = rand() % 10 + 5.0f;
@@ -162,35 +154,23 @@ bool cMap_Village1::PopulateDynamics(vector<cDynamic*> &vecDyns)
 	return true;
 }
 
-
-bool cMap_Village1::OnInteraction(vector<cDynamic*> &vecDynobs, cDynamic *target, NATURE nature)
+bool cMap_Village1::OnInteraction(vector<cDynamic *> &vecDynobs, cDynamic *target, NATURE nature)
 {
 	if (target->sName == "Teleport")
 		g_script->AddCommand(new cCommand_ChangeMap(
-			((cDynamic_Teleport*)target)->sMapName,
-			((cDynamic_Teleport*)target)->fMapPosX,
-			((cDynamic_Teleport*)target)->fMapPosY));
+			((cDynamic_Teleport *)target)->sMapName,
+			((cDynamic_Teleport *)target)->fMapPosX,
+			((cDynamic_Teleport *)target)->fMapPosY));
 
 	return false;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 cMap_Home1::cMap_Home1()
 {
 	Create("rpgdata/map/home.lvl", RPG_Assets::get().GetSprite("hitech"), "home");
 }
 
-bool cMap_Home1::PopulateDynamics(vector<cDynamic*> &vecDyns)
+bool cMap_Home1::PopulateDynamics(vector<cDynamic *> &vecDyns)
 {
 	// Front door
 	vecDyns.push_back(new cDynamic_Teleport(5.0f, 13.0f, "coder town", 12.0f, 7.0f));
@@ -204,14 +184,13 @@ bool cMap_Home1::PopulateDynamics(vector<cDynamic*> &vecDyns)
 	return true;
 }
 
-
-bool cMap_Home1::OnInteraction(vector<cDynamic*> &vecDynobs, cDynamic *target, NATURE nature)
+bool cMap_Home1::OnInteraction(vector<cDynamic *> &vecDynobs, cDynamic *target, NATURE nature)
 {
 	if (target->sName == "Teleport")
 		g_script->AddCommand(new cCommand_ChangeMap(
-		((cDynamic_Teleport*)target)->sMapName,
-			((cDynamic_Teleport*)target)->fMapPosX,
-			((cDynamic_Teleport*)target)->fMapPosY));
+			((cDynamic_Teleport *)target)->sMapName,
+			((cDynamic_Teleport *)target)->fMapPosX,
+			((cDynamic_Teleport *)target)->fMapPosY));
 
 	/*if (target->sName == "bob")
 	{

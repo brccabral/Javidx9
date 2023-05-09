@@ -8,14 +8,13 @@ cCell::cCell()
 {
 }
 
-
 cCell::~cCell()
 {
 	// Cells own a list of automata navigation tracks
 	// but this will be destroyed when the cell is deleted
 }
 
-cCell::cCell(cCityMap* map, int x, int y)
+cCell::cCell(cCityMap *map, int x, int y)
 {
 	pMap = map;
 	nWorldX = x;
@@ -53,7 +52,6 @@ cCell::cCell(cCityMap* map, int x, int y)
 	// South Side
 	if (y < pMap->GetHeight() - 1)
 	{
-	
 	}
 	else
 	{
@@ -84,11 +82,9 @@ cCell::cCell(cCityMap* map, int x, int y)
 	pNaviNodes[6] = nullptr;
 	pNaviNodes[42] = nullptr;
 	pNaviNodes[48] = nullptr;
-	
 }
 
-
-bool cCell::LinkAssets(std::map<std::string, olc::Sprite*> &mapTextures, std::map<std::string, olc::GFX3D::mesh*> &mapMesh, std::map<std::string, olc::GFX3D::mat4x4> &mapTransforms)
+bool cCell::LinkAssets(std::map<std::string, olc::Sprite *> &mapTextures, std::map<std::string, olc::GFX3D::mesh *> &mapMesh, std::map<std::string, olc::GFX3D::mat4x4> &mapTransforms)
 {
 	return false;
 }
@@ -110,12 +106,10 @@ bool cCell::DrawAlpha(olc::PixelGameEngine *pge, olc::GFX3D::PipeLine &pipe)
 
 bool cCell::DrawDebug(olc::PixelGameEngine *pge, olc::GFX3D::PipeLine &pipe)
 {
-	
-	
+
 	return false;
 }
 
 void cCell::CalculateAdjacency()
 {
-
 }

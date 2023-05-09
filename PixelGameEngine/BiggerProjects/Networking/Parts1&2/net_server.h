@@ -50,7 +50,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019, 2020
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019, 2020
 
 */
 
@@ -65,7 +65,7 @@ namespace olc
 {
 	namespace net
 	{
-		template<typename T>
+		template <typename T>
 		class server_interface
 		{
 		public:
@@ -73,7 +73,6 @@ namespace olc
 			server_interface(uint16_t port)
 				: m_asioAcceptor(m_asioContext, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
 			{
-
 			}
 
 			virtual ~server_interface()
@@ -89,15 +88,16 @@ namespace olc
 				{
 					// Issue a task to the asio context - This is important
 					// as it will prime the context with "work", and stop it
-					// from exiting immediately. Since this is a server, we 
+					// from exiting immediately. Since this is a server, we
 					// want it primed ready to handle clients trying to
 					// connect.
 					WaitForClientConnection();
 
 					// Launch the asio context in its own thread
-					m_threadContext = std::thread([this]() { m_asioContext.run(); });
+					m_threadContext = std::thread([this]()
+												  { m_asioContext.run(); });
 				}
-				catch (std::exception& e)
+				catch (std::exception &e)
 				{
 					// Something prohibited the server from listening
 					std::cerr << "[SERVER] Exception: " << e.what() << "\n";
@@ -115,7 +115,8 @@ namespace olc
 				m_asioContext.stop();
 
 				// Tidy up the context thread
-				if (m_threadContext.joinable()) m_threadContext.join();
+				if (m_threadContext.joinable())
+					m_threadContext.join();
 
 				// Inform someone, anybody, if they care...
 				std::cout << "[SERVER] Stopped!\n";
@@ -136,16 +137,14 @@ namespace olc
 							// Display some useful(?) information
 							std::cout << "[SERVER] New Connection: " << socket.remote_endpoint() << "\n";
 
-							// Create a new connection to handle this client 
-							std::shared_ptr<connection<T>> newconn = 
-								std::make_shared<connection<T>>(connection<T>::owner::server, 
-									m_asioContext, std::move(socket), m_qMessagesIn);
-							
-							
+							// Create a new connection to handle this client
+							std::shared_ptr<connection<T>> newconn =
+								std::make_shared<connection<T>>(connection<T>::owner::server,
+																m_asioContext, std::move(socket), m_qMessagesIn);
 
 							// Give the user server a chance to deny connection
 							if (OnClientConnect(newconn))
-							{								
+							{
 								// Connection allowed, so add to container of new connections
 								m_deqConnections.push_back(std::move(newconn));
 
@@ -176,7 +175,7 @@ namespace olc
 			}
 
 			// Send a message to a specific client
-			void MessageClient(std::shared_ptr<connection<T>> client, const message<T>& msg)
+			void MessageClient(std::shared_ptr<connection<T>> client, const message<T> &msg)
 			{
 				// Check client is legitimate...
 				if (client && client->IsConnected())
@@ -186,7 +185,7 @@ namespace olc
 				}
 				else
 				{
-					// If we cant communicate with client then we may as 
+					// If we cant communicate with client then we may as
 					// well remove the client - let the server know, it may
 					// be tracking it somehow
 					OnClientDisconnect(client);
@@ -199,20 +198,20 @@ namespace olc
 						std::remove(m_deqConnections.begin(), m_deqConnections.end(), client), m_deqConnections.end());
 				}
 			}
-			
+
 			// Send message to all clients
-			void MessageAllClients(const message<T>& msg, std::shared_ptr<connection<T>> pIgnoreClient = nullptr)
+			void MessageAllClients(const message<T> &msg, std::shared_ptr<connection<T>> pIgnoreClient = nullptr)
 			{
 				bool bInvalidClientExists = false;
 
 				// Iterate through all clients in container
-				for (auto& client : m_deqConnections)
+				for (auto &client : m_deqConnections)
 				{
 					// Check client is connected...
 					if (client && client->IsConnected())
 					{
 						// ..it is!
-						if(client != pIgnoreClient)
+						if (client != pIgnoreClient)
 							client->Send(msg);
 					}
 					else
@@ -237,7 +236,8 @@ namespace olc
 			// Force server to respond to incoming messages
 			void Update(size_t nMaxMessages = -1, bool bWait = false)
 			{
-				if (bWait) m_qMessagesIn.wait();
+				if (bWait)
+					m_qMessagesIn.wait();
 
 				// Process as many messages as you can up to the value
 				// specified
@@ -267,15 +267,12 @@ namespace olc
 			// Called when a client appears to have disconnected
 			virtual void OnClientDisconnect(std::shared_ptr<connection<T>> client)
 			{
-
 			}
 
 			// Called when a message arrives
-			virtual void OnMessage(std::shared_ptr<connection<T>> client, message<T>& msg)
+			virtual void OnMessage(std::shared_ptr<connection<T>> client, message<T> &msg)
 			{
-
 			}
-
 
 		protected:
 			// Thread Safe Queue for incoming message packets

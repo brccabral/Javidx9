@@ -2,7 +2,7 @@
 	Controlling Elegoo Robot Smart Car Kit 3.0+ with ASIO and C++
 	"Well, it better not leak anymore... stupid window" - javidx9
 
-	Video: https://youtu.be/nkCP95zLvSQ	
+	Video: https://youtu.be/nkCP95zLvSQ
 
 	License (OLC-3)
 	~~~~~~~~~~~~~~~
@@ -40,7 +40,7 @@
 	Links
 	~~~~~
 	YouTube:	https://www.youtube.com/javidx9
-	            https://www.youtube.com/javidx9extra
+				https://www.youtube.com/javidx9extra
 	Discord:	https://discord.gg/WhwHUMV
 	Twitter:	https://www.twitter.com/javidx9
 	Twitch:		https://www.twitch.tv/javidx9
@@ -49,7 +49,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019, 2020
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019, 2020
 
 */
 
@@ -64,7 +64,7 @@ class RobotCar : public olc::PixelGameEngine
 {
 public:
 	RobotCar()
-	{		
+	{
 		sAppName = "Robot Car - Simple Control";
 	}
 
@@ -80,15 +80,15 @@ public:
 		olc::vi2d vSize;
 		std::string sText;
 
-		bool clicked(const olc::vi2d& vMousePos)
+		bool clicked(const olc::vi2d &vMousePos)
 		{
 			return vMousePos.x >= vPos.x &&
-				vMousePos.x < (vPos.x + vSize.x) &&
-				vMousePos.y >= vPos.y &&
-				vMousePos.y < (vPos.y + vSize.y);
+				   vMousePos.x < (vPos.x + vSize.x) &&
+				   vMousePos.y >= vPos.y &&
+				   vMousePos.y < (vPos.y + vSize.y);
 		}
 
-		void draw(olc::PixelGameEngine* pge)
+		void draw(olc::PixelGameEngine *pge)
 		{
 			pge->FillRect(vPos, vSize, olc::BLUE);
 			pge->DrawRect(vPos, vSize, olc::WHITE);
@@ -107,7 +107,7 @@ public:
 	{
 		// Create serial port object...
 		port.reset(new asio::serial_port(context));
-	
+
 		asio::error_code ec;
 		port->open("COM4", ec);
 
@@ -133,24 +133,25 @@ public:
 			port->set_option(asio::serial_port_base::flow_control());
 
 			AsyncReadFromPort();
-			thrContext = std::thread([&](){ context.run(); });
+			thrContext = std::thread([&]()
+									 { context.run(); });
 		}
 
 		// Create Buttons
-		btnForwards.vPos = { 78, 10 };
-		btnForwards.vSize = { 100, 30 };
+		btnForwards.vPos = {78, 10};
+		btnForwards.vSize = {100, 30};
 		btnForwards.sText = "Forwards";
 
-		btnTurnLeft.vPos = { 10, 60 };
-		btnTurnLeft.vSize = { 100, 30 };
+		btnTurnLeft.vPos = {10, 60};
+		btnTurnLeft.vSize = {100, 30};
 		btnTurnLeft.sText = "Turn Left";
 
-		btnTurnRight.vPos = { 146, 60 };
-		btnTurnRight.vSize = { 100, 30 };
+		btnTurnRight.vPos = {146, 60};
+		btnTurnRight.vSize = {100, 30};
 		btnTurnRight.sText = "Turn Right";
 
-		btnBackwards.vPos = { 78, 110 };
-		btnBackwards.vSize = { 100, 30 };
+		btnBackwards.vPos = {78, 110};
+		btnBackwards.vSize = {100, 30};
 		btnBackwards.sText = "Backwards";
 
 		return true;
@@ -171,11 +172,11 @@ public:
 
 		// Wait for thread to expire
 		if (thrContext.joinable())
-		{			
+		{
 			thrContext.join();
 		}
 
-		// ...until now, as the context may still need it before it expires		
+		// ...until now, as the context may still need it before it expires
 		port.reset();
 
 		return true;
@@ -184,18 +185,14 @@ public:
 	void AsyncReadFromPort()
 	{
 		port->async_read_some(asio::buffer(&nIncomingByte, 1), [this](std::error_code ec, std::size_t length)
-			{
+							  {
 				if (!ec)
 				{
 					sIncomingData.append(1, nIncomingByte);
 					std::cout << nIncomingByte;
 					AsyncReadFromPort();
-				}				
-			});
+				} });
 	}
-
-
-	
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
@@ -207,34 +204,38 @@ public:
 			if (btnForwards.clicked(GetMousePos()))
 			{
 				port->write_some(asio::buffer("f", 1), ec);
-				if (ec) std::cout << "Error Moving Forwards\n";
+				if (ec)
+					std::cout << "Error Moving Forwards\n";
 			}
 
 			if (btnBackwards.clicked(GetMousePos()))
 			{
 				port->write_some(asio::buffer("b", 1), ec);
-				if (ec) std::cout << "Error Moving Backwards\n";
+				if (ec)
+					std::cout << "Error Moving Backwards\n";
 			}
 
 			if (btnTurnLeft.clicked(GetMousePos()))
 			{
 				port->write_some(asio::buffer("l", 1), ec);
-				if (ec) std::cout << "Error Turning Left\n";
+				if (ec)
+					std::cout << "Error Turning Left\n";
 			}
 
 			if (btnTurnRight.clicked(GetMousePos()))
 			{
 				port->write_some(asio::buffer("r", 1), ec);
-				if (ec) std::cout << "Error Turning Right\n";
-			}			
+				if (ec)
+					std::cout << "Error Turning Right\n";
+			}
 		}
 
 		if (GetMouse(0).bReleased)
 		{
 			port->write_some(asio::buffer("s", 1), ec);
-			if (ec) std::cout << "Error Stopping!!\n";
+			if (ec)
+				std::cout << "Error Stopping!!\n";
 		}
-
 
 		Clear(olc::BLACK);
 		btnForwards.draw(this);

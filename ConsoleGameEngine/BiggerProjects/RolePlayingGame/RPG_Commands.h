@@ -66,7 +66,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #pragma once
@@ -88,11 +88,10 @@ public:
 	bool bCompleted = false;
 
 	virtual void Start() {}
-	virtual void Update(float fElapsedTime) {};
+	virtual void Update(float fElapsedTime){};
 
-	static RPG_Engine* g_engine;
+	static RPG_Engine *g_engine;
 };
-
 
 class cScriptProcessor
 {
@@ -108,19 +107,18 @@ public:
 	bool bUserControlEnabled;
 
 private:
-	list<cCommand*> m_listCommands;
+	list<cCommand *> m_listCommands;
 };
-
 
 class cCommand_MoveTo : public cCommand
 {
 public:
-	cCommand_MoveTo(cDynamic* object, float x, float y, float duration = 0.0f);
+	cCommand_MoveTo(cDynamic *object, float x, float y, float duration = 0.0f);
 	void Start() override;
 	void Update(float fElapsedTime) override;
 
 private:
-	cDynamic * m_pObject;
+	cDynamic *m_pObject;
 	float m_fStartPosX;
 	float m_fStartPosY;
 	float m_fTargetPosX;
@@ -128,7 +126,6 @@ private:
 	float m_fDuration;
 	float m_fTimeSoFar;
 };
-
 
 class cCommand_ShowDialog : public cCommand
 {
@@ -139,7 +136,6 @@ public:
 private:
 	vector<string> vecLines;
 };
-
 
 class cCommand_ChangeMap : public cCommand
 {
@@ -156,10 +152,9 @@ private:
 class cCommand_AddQuest : public cCommand
 {
 public:
-	cCommand_AddQuest(cQuest* quest);
+	cCommand_AddQuest(cQuest *quest);
 	void Start() override;
 
 private:
-	cQuest * m_quest;
+	cQuest *m_quest;
 };
-

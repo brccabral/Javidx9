@@ -28,7 +28,7 @@ Cheers!
 
 Background
 ~~~~~~~~~~
-Algorithmically generating a racing line is quite tricky. This simple framework 
+Algorithmically generating a racing line is quite tricky. This simple framework
 allows me to explore different methods. Use mouse to drag points, and A & S keys
 to change the number of iterations.
 
@@ -88,15 +88,15 @@ struct sSpline
 		float tt = t * t;
 		float ttt = tt * t;
 
-		float q1 = -ttt + 2.0f*tt - t;
-		float q2 = 3.0f*ttt - 5.0f*tt + 2.0f;
-		float q3 = -3.0f*ttt + 4.0f*tt + t;
+		float q1 = -ttt + 2.0f * tt - t;
+		float q2 = 3.0f * ttt - 5.0f * tt + 2.0f;
+		float q3 = -3.0f * ttt + 4.0f * tt + t;
 		float q4 = ttt - tt;
 
 		float tx = 0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 + points[p3].x * q4);
 		float ty = 0.5f * (points[p0].y * q1 + points[p1].y * q2 + points[p2].y * q3 + points[p3].y * q4);
 
-		return{ tx, ty };
+		return {tx, ty};
 	}
 
 	sPoint2D GetSplineGradient(float t)
@@ -122,15 +122,15 @@ struct sSpline
 		float tt = t * t;
 		float ttt = tt * t;
 
-		float q1 = -3.0f * tt + 4.0f*t - 1.0f;
-		float q2 = 9.0f*tt - 10.0f*t;
-		float q3 = -9.0f*tt + 8.0f*t + 1.0f;
-		float q4 = 3.0f*tt - 2.0f*t;
+		float q1 = -3.0f * tt + 4.0f * t - 1.0f;
+		float q2 = 9.0f * tt - 10.0f * t;
+		float q3 = -9.0f * tt + 8.0f * t + 1.0f;
+		float q4 = 3.0f * tt - 2.0f * t;
 
 		float tx = 0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 + points[p3].x * q4);
 		float ty = 0.5f * (points[p0].y * q1 + points[p1].y * q2 + points[p2].y * q3 + points[p3].y * q4);
 
-		return{ tx, ty };
+		return {tx, ty};
 	}
 
 	float CalculateSegmentLength(int node)
@@ -144,14 +144,12 @@ struct sSpline
 		for (float t = 0; t < 1.0f; t += fStepSize)
 		{
 			new_point = GetSplinePoint((float)node + t);
-			fLength += sqrtf((new_point.x - old_point.x)*(new_point.x - old_point.x)
-				+ (new_point.y - old_point.y)*(new_point.y - old_point.y));
+			fLength += sqrtf((new_point.x - old_point.x) * (new_point.x - old_point.x) + (new_point.y - old_point.y) * (new_point.y - old_point.y));
 			old_point = new_point;
 		}
 
 		return fLength;
 	}
-
 
 	float GetNormalisedOffset(float p)
 	{
@@ -163,10 +161,9 @@ struct sSpline
 			i++;
 		}
 
-		// The fractional is the offset 
+		// The fractional is the offset
 		return (float)i + (p / points[i].length);
 	}
-
 
 	void UpdateSplineProperties()
 	{
@@ -192,7 +189,7 @@ struct sSpline
 		}
 	}
 
-	void DrawSelf(olcConsoleGameEngine* gfx, float ox, float oy, wchar_t c = 0x2588, short col = 0x000F)
+	void DrawSelf(olcConsoleGameEngine *gfx, float ox, float oy, wchar_t c = 0x2588, short col = 0x000F)
 	{
 		if (bIsLooped)
 		{
@@ -211,10 +208,7 @@ struct sSpline
 			}
 		}
 	}
-
 };
-
-
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
@@ -228,13 +222,13 @@ public:
 	}
 
 private:
-	sSpline path, trackLeft, trackRight, racingLine;	// Various splines
+	sSpline path, trackLeft, trackRight, racingLine; // Various splines
 
-	int nNodes = 20;	// Number of nodes in spline
-	
+	int nNodes = 20; // Number of nodes in spline
+
 	float fDisplacement[20]; // Displacement along spline node normal
 
-	int nIterations = 1; 
+	int nIterations = 1;
 	float fMarker = 1.0f;
 	int nSelectedNode = -1;
 
@@ -246,26 +240,21 @@ protected:
 	{
 		for (int i = 0; i < nNodes; i++)
 		{
-			//path.points.push_back(
+			// path.points.push_back(
 			//	{ 30.0f * sinf((float)i / (float)nNodes * 3.14159f * 2.0f) + ScreenWidth() / 2,
 			//	30.0f * cosf((float)i / (float)nNodes * 3.14159f * 2.0f) + ScreenHeight() / 2 });
 
 			// Could use allocation functions for thes now, but just size via
 			// append
-			trackLeft.points.push_back({ 0.0f, 0.0f });
-			trackRight.points.push_back({ 0.0f, 0.0f });
-			racingLine.points.push_back({ 0.0f, 0.0f });
+			trackLeft.points.push_back({0.0f, 0.0f});
+			trackRight.points.push_back({0.0f, 0.0f});
+			racingLine.points.push_back({0.0f, 0.0f});
 		}
 
 		// A hand crafted track
-		path.points = { { 81.8f, 196.0f },	{ 108.0f,210.0f },	{ 152.0f,216.0f },
-		{ 182.0f,185.6f },	{ 190.0f,159.0f },	{ 198.0f,122.0f },	{ 226.0f,93.0f },
-		{ 224.0f,41.0f },	{ 204.0f,15.0f },	{ 158.0f,24.0f },	{ 146.0f,52.0f },
-		{ 157.0f,93.0f },	{ 124.0f,129.0f },	{ 83.0f,104.0f },	{ 77.0f,62.0f },
-		{ 40.0f,57.0f },	{ 21.0f,83.0f },	{ 33.0f,145.0f },	{ 30.0f,198.0f },
-		{ 48.0f,210.0f } };
+		path.points = {{81.8f, 196.0f}, {108.0f, 210.0f}, {152.0f, 216.0f}, {182.0f, 185.6f}, {190.0f, 159.0f}, {198.0f, 122.0f}, {226.0f, 93.0f}, {224.0f, 41.0f}, {204.0f, 15.0f}, {158.0f, 24.0f}, {146.0f, 52.0f}, {157.0f, 93.0f}, {124.0f, 129.0f}, {83.0f, 104.0f}, {77.0f, 62.0f}, {40.0f, 57.0f}, {21.0f, 83.0f}, {33.0f, 145.0f}, {30.0f, 198.0f}, {48.0f, 210.0f}};
 
-		vecModelCar = { { 2,0 },{ 0,-1 },{ 0,1 } };
+		vecModelCar = {{2, 0}, {0, -1}, {0, 1}};
 
 		path.UpdateSplineProperties();
 		return true;
@@ -278,10 +267,12 @@ protected:
 		Fill(0, 0, ScreenWidth(), ScreenHeight(), PIXEL_SOLID, FG_DARK_GREEN);
 
 		// Handle iteration count
-		if (m_keys[L'A'].bHeld)	nIterations++;
-		if (m_keys[L'S'].bHeld)	nIterations--;
-		if (nIterations < 0) nIterations = 0;
-
+		if (m_keys[L'A'].bHeld)
+			nIterations++;
+		if (m_keys[L'S'].bHeld)
+			nIterations--;
+		if (nIterations < 0)
+			nIterations = 0;
 
 		// Check if node is selected with mouse
 		if (GetMouse(0).bPressed)
@@ -319,10 +310,10 @@ protected:
 		{
 			sPoint2D p1 = path.GetSplinePoint(i);
 			sPoint2D g1 = path.GetSplineGradient(i);
-			float glen = sqrtf(g1.x*g1.x + g1.y*g1.y);
+			float glen = sqrtf(g1.x * g1.x + g1.y * g1.y);
 
 			trackLeft.points[i].x = p1.x + fTrackWidth * (-g1.y / glen);
-			trackLeft.points[i].y = p1.y + fTrackWidth * ( g1.x / glen);
+			trackLeft.points[i].y = p1.y + fTrackWidth * (g1.x / glen);
 			trackRight.points[i].x = p1.x - fTrackWidth * (-g1.y / glen);
 			trackRight.points[i].y = p1.y - fTrackWidth * (g1.x / glen);
 		}
@@ -358,46 +349,50 @@ protected:
 				sPoint2D pointMiddle = racingLine.points[i];
 
 				// Create vectors to neighbours
-				sPoint2D vectorLeft = { pointLeft.x - pointMiddle.x, pointLeft.y - pointMiddle.y };
-				sPoint2D vectorRight = { pointRight.x - pointMiddle.x, pointRight.y - pointMiddle.y };
+				sPoint2D vectorLeft = {pointLeft.x - pointMiddle.x, pointLeft.y - pointMiddle.y};
+				sPoint2D vectorRight = {pointRight.x - pointMiddle.x, pointRight.y - pointMiddle.y};
 
 				// Normalise neighbours
-				float lengthLeft = sqrtf(vectorLeft.x*vectorLeft.x + vectorLeft.y*vectorLeft.y);
-				sPoint2D leftn = { vectorLeft.x / lengthLeft, vectorLeft.y / lengthLeft };
-				float lengthRight = sqrtf(vectorRight.x*vectorRight.x + vectorRight.y*vectorRight.y);
-				sPoint2D rightn = { vectorRight.x / lengthRight, vectorRight.y / lengthRight };
+				float lengthLeft = sqrtf(vectorLeft.x * vectorLeft.x + vectorLeft.y * vectorLeft.y);
+				sPoint2D leftn = {vectorLeft.x / lengthLeft, vectorLeft.y / lengthLeft};
+				float lengthRight = sqrtf(vectorRight.x * vectorRight.x + vectorRight.y * vectorRight.y);
+				sPoint2D rightn = {vectorRight.x / lengthRight, vectorRight.y / lengthRight};
 
 				// Add together to create bisector vector
-				sPoint2D vectorSum = { rightn.x + leftn.x, rightn.y + leftn.y };
-				float len = sqrtf(vectorSum.x*vectorSum.x + vectorSum.y*vectorSum.y);
-				vectorSum.x /= len; vectorSum.y /= len;
+				sPoint2D vectorSum = {rightn.x + leftn.x, rightn.y + leftn.y};
+				float len = sqrtf(vectorSum.x * vectorSum.x + vectorSum.y * vectorSum.y);
+				vectorSum.x /= len;
+				vectorSum.y /= len;
 
 				// Get point gradient and normalise
 				sPoint2D g = path.GetSplineGradient(i);
-				float glen = sqrtf(g.x*g.x + g.y*g.y);
-				g.x /= glen; g.y /= glen;
+				float glen = sqrtf(g.x * g.x + g.y * g.y);
+				g.x /= glen;
+				g.y /= glen;
 
 				// Project required correction onto point tangent to give displacment
-				float dp = -g.y*vectorSum.x + g.x * vectorSum.y;
+				float dp = -g.y * vectorSum.x + g.x * vectorSum.y;
 
 				// Shortest path
 				fDisplacement[i] += (dp * 0.3f);
 
 				// Curvature
-				//fDisplacement[(i + 1) % racingLine.points.size()] += dp * -0.2f;
-				//fDisplacement[(i - 1 + racingLine.points.size()) % racingLine.points.size()] += dp * -0.2f;
-
+				// fDisplacement[(i + 1) % racingLine.points.size()] += dp * -0.2f;
+				// fDisplacement[(i - 1 + racingLine.points.size()) % racingLine.points.size()] += dp * -0.2f;
 			}
 
 			// Clamp displaced points to track width
 			for (int i = 0; i < racingLine.points.size(); i++)
 			{
-				if (fDisplacement[i] >= fTrackWidth) fDisplacement[i] = fTrackWidth;
-				if (fDisplacement[i] <= -fTrackWidth) fDisplacement[i] = -fTrackWidth;
+				if (fDisplacement[i] >= fTrackWidth)
+					fDisplacement[i] = fTrackWidth;
+				if (fDisplacement[i] <= -fTrackWidth)
+					fDisplacement[i] = -fTrackWidth;
 
 				sPoint2D g = path.GetSplineGradient(i);
-				float glen = sqrtf(g.x*g.x + g.y*g.y);
-				g.x /= glen; g.y /= glen;
+				float glen = sqrtf(g.x * g.x + g.y * g.y);
+				g.x /= glen;
+				g.y /= glen;
 
 				racingLine.points[i].x = path.points[i].x + -g.y * fDisplacement[i];
 				racingLine.points[i].y = path.points[i].y + g.x * fDisplacement[i];
@@ -405,8 +400,8 @@ protected:
 		}
 
 		path.DrawSelf(this, 0, 0);
-		//trackLeft.DrawSelf(this, 0, 0);
-		//trackRight.DrawSelf(this, 0, 0);
+		// trackLeft.DrawSelf(this, 0, 0);
+		// trackRight.DrawSelf(this, 0, 0);
 
 		racingLine.UpdateSplineProperties();
 		racingLine.DrawSelf(this, 0, 0, PIXEL_SOLID, FG_BLUE);
@@ -421,7 +416,6 @@ protected:
 		return true;
 	}
 };
-
 
 int main()
 {

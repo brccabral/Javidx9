@@ -56,7 +56,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019
 */
 
 #define OLC_PGE_APPLICATION
@@ -82,11 +82,11 @@ public:
 
 	struct polygon
 	{
-		std::vector<vec2d> p;	// Transformed Points
-		vec2d pos;				// Position of shape
-		float angle;			// Direction of shape
-		std::vector<vec2d> o;	// "Model" of shape							
-		bool overlap = false;	// Flag to indicate if overlap has occurred
+		std::vector<vec2d> p; // Transformed Points
+		vec2d pos;			  // Position of shape
+		float angle;		  // Direction of shape
+		std::vector<vec2d> o; // "Model" of shape
+		bool overlap = false; // Flag to indicate if overlap has occurred
 	};
 
 	std::vector<polygon> vecShapes;
@@ -95,47 +95,44 @@ public:
 
 public:
 	bool OnUserCreate() override
-	{		
+	{
 		// Create Pentagon
 		polygon s1;
 		float fTheta = 3.14159f * 2.0f / 5.0f;
-		s1.pos = { 100, 100 };
+		s1.pos = {100, 100};
 		s1.angle = 0.0f;
 		for (int i = 0; i < 5; i++)
 		{
-			s1.o.push_back({ 30.0f * cosf(fTheta * i), 30.0f * sinf(fTheta * i) });
-			s1.p.push_back({ 30.0f * cosf(fTheta * i), 30.0f * sinf(fTheta * i) });
+			s1.o.push_back({30.0f * cosf(fTheta * i), 30.0f * sinf(fTheta * i)});
+			s1.p.push_back({30.0f * cosf(fTheta * i), 30.0f * sinf(fTheta * i)});
 		}
 
 		// Create Triangle
 		polygon s2;
 		fTheta = 3.14159f * 2.0f / 3.0f;
-		s2.pos = { 200, 150 };
+		s2.pos = {200, 150};
 		s2.angle = 0.0f;
 		for (int i = 0; i < 3; i++)
 		{
-			s2.o.push_back({ 20.0f * cosf(fTheta * i), 20.0f * sinf(fTheta * i) });
-			s2.p.push_back({ 20.0f * cosf(fTheta * i), 20.0f * sinf(fTheta * i) });
+			s2.o.push_back({20.0f * cosf(fTheta * i), 20.0f * sinf(fTheta * i)});
+			s2.p.push_back({20.0f * cosf(fTheta * i), 20.0f * sinf(fTheta * i)});
 		}
 
 		// Create Quad
 		polygon s3;
-		s3.pos = { 50, 200 };
+		s3.pos = {50, 200};
 		s3.angle = 0.0f;
-		s3.o.push_back({ -30, -30 });
-		s3.o.push_back({ -30, +30 });
-		s3.o.push_back({ +30, +30 });
-		s3.o.push_back({ +30, -30 });
+		s3.o.push_back({-30, -30});
+		s3.o.push_back({-30, +30});
+		s3.o.push_back({+30, +30});
+		s3.o.push_back({+30, -30});
 		s3.p.resize(4);
-		
-			
+
 		vecShapes.push_back(s1);
 		vecShapes.push_back(s2);
 		vecShapes.push_back(s3);
 		return true;
 	}
-
-
 
 	bool ShapeOverlap_SAT(polygon &r1, polygon &r2)
 	{
@@ -149,13 +146,13 @@ public:
 				poly1 = &r2;
 				poly2 = &r1;
 			}
-		
+
 			for (int a = 0; a < poly1->p.size(); a++)
 			{
 				int b = (a + 1) % poly1->p.size();
-				vec2d axisProj = { -(poly1->p[b].y - poly1->p[a].y), poly1->p[b].x - poly1->p[a].x };
+				vec2d axisProj = {-(poly1->p[b].y - poly1->p[a].y), poly1->p[b].x - poly1->p[a].x};
 				float d = sqrtf(axisProj.x * axisProj.x + axisProj.y * axisProj.y);
-				axisProj = { axisProj.x / d, axisProj.y / d };
+				axisProj = {axisProj.x / d, axisProj.y / d};
 
 				// Work out min and max 1D points for r1
 				float min_r1 = INFINITY, max_r1 = -INFINITY;
@@ -189,7 +186,7 @@ public:
 		polygon *poly2 = &r2;
 
 		float overlap = INFINITY;
-		
+
 		for (int shape = 0; shape < 2; shape++)
 		{
 			if (shape == 1)
@@ -201,11 +198,11 @@ public:
 			for (int a = 0; a < poly1->p.size(); a++)
 			{
 				int b = (a + 1) % poly1->p.size();
-				vec2d axisProj = { -(poly1->p[b].y - poly1->p[a].y), poly1->p[b].x - poly1->p[a].x };
-				
+				vec2d axisProj = {-(poly1->p[b].y - poly1->p[a].y), poly1->p[b].x - poly1->p[a].x};
+
 				// Optional normalisation of projection axis enhances stability slightly
-				//float d = sqrtf(axisProj.x * axisProj.x + axisProj.y * axisProj.y);
-				//axisProj = { axisProj.x / d, axisProj.y / d };
+				// float d = sqrtf(axisProj.x * axisProj.x + axisProj.y * axisProj.y);
+				// axisProj = { axisProj.x / d, axisProj.y / d };
 
 				// Work out min and max 1D points for r1
 				float min_r1 = INFINITY, max_r1 = -INFINITY;
@@ -235,8 +232,8 @@ public:
 
 		// If we got here, the objects have collided, we will displace r1
 		// by overlap along the vector between the two object centers
-		vec2d d = { r2.pos.x - r1.pos.x, r2.pos.y - r1.pos.y };
-		float s = sqrtf(d.x*d.x + d.y*d.y);
+		vec2d d = {r2.pos.x - r1.pos.x, r2.pos.y - r1.pos.y};
+		float s = sqrtf(d.x * d.x + d.y * d.y);
 		r1.pos.x -= overlap * d.x / s;
 		r1.pos.y -= overlap * d.y / s;
 		return false;
@@ -255,7 +252,7 @@ public:
 				poly1 = &r2;
 				poly2 = &r1;
 			}
-			
+
 			// Check diagonals of polygon...
 			for (int p = 0; p < poly1->p.size(); p++)
 			{
@@ -278,7 +275,7 @@ public:
 						return true;
 					}
 				}
-			}		
+			}
 		}
 		return false;
 	}
@@ -303,7 +300,7 @@ public:
 				vec2d line_r1s = poly1->pos;
 				vec2d line_r1e = poly1->p[p];
 
-				vec2d displacement = { 0,0 };
+				vec2d displacement = {0, 0};
 
 				// ...against edges of this polygon
 				for (int q = 0; q < poly2->p.size(); q++)
@@ -317,9 +314,9 @@ public:
 					float t2 = ((line_r1s.y - line_r1e.y) * (line_r1s.x - line_r2s.x) + (line_r1e.x - line_r1s.x) * (line_r1s.y - line_r2s.y)) / h;
 
 					if (t1 >= 0.0f && t1 < 1.0f && t2 >= 0.0f && t2 < 1.0f)
-					{						
+					{
 						displacement.x += (1.0f - t1) * (line_r1e.x - line_r1s.x);
-						displacement.y += (1.0f - t1) * (line_r1e.y - line_r1s.y);					
+						displacement.y += (1.0f - t1) * (line_r1e.y - line_r1s.y);
 					}
 				}
 
@@ -332,18 +329,22 @@ public:
 		return false;
 	}
 
-	
-
 	bool OnUserUpdate(float fElapsedTime) override
 	{
-		if (GetKey(olc::Key::F1).bReleased) nMode = 0;
-		if (GetKey(olc::Key::F2).bReleased) nMode = 1;
-		if (GetKey(olc::Key::F3).bReleased) nMode = 2;
-		if (GetKey(olc::Key::F4).bReleased) nMode = 3;
-		
+		if (GetKey(olc::Key::F1).bReleased)
+			nMode = 0;
+		if (GetKey(olc::Key::F2).bReleased)
+			nMode = 1;
+		if (GetKey(olc::Key::F3).bReleased)
+			nMode = 2;
+		if (GetKey(olc::Key::F4).bReleased)
+			nMode = 3;
+
 		// Shape 1
-		if (GetKey(olc::Key::LEFT).bHeld) vecShapes[0].angle -= 2.0f * fElapsedTime;
-		if (GetKey(olc::Key::RIGHT).bHeld) vecShapes[0].angle += 2.0f * fElapsedTime;
+		if (GetKey(olc::Key::LEFT).bHeld)
+			vecShapes[0].angle -= 2.0f * fElapsedTime;
+		if (GetKey(olc::Key::RIGHT).bHeld)
+			vecShapes[0].angle += 2.0f * fElapsedTime;
 
 		if (GetKey(olc::Key::UP).bHeld)
 		{
@@ -358,8 +359,10 @@ public:
 		}
 
 		// Shape 2
-		if (GetKey(olc::Key::A).bHeld) vecShapes[1].angle -= 2.0f * fElapsedTime;
-		if (GetKey(olc::Key::D).bHeld) vecShapes[1].angle += 2.0f * fElapsedTime;
+		if (GetKey(olc::Key::A).bHeld)
+			vecShapes[1].angle -= 2.0f * fElapsedTime;
+		if (GetKey(olc::Key::D).bHeld)
+			vecShapes[1].angle += 2.0f * fElapsedTime;
 
 		if (GetKey(olc::Key::W).bHeld)
 		{
@@ -378,10 +381,11 @@ public:
 		{
 			for (int i = 0; i < r.o.size(); i++)
 				r.p[i] =
-				{	// 2D Rotation Transform + 2D Translation
-					(r.o[i].x * cosf(r.angle)) - (r.o[i].y * sinf(r.angle)) + r.pos.x,
-					(r.o[i].x * sinf(r.angle)) + (r.o[i].y * cosf(r.angle)) + r.pos.y,
-				};
+					{
+						// 2D Rotation Transform + 2D Translation
+						(r.o[i].x * cosf(r.angle)) - (r.o[i].y * sinf(r.angle)) + r.pos.x,
+						(r.o[i].x * sinf(r.angle)) + (r.o[i].y * cosf(r.angle)) + r.pos.y,
+					};
 
 			r.overlap = false;
 		}
@@ -392,13 +396,21 @@ public:
 			{
 				switch (nMode)
 				{
-				case 0: vecShapes[m].overlap |= ShapeOverlap_SAT(vecShapes[m], vecShapes[n]); break;
-				case 1: vecShapes[m].overlap |= ShapeOverlap_SAT_STATIC(vecShapes[m], vecShapes[n]); break;
-				case 2: vecShapes[m].overlap |= ShapeOverlap_DIAGS(vecShapes[m], vecShapes[n]); break;
-				case 3: vecShapes[m].overlap |= ShapeOverlap_DIAGS_STATIC(vecShapes[m], vecShapes[n]); break;
-				}						
+				case 0:
+					vecShapes[m].overlap |= ShapeOverlap_SAT(vecShapes[m], vecShapes[n]);
+					break;
+				case 1:
+					vecShapes[m].overlap |= ShapeOverlap_SAT_STATIC(vecShapes[m], vecShapes[n]);
+					break;
+				case 2:
+					vecShapes[m].overlap |= ShapeOverlap_DIAGS(vecShapes[m], vecShapes[n]);
+					break;
+				case 3:
+					vecShapes[m].overlap |= ShapeOverlap_DIAGS_STATIC(vecShapes[m], vecShapes[n]);
+					break;
+				}
 			}
-		
+
 		// === Render Display ===
 		Clear(olc::BLUE);
 
@@ -422,8 +434,6 @@ public:
 		return true;
 	}
 };
-
-
 
 int main()
 {

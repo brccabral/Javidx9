@@ -50,7 +50,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019, 2020
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019, 2020
 
 */
 
@@ -66,18 +66,16 @@ enum class CustomMsgTypes : uint32_t
 	ServerMessage,
 };
 
-
-
 class CustomClient : public olc::net::client_interface<CustomMsgTypes>
 {
 public:
-	void PingServer()	
+	void PingServer()
 	{
 		olc::net::message<CustomMsgTypes> msg;
 		msg.header.id = CustomMsgTypes::ServerPing;
 
 		// Caution with this...
-		std::chrono::system_clock::time_point timeNow = std::chrono::system_clock::now();		
+		std::chrono::system_clock::time_point timeNow = std::chrono::system_clock::now();
 
 		msg << timeNow;
 		Send(msg);
@@ -86,7 +84,7 @@ public:
 	void MessageAll()
 	{
 		olc::net::message<CustomMsgTypes> msg;
-		msg.header.id = CustomMsgTypes::MessageAll;		
+		msg.header.id = CustomMsgTypes::MessageAll;
 		Send(msg);
 	}
 };
@@ -96,8 +94,8 @@ int main()
 	CustomClient c;
 	c.Connect("127.0.0.1", 60000);
 
-	bool key[3] = { false, false, false };
-	bool old_key[3] = { false, false, false };
+	bool key[3] = {false, false, false};
+	bool old_key[3] = {false, false, false};
 
 	bool bQuit = false;
 	while (!bQuit)
@@ -109,17 +107,20 @@ int main()
 			key[2] = GetAsyncKeyState('3') & 0x8000;
 		}
 
-		if (key[0] && !old_key[0]) c.PingServer();
-		if (key[1] && !old_key[1]) c.MessageAll();
-		if (key[2] && !old_key[2]) bQuit = true;
+		if (key[0] && !old_key[0])
+			c.PingServer();
+		if (key[1] && !old_key[1])
+			c.MessageAll();
+		if (key[2] && !old_key[2])
+			bQuit = true;
 
-		for (int i = 0; i < 3; i++) old_key[i] = key[i];
+		for (int i = 0; i < 3; i++)
+			old_key[i] = key[i];
 
 		if (c.IsConnected())
 		{
 			if (!c.Incoming().empty())
 			{
-
 
 				auto msg = c.Incoming().pop_front().msg;
 
@@ -127,11 +128,10 @@ int main()
 				{
 				case CustomMsgTypes::ServerAccept:
 				{
-					// Server has responded to a ping request				
+					// Server has responded to a ping request
 					std::cout << "Server Accepted Connection\n";
 				}
 				break;
-
 
 				case CustomMsgTypes::ServerPing:
 				{
@@ -145,7 +145,7 @@ int main()
 
 				case CustomMsgTypes::ServerMessage:
 				{
-					// Server has responded to a ping request	
+					// Server has responded to a ping request
 					uint32_t clientID;
 					msg >> clientID;
 					std::cout << "Hello from [" << clientID << "]\n";
@@ -159,7 +159,6 @@ int main()
 			std::cout << "Server Down\n";
 			bQuit = true;
 		}
-
 	}
 
 	return 0;

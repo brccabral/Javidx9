@@ -66,14 +66,14 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #include "RPG_Dynamics.h"
 
 #include "RPG_Engine.h"
 
-RPG_Engine* cDynamic::g_engine = nullptr;
+RPG_Engine *cDynamic::g_engine = nullptr;
 
 cDynamic::cDynamic(string n)
 {
@@ -92,9 +92,7 @@ cDynamic::cDynamic(string n)
 
 cDynamic::~cDynamic()
 {
-
 }
-
 
 /////////////////////////////////////////////////////////////////////
 
@@ -110,7 +108,7 @@ cDynamic_Creature::cDynamic_Creature(string name, olcSprite *sprite) : cDynamic(
 	bIsAttackable = true;
 }
 
-void cDynamic_Creature::Update(float fElapsedTime, cDynamic* player)
+void cDynamic_Creature::Update(float fElapsedTime, cDynamic *player)
 {
 	if (m_fKnockBackTimer > 0.0f)
 	{
@@ -124,7 +122,6 @@ void cDynamic_Creature::Update(float fElapsedTime, cDynamic* player)
 			bControllable = true;
 			bIsAttackable = true;
 		}
-
 	}
 	else
 	{
@@ -145,10 +142,14 @@ void cDynamic_Creature::Update(float fElapsedTime, cDynamic* player)
 		if (nHealth <= 0)
 			m_nGraphicState = DEAD;
 
-		if (vx < 0.0f) m_nFacingDirection = WEST;
-		if (vx > 0.0f) m_nFacingDirection = EAST;
-		if (vy < -0.0f) m_nFacingDirection = NORTH;
-		if (vy > 0.0f) m_nFacingDirection = SOUTH;
+		if (vx < 0.0f)
+			m_nFacingDirection = WEST;
+		if (vx > 0.0f)
+			m_nFacingDirection = EAST;
+		if (vy < -0.0f)
+			m_nFacingDirection = NORTH;
+		if (vy > 0.0f)
+			m_nFacingDirection = SOUTH;
 
 		Behaviour(fElapsedTime, player);
 	}
@@ -163,7 +164,6 @@ void cDynamic_Creature::KnockBack(float dx, float dy, float dist)
 	bControllable = false;
 	bIsAttackable = false;
 }
-
 
 void cDynamic_Creature::DrawSelf(olcConsoleGameEngineOOP *gfx, float ox, float oy)
 {
@@ -189,19 +189,15 @@ void cDynamic_Creature::DrawSelf(olcConsoleGameEngineOOP *gfx, float ox, float o
 		nSheetOffsetX = 4 * 16;
 		nSheetOffsetY = 1 * 16;
 		break;
-
 	}
 
-	gfx->DrawPartialSprite((px - ox) * 16.0f, (py - oy)*16.0f, m_pSprite, nSheetOffsetX, nSheetOffsetY, 16, 16);
+	gfx->DrawPartialSprite((px - ox) * 16.0f, (py - oy) * 16.0f, m_pSprite, nSheetOffsetX, nSheetOffsetY, 16, 16);
 }
 
-void cDynamic_Creature::Behaviour(float fElapsedTime, cDynamic* player)
+void cDynamic_Creature::Behaviour(float fElapsedTime, cDynamic *player)
 {
 	// No default behaviour
 }
-
-
-
 
 cDynamic_Creature_Witty::cDynamic_Creature_Witty() : cDynamic_Creature("witty", RPG_Assets::get().GetSprite("player"))
 {
@@ -209,7 +205,7 @@ cDynamic_Creature_Witty::cDynamic_Creature_Witty() : cDynamic_Creature("witty", 
 	nHealth = 9;
 	nHealthMax = 10;
 	m_fStateTick = 2.0f;
-	pEquipedWeapon = (cWeapon*)RPG_Assets::get().GetItem("Basic Sword");
+	pEquipedWeapon = (cWeapon *)RPG_Assets::get().GetItem("Basic Sword");
 }
 
 void cDynamic_Creature_Witty::PerformAttack()
@@ -220,9 +216,6 @@ void cDynamic_Creature_Witty::PerformAttack()
 	pEquipedWeapon->OnUse(this);
 }
 
-
-
-
 cDynamic_Creature_Skelly::cDynamic_Creature_Skelly() : cDynamic_Creature("Skelly", RPG_Assets::get().GetSprite("skelly"))
 {
 	bFriendly = false;
@@ -230,11 +223,10 @@ cDynamic_Creature_Skelly::cDynamic_Creature_Skelly() : cDynamic_Creature("Skelly
 	nHealthMax = 10;
 	m_fStateTick = 2.0f;
 
-	pEquipedWeapon = (cWeapon*)RPG_Assets::get().GetItem("Basic Sword");
+	pEquipedWeapon = (cWeapon *)RPG_Assets::get().GetItem("Basic Sword");
 }
 
-
-void cDynamic_Creature_Skelly::Behaviour(float fElapsedTime, cDynamic* player)
+void cDynamic_Creature_Skelly::Behaviour(float fElapsedTime, cDynamic *player)
 {
 	if (nHealth <= 0)
 	{
@@ -248,7 +240,7 @@ void cDynamic_Creature_Skelly::Behaviour(float fElapsedTime, cDynamic* player)
 	// Check if player is nearby
 	float fTargetX = player->px - px;
 	float fTargetY = player->py - py;
-	float fDistance = sqrtf(fTargetX*fTargetX + fTargetY * fTargetY);
+	float fDistance = sqrtf(fTargetX * fTargetX + fTargetY * fTargetY);
 
 	m_fStateTick -= fElapsedTime;
 
@@ -280,12 +272,6 @@ void cDynamic_Creature_Skelly::PerformAttack()
 	pEquipedWeapon->OnUse(this);
 }
 
-
-
-
-
-
-
 cDynamic_Teleport::cDynamic_Teleport(float x, float y, string mapName, float tx, float ty) : cDynamic("Teleport")
 {
 	px = x;
@@ -303,13 +289,12 @@ void cDynamic_Teleport::DrawSelf(olcConsoleGameEngineOOP *gfx, float ox, float o
 	gfx->DrawCircle(((px + 0.5f) - ox) * 16.0f, ((py + 0.5f) - oy) * 16.0f, 0.5f * 16.0f); // For debugging
 }
 
-void cDynamic_Teleport::Update(float fElapsedTime, cDynamic* player)
+void cDynamic_Teleport::Update(float fElapsedTime, cDynamic *player)
 {
 	// Does Nothing
 }
 
-
-cDynamic_Item::cDynamic_Item(float x, float y, cItem* i) : cDynamic("pickup")
+cDynamic_Item::cDynamic_Item(float x, float y, cItem *i) : cDynamic("pickup")
 {
 	px = x;
 	py = y;
@@ -325,10 +310,10 @@ void cDynamic_Item::DrawSelf(olcConsoleGameEngineOOP *gfx, float ox, float oy)
 	if (bCollected)
 		return;
 
-	gfx->DrawPartialSprite((px - ox) * 16.0f, (py - oy)*16.0f, item->pSprite, 0, 0, 16, 16);
+	gfx->DrawPartialSprite((px - ox) * 16.0f, (py - oy) * 16.0f, item->pSprite, 0, 0, 16, 16);
 }
 
-void cDynamic_Item::OnInteract(cDynamic* player)
+void cDynamic_Item::OnInteract(cDynamic *player)
 {
 	if (bCollected)
 		return;
@@ -362,10 +347,9 @@ cDynamic_Projectile::cDynamic_Projectile(float ox, float oy, bool bFriend, float
 void cDynamic_Projectile::DrawSelf(olcConsoleGameEngineOOP *gfx, float ox, float oy)
 {
 	gfx->DrawPartialSprite((px - ox) * 16, (py - oy) * 16, pSprite, fSpriteX * 16, fSpriteY * 16, 16, 16);
-
 }
 
-void cDynamic_Projectile::Update(float fElapsedTime, cDynamic* player)
+void cDynamic_Projectile::Update(float fElapsedTime, cDynamic *player)
 {
 	fDuration -= fElapsedTime;
 	if (fDuration <= 0.0f)

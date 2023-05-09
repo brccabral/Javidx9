@@ -7,7 +7,7 @@ License
 Copyright (C) 2018  Javidx9
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
-under certain conditions; See license for details. 
+under certain conditions; See license for details.
 Original works located at:
 https://www.github.com/onelonecoder
 https://www.onelonecoder.com
@@ -18,10 +18,10 @@ https://github.com/OneLoneCoder/videos/blob/master/LICENSE
 
 From Javidx9 :)
 ~~~~~~~~~~~~~~~
-Hello! Ultimately I don't care what you use this for. It's intended to be 
-educational, and perhaps to the oddly minded - a little bit of fun. 
-Please hack this, change it and use it in any way you see fit. You acknowledge 
-that I am not responsible for anything bad that happens as a result of 
+Hello! Ultimately I don't care what you use this for. It's intended to be
+educational, and perhaps to the oddly minded - a little bit of fun.
+Please hack this, change it and use it in any way you see fit. You acknowledge
+that I am not responsible for anything bad that happens as a result of
 your actions. However this code is protected by GNU GPLv3, see the license in the
 github repo. This means you must attribute me if you use it. You can view this
 license here: https://github.com/OneLoneCoder/videos/blob/master/LICENSE
@@ -54,7 +54,6 @@ Last Updated: 17/09/2017
 using namespace std;
 
 #include "olcConsoleGameEngine.h"
-
 
 class OneLoneCoder_Matrix : public olcConsoleGameEngine
 {
@@ -94,9 +93,8 @@ private:
 		for (int i = 0; i < nStreamerLength; i++)
 			s->sText.append(1, RandomCharacter());
 
-		//s->sText = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		// s->sText = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	}
-
 
 protected:
 	// Called by olcConsoleGameEngine
@@ -119,7 +117,7 @@ protected:
 
 		for (auto &s : listStreamers)
 		{
-			s.fPosition += fElapsedTime * s.fSpeed;			
+			s.fPosition += fElapsedTime * s.fSpeed;
 			for (int i = 0; i < s.sText.size(); i++)
 			{
 				// If you hate ternary operators do this
@@ -127,9 +125,8 @@ protected:
 				short col = s.fSpeed < 15.0f ? FG_DARK_GREEN : FG_GREEN; // ;-)
 				if (i == 0)
 					col = FG_WHITE;
-				else
-					if (i <= 3)
-						col = FG_GREY;
+				else if (i <= 3)
+					col = FG_GREY;
 
 				int nCharIndex = (i - (int)s.fPosition) % s.sText.size();
 
@@ -137,21 +134,19 @@ protected:
 				// <- end
 
 				// If you like them, do this!
-				//Draw(s.nColumn, (int)s.fPosition - i, s.sText[(abs(i - (int)s.fPosition) % s.sText.size())], i == 0 ? FG_WHITE : i<=3 ? FG_GREY: i>=s.sText.size()-2 || s.fSpeed < 15.0f? FG_DARK_GREEN: FG_GREEN);
-				
+				// Draw(s.nColumn, (int)s.fPosition - i, s.sText[(abs(i - (int)s.fPosition) % s.sText.size())], i == 0 ? FG_WHITE : i<=3 ? FG_GREY: i>=s.sText.size()-2 || s.fSpeed < 15.0f? FG_DARK_GREEN: FG_GREEN);
+
 				// Missed this out on live stream, occasionally glitch a character
 				if (rand() % 1000 < 5)
 					s.sText[i] = RandomCharacter();
 			}
 
-			if ( s.fPosition - s.sText.size() >= ScreenHeight())
+			if (s.fPosition - s.sText.size() >= ScreenHeight())
 				PrepareStreamer(&s);
-
 		}
 		return true;
 	}
 };
-
 
 int main()
 {

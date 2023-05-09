@@ -9,7 +9,7 @@ using namespace std;
 #include "RPG_Dynamics.h"
 #include "RPG_Commands.h"
 
-#define X(n) m_script.AddCommand(new cCommand_ ## n)
+#define X(n) m_script.AddCommand(new cCommand_##n)
 
 class OneLoneCoder_RPG : public olcConsoleGameEngineOOP
 {
@@ -24,7 +24,7 @@ private:
 
 	cDynamic *m_pPlayer = nullptr;
 
-	vector<cDynamic*> m_vecDynamics;
+	vector<cDynamic *> m_vecDynamics;
 
 	cScriptProcessor m_script;
 
@@ -34,7 +34,6 @@ private:
 	olcSprite *spriteTiles = nullptr;
 	olcSprite *spriteMan = nullptr;
 	olcSprite *m_sprFont = nullptr;
-
 
 	void DrawBigText(string sText, int x, int y)
 	{
@@ -46,7 +45,6 @@ private:
 			DrawPartialSprite(x + i * 8, y, m_sprFont, sx, sy, 8, 8);
 			i++;
 		}
-
 	}
 
 protected:
@@ -63,18 +61,17 @@ protected:
 		m_pPlayer->px = 5.0f;
 		m_pPlayer->py = 5.0f;
 
-		cDynamic* ob1 = new cDynamic_Creature("skelly1", RPG_Assets::get().GetSprite("skelly"));
+		cDynamic *ob1 = new cDynamic_Creature("skelly1", RPG_Assets::get().GetSprite("skelly"));
 		ob1->px = 12.0f;
 		ob1->py = 12.0f;
 
-		cDynamic* ob2 = new cDynamic_Creature("skelly2", RPG_Assets::get().GetSprite("skelly"));
+		cDynamic *ob2 = new cDynamic_Creature("skelly2", RPG_Assets::get().GetSprite("skelly"));
 		ob2->px = 5.0f;
 		ob2->py = 8.0f;
 
 		m_vecDynamics.push_back(m_pPlayer);
 		m_vecDynamics.push_back(ob1);
 		m_vecDynamics.push_back(ob2);
-	
 
 		return true;
 	}
@@ -119,8 +116,8 @@ protected:
 					X(MoveTo(m_pPlayer, 10, 10, 3.0f));
 					X(MoveTo(m_pPlayer, 15, 10, 3.0f));
 					X(MoveTo(m_vecDynamics[1], 15, 12, 2.0f));
-					X(ShowDialog({ "Grrrrr!" }));
-					X(ShowDialog({ "I think OOP", "is really useful!" }));
+					X(ShowDialog({"Grrrrr!"}));
+					X(ShowDialog({"I think OOP", "is really useful!"}));
 					X(MoveTo(m_pPlayer, 15, 15, 3.0f));
 					X(MoveTo(m_pPlayer, 10, 10, 3.0f));
 				}
@@ -159,7 +156,6 @@ protected:
 				{
 					fNewObjectPosX = (int)fNewObjectPosX;
 					object->vx = 0;
-
 				}
 			}
 
@@ -186,7 +182,6 @@ protected:
 			object->Update(fElapsedTime);
 		}
 
-
 		fCameraPosX = m_pPlayer->px;
 		fCameraPosY = m_pPlayer->py;
 
@@ -201,10 +196,14 @@ protected:
 		float fOffsetY = fCameraPosY - (float)nVisibleTilesY / 2.0f;
 
 		// Clamp camera to game boundaries
-		if (fOffsetX < 0) fOffsetX = 0;
-		if (fOffsetY < 0) fOffsetY = 0;
-		if (fOffsetX > m_pCurrentMap->nWidth - nVisibleTilesX) fOffsetX = m_pCurrentMap->nWidth - nVisibleTilesX;
-		if (fOffsetY > m_pCurrentMap->nHeight - nVisibleTilesY) fOffsetY = m_pCurrentMap->nHeight - nVisibleTilesY;
+		if (fOffsetX < 0)
+			fOffsetX = 0;
+		if (fOffsetY < 0)
+			fOffsetY = 0;
+		if (fOffsetX > m_pCurrentMap->nWidth - nVisibleTilesX)
+			fOffsetX = m_pCurrentMap->nWidth - nVisibleTilesX;
+		if (fOffsetY > m_pCurrentMap->nHeight - nVisibleTilesY)
+			fOffsetY = m_pCurrentMap->nHeight - nVisibleTilesY;
 
 		// Get offsets for smooth movement
 		float fTileOffsetX = (fOffsetX - (int)fOffsetX) * nTileWidth;
@@ -226,13 +225,12 @@ protected:
 		// Draw Object
 		for (auto &object : m_vecDynamics)
 			object->DrawSelf(this, fOffsetX, fOffsetY);
-		
+
 		m_pPlayer->DrawSelf(this, fOffsetX, fOffsetY);
 
 		// Draw any dialog being displayed
 		if (m_bShowDialog)
 			DisplayDialog(m_vecDialogToShow, 20, 20);
-
 
 		return true;
 	}
@@ -241,8 +239,8 @@ protected:
 	bool m_bShowDialog = false;
 	float m_fDialogX = 0.0f;
 	float m_fDialogY = 0.0f;
-public:
 
+public:
 	void ShowDialog(vector<string> vecLines)
 	{
 		m_vecDialogToShow = vecLines;
@@ -254,7 +252,9 @@ public:
 		int nMaxLineLength = 0;
 		int nLines = vecText.size();
 
-		for (auto l : vecText)	if (l.size() > nMaxLineLength) nMaxLineLength = l.size();
+		for (auto l : vecText)
+			if (l.size() > nMaxLineLength)
+				nMaxLineLength = l.size();
 
 		// Draw Box
 		Fill(x - 1, y - 1, x + nMaxLineLength * 8 + 1, y + nLines * 8 + 1, PIXEL_SOLID, FG_DARK_BLUE);
@@ -263,7 +263,7 @@ public:
 		DrawLine(x - 2, y - 2, x + nMaxLineLength * 8 + 1, y - 2);
 		DrawLine(x - 2, y + nLines * 8 + 1, x + nMaxLineLength * 8 + 1, y + nLines * 8 + 1);
 
-		for (int l = 0; l<vecText.size(); l++)
+		for (int l = 0; l < vecText.size(); l++)
 			DrawBigText(vecText[l], x, y + l * 8);
 	}
 };

@@ -55,9 +55,8 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019
 */
-
 
 #pragma once
 
@@ -83,12 +82,11 @@ public:
 	~cCarCrimeCity();
 
 private:
-	bool OnUserCreate()                   override;
+	bool OnUserCreate() override;
 	bool OnUserUpdate(float fElapsedTime) override;
-	bool OnUserDestroy()                  override;
+	bool OnUserDestroy() override;
 
 private:
-
 	class cGameObjectQuad
 	{
 	public:
@@ -99,10 +97,10 @@ private:
 			fAngle = 0.0f;
 
 			// Construct Model Quad Geometry
-			vecPointsModel = { {-fWidth / 2.0f, -fHeight / 2.0f, -0.01f, 1.0f},
-							   {-fWidth / 2.0f, +fHeight / 2.0f, -0.01f, 1.0f},
-							   {+fWidth / 2.0f, +fHeight / 2.0f, -0.01f, 1.0f},
-							   {+fWidth / 2.0f, -fHeight / 2.0f, -0.01f, 1.0f} };
+			vecPointsModel = {{-fWidth / 2.0f, -fHeight / 2.0f, -0.01f, 1.0f},
+							  {-fWidth / 2.0f, +fHeight / 2.0f, -0.01f, 1.0f},
+							  {+fWidth / 2.0f, +fHeight / 2.0f, -0.01f, 1.0f},
+							  {+fWidth / 2.0f, -fHeight / 2.0f, -0.01f, 1.0f}};
 
 			vecPointsWorld.resize(vecPointsModel.size());
 			TransformModelToWorld();
@@ -116,16 +114,14 @@ private:
 					(vecPointsModel[i].x * cosf(fAngle)) - (vecPointsModel[i].y * sinf(fAngle)) + pos.x,
 					(vecPointsModel[i].x * sinf(fAngle)) + (vecPointsModel[i].y * cosf(fAngle)) + pos.y,
 					vecPointsModel[i].z,
-					vecPointsModel[i].w
-				};
+					vecPointsModel[i].w};
 			}
 		}
 
 		std::vector<olc::GFX3D::triangle> GetTriangles()
 		{
 			// Return triangles based upon this quad
-			return
-			{
+			return {
 				{vecPointsWorld[0], vecPointsWorld[1], vecPointsWorld[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, olc::RED},
 				{vecPointsWorld[0], vecPointsWorld[2], vecPointsWorld[3], 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, olc::RED},
 			};
@@ -134,22 +130,26 @@ private:
 		// Use rectangle edge intersections.
 		bool StaticCollisionWith(cGameObjectQuad &r2, bool bResolveStatic = false)
 		{
-			struct vec2d { float x; float y; };
+			struct vec2d
+			{
+				float x;
+				float y;
+			};
 
 			bool bCollision = false;
 
 			// Check diagonals of R1 against edges of R2
 			for (size_t p = 0; p < vecPointsWorld.size(); p++)
 			{
-				vec2d line_r1s = { pos.x, pos.y };
-				vec2d line_r1e = { vecPointsWorld[p].x, vecPointsWorld[p].y };
+				vec2d line_r1s = {pos.x, pos.y};
+				vec2d line_r1e = {vecPointsWorld[p].x, vecPointsWorld[p].y};
 
-				vec2d displacement = { 0,0 };
+				vec2d displacement = {0, 0};
 
 				for (size_t q = 0; q < r2.vecPointsWorld.size(); q++)
 				{
-					vec2d line_r2s = { r2.vecPointsWorld[q].x, r2.vecPointsWorld[q].y };
-					vec2d line_r2e = { r2.vecPointsWorld[(q + 1) % r2.vecPointsWorld.size()].x, r2.vecPointsWorld[(q + 1) % r2.vecPointsWorld.size()].y };
+					vec2d line_r2s = {r2.vecPointsWorld[q].x, r2.vecPointsWorld[q].y};
+					vec2d line_r2e = {r2.vecPointsWorld[(q + 1) % r2.vecPointsWorld.size()].x, r2.vecPointsWorld[(q + 1) % r2.vecPointsWorld.size()].y};
 
 					// Standard "off the shelf" line segment intersection
 					float h = (line_r2e.x - line_r2s.x) * (line_r1s.y - line_r1e.y) - (line_r1s.x - line_r1e.x) * (line_r2e.y - line_r2s.y);
@@ -176,15 +176,15 @@ private:
 			// Check diagonals of R2 against edges of R1
 			for (size_t p = 0; p < r2.vecPointsWorld.size(); p++)
 			{
-				vec2d line_r1s = { r2.pos.x, r2.pos.y };
-				vec2d line_r1e = { r2.vecPointsWorld[p].x, r2.vecPointsWorld[p].y };
+				vec2d line_r1s = {r2.pos.x, r2.pos.y};
+				vec2d line_r1e = {r2.vecPointsWorld[p].x, r2.vecPointsWorld[p].y};
 
-				vec2d displacement = { 0,0 };
+				vec2d displacement = {0, 0};
 
 				for (size_t q = 0; q < vecPointsWorld.size(); q++)
 				{
-					vec2d line_r2s = { vecPointsWorld[q].x, vecPointsWorld[q].y };
-					vec2d line_r2e = { vecPointsWorld[(q + 1) % vecPointsWorld.size()].x, vecPointsWorld[(q + 1) % vecPointsWorld.size()].y };
+					vec2d line_r2s = {vecPointsWorld[q].x, vecPointsWorld[q].y};
+					vec2d line_r2e = {vecPointsWorld[(q + 1) % vecPointsWorld.size()].x, vecPointsWorld[(q + 1) % vecPointsWorld.size()].y};
 
 					// Standard "off the shelf" line segment intersection
 					float h = (line_r2e.x - line_r2s.x) * (line_r1s.y - line_r1e.y) - (line_r1s.x - line_r1e.x) * (line_r2e.y - line_r2s.y);
@@ -203,7 +203,6 @@ private:
 							return true;
 					}
 				}
-
 
 				pos.x += displacement.x;
 				pos.y += displacement.y;
@@ -225,16 +224,16 @@ private:
 	};
 
 	bool LoadAssets();
-	
-	std::map<std::string, olc::Sprite*> mapAssetTextures;
-	std::map<std::string, olc::GFX3D::mesh*> mapAssetMeshes;
+
+	std::map<std::string, olc::Sprite *> mapAssetTextures;
+	std::map<std::string, olc::GFX3D::mesh *> mapAssetMeshes;
 	std::map<std::string, olc::GFX3D::mat4x4> mapAssetTransform;
 
 	// Camera variables
-	olc::GFX3D::vec3d vCamera = { 0.0f, 0.0f, -3.0f };
-	olc::GFX3D::vec3d vUp = { 0.0f, 1.0f, 0.0f };
-	olc::GFX3D::vec3d vEye = { 0.0f, 0.0f, -3.0f };
-	olc::GFX3D::vec3d vLookDir = { 0.0f, 0.0f, 1.0f };
+	olc::GFX3D::vec3d vCamera = {0.0f, 0.0f, -3.0f};
+	olc::GFX3D::vec3d vUp = {0.0f, 1.0f, 0.0f};
+	olc::GFX3D::vec3d vEye = {0.0f, 0.0f, -3.0f};
+	olc::GFX3D::vec3d vLookDir = {0.0f, 0.0f, 1.0f};
 
 	// Ray Casting Parameters
 	olc::vf2d viewWorldTopLeft;
@@ -245,28 +244,28 @@ private:
 	float fCloudOffsetY = 0.0f;
 
 	// Mouse Control
-	olc::vf2d vOffset = { 0.0f, 0.0f };
-	olc::vf2d vStartPan = { 0.0f, 0.0f };
-	olc::vf2d vMouseOnGround = { 0.0f, 0.0f };
+	olc::vf2d vOffset = {0.0f, 0.0f};
+	olc::vf2d vStartPan = {0.0f, 0.0f};
+	olc::vf2d vMouseOnGround = {0.0f, 0.0f};
 	float fScale = 1.0f;
 
 	olc::vf2d GetMouseOnGround(const olc::vf2d &vMouseScreen);
 
-	//cVehicle car;
+	// cVehicle car;
 	olc::vf2d carvel;
 	olc::vf2d carpos;
 	float fSpeed = 0.0f;
 	float fAngle = 0.0f;
 
-	std::list<cAuto_Body*> listAutomata; // Holds all automata, note its a pointer because we use polymorphism
+	std::list<cAuto_Body *> listAutomata; // Holds all automata, note its a pointer because we use polymorphism
 
 	void SpawnPedestrian(int x, int y);
 	void SpawnVehicle(int x, int y);
 
-	//cGameObjectQuad *goCar = nullptr;
-	//cGameObjectQuad *goObstacle = nullptr;
+	// cGameObjectQuad *goCar = nullptr;
+	// cGameObjectQuad *goObstacle = nullptr;
 
-	//std::vector<cGameObjectQuad> vecObstacles;
+	// std::vector<cGameObjectQuad> vecObstacles;
 
 	cCityMap *pCity = nullptr;
 
@@ -277,13 +276,15 @@ private:
 	int nMouseX = 0;
 	int nMouseY = 0;
 
-	struct sCellLoc { int x, y; };
+	struct sCellLoc
+	{
+		int x, y;
+	};
 	std::unordered_set<int> setSelectedCells;
 
-	//std::list<sSmokeDecal> listDecalSmoke;
+	// std::list<sSmokeDecal> listDecalSmoke;
 
-	//int nTrafficState = 0;
+	// int nTrafficState = 0;
 
 	void DoEditMode(float fElapsedTime);
 };
-

@@ -33,7 +33,7 @@
 	DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 	THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-	OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.	
+	OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 	Relevant Video: https://youtu.be/ukkbNKTgf5U
 
@@ -50,7 +50,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019
 */
 
 #define OLC_PGE_APPLICATION
@@ -67,13 +67,13 @@ public:
 
 private:
 	// Number of tiles in world
-	olc::vi2d vWorldSize = { 14, 10 };
+	olc::vi2d vWorldSize = {14, 10};
 
 	// Size of single tile graphic
-	olc::vi2d vTileSize = { 40, 20 };
+	olc::vi2d vTileSize = {40, 20};
 
 	// Where to place tile (0,0) on screen (in tile size steps)
-	olc::vi2d vOrigin = { 5, 1 };
+	olc::vi2d vOrigin = {5, 1};
 
 	// Sprite that holds all imagery
 	olc::Sprite *sprIsom = nullptr;
@@ -88,7 +88,7 @@ public:
 		sprIsom = new olc::Sprite("isometric_demo.png");
 
 		// Create empty world
-		pWorld = new int[vWorldSize.x * vWorldSize.y]{ 0 };
+		pWorld = new int[vWorldSize.x * vWorldSize.y]{0};
 		return true;
 	}
 
@@ -97,29 +97,32 @@ public:
 		Clear(olc::WHITE);
 
 		// Get Mouse in world
-		olc::vi2d vMouse = { GetMouseX(), GetMouseY() };
-		
+		olc::vi2d vMouse = {GetMouseX(), GetMouseY()};
+
 		// Work out active cell
-		olc::vi2d vCell = { vMouse.x / vTileSize.x, vMouse.y / vTileSize.y };
+		olc::vi2d vCell = {vMouse.x / vTileSize.x, vMouse.y / vTileSize.y};
 
 		// Work out mouse offset into cell
-		olc::vi2d vOffset = { vMouse.x % vTileSize.x, vMouse.y % vTileSize.y };
+		olc::vi2d vOffset = {vMouse.x % vTileSize.x, vMouse.y % vTileSize.y};
 
 		// Sample into cell offset colour
 		olc::Pixel col = sprIsom->GetPixel(3 * vTileSize.x + vOffset.x, vOffset.y);
 
 		// Work out selected cell by transforming screen cell
-		olc::vi2d vSelected = 
-		{
-			(vCell.y - vOrigin.y) + (vCell.x - vOrigin.x),
-			(vCell.y - vOrigin.y) - (vCell.x - vOrigin.x) 
-		};
+		olc::vi2d vSelected =
+			{
+				(vCell.y - vOrigin.y) + (vCell.x - vOrigin.x),
+				(vCell.y - vOrigin.y) - (vCell.x - vOrigin.x)};
 
 		// "Bodge" selected cell by sampling corners
-		if (col == olc::RED) vSelected += {-1, +0};
-		if (col == olc::BLUE) vSelected += {+0, -1};
-		if (col == olc::GREEN) vSelected += {+0, +1};
-		if (col == olc::YELLOW) vSelected += {+1, +0};
+		if (col == olc::RED)
+			vSelected += {-1, +0};
+		if (col == olc::BLUE)
+			vSelected += {+0, -1};
+		if (col == olc::GREEN)
+			vSelected += {+0, +1};
+		if (col == olc::YELLOW)
+			vSelected += {+1, +0};
 
 		// Handle mouse click to toggle if a tile is visible or not
 		if (GetMouse(0).bPressed)
@@ -128,17 +131,15 @@ public:
 			if (vSelected.x >= 0 && vSelected.x < vWorldSize.x && vSelected.y >= 0 && vSelected.y < vWorldSize.y)
 				++pWorld[vSelected.y * vWorldSize.x + vSelected.x] %= 6;
 		}
-						
+
 		// Labmda function to convert "world" coordinate into screen space
 		auto ToScreen = [&](int x, int y)
-		{			
-			return olc::vi2d
-			{
+		{
+			return olc::vi2d{
 				(vOrigin.x * vTileSize.x) + (x - y) * (vTileSize.x / 2),
-				(vOrigin.y * vTileSize.y) + (x + y) * (vTileSize.y / 2)
-			};
+				(vOrigin.y * vTileSize.y) + (x + y) * (vTileSize.y / 2)};
 		};
-		
+
 		// Draw World - has binary transparancy so enable masking
 		SetPixelMode(olc::Pixel::MASK);
 
@@ -150,8 +151,8 @@ public:
 			{
 				// Convert cell coordinate to world space
 				olc::vi2d vWorld = ToScreen(x, y);
-				
-				switch(pWorld[y*vWorldSize.x + x])
+
+				switch (pWorld[y * vWorldSize.x + x])
 				{
 				case 0:
 					// Invisble Tile
@@ -177,7 +178,7 @@ public:
 					// Water
 					DrawPartialSprite(vWorld.x, vWorld.y - vTileSize.y, sprIsom, 3 * vTileSize.x, 1 * vTileSize.y, vTileSize.x, vTileSize.y * 2);
 					break;
-				}			
+				}
 			}
 		}
 
@@ -194,8 +195,8 @@ public:
 		SetPixelMode(olc::Pixel::NORMAL);
 
 		// Draw Hovered Cell Boundary
-		//DrawRect(vCell.x * vTileSize.x, vCell.y * vTileSize.y, vTileSize.x, vTileSize.y, olc::RED);
-				
+		// DrawRect(vCell.x * vTileSize.x, vCell.y * vTileSize.y, vTileSize.x, vTileSize.y, olc::RED);
+
 		// Draw Debug Info
 		DrawString(4, 4, "Mouse   : " + std::to_string(vMouse.x) + ", " + std::to_string(vMouse.y), olc::BLACK);
 		DrawString(4, 14, "Cell    : " + std::to_string(vCell.x) + ", " + std::to_string(vCell.y), olc::BLACK);
@@ -203,7 +204,6 @@ public:
 		return true;
 	}
 };
-
 
 int main()
 {

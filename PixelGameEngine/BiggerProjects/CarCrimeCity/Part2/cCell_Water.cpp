@@ -1,8 +1,7 @@
 #include "cCell_Water.h"
 #include "cCityMap.h"
 
-
-cCell_Water::cCell_Water(cCityMap* map, int x, int y) : cCell(map, x, y)
+cCell_Water::cCell_Water(cCityMap *map, int x, int y) : cCell(map, x, y)
 {
 	nCellType = CELL_WATER;
 	bNeighboursAreWater[0] = false;
@@ -11,18 +10,17 @@ cCell_Water::cCell_Water(cCityMap* map, int x, int y) : cCell(map, x, y)
 	bNeighboursAreWater[3] = false;
 }
 
-
 cCell_Water::~cCell_Water()
 {
 }
 
-bool cCell_Water::LinkAssets(std::map<std::string, olc::Sprite*>& mapTextures, std::map<std::string, olc::GFX3D::mesh*>& mapMesh, std::map<std::string, olc::GFX3D::mat4x4> &mapTransforms)
+bool cCell_Water::LinkAssets(std::map<std::string, olc::Sprite *> &mapTextures, std::map<std::string, olc::GFX3D::mesh *> &mapMesh, std::map<std::string, olc::GFX3D::mat4x4> &mapTransforms)
 {
 	meshUnitQuad = mapMesh["UnitQuad"];
 	meshWalls = mapMesh["WallsOut"];
 	sprWater = mapTextures["Water"];
 	sprSides = mapTextures["WaterSide"];
-	sprClouds = mapTextures["Clouds"];	
+	sprClouds = mapTextures["Clouds"];
 	return false;
 }
 
@@ -31,22 +29,26 @@ bool cCell_Water::Update(float fElapsedTime)
 	return false;
 }
 
-bool cCell_Water::DrawBase(olc::PixelGameEngine * pge, olc::GFX3D::PipeLine & pipe)
+bool cCell_Water::DrawBase(olc::PixelGameEngine *pge, olc::GFX3D::PipeLine &pipe)
 {
 	olc::GFX3D::mat4x4 matWorld;
 	matWorld = olc::GFX3D::Math::Mat_MakeTranslation((float)nWorldX, (float)nWorldY, 0.0f);
 	pipe.SetTransform(matWorld);
 	pipe.SetTexture(sprSides);
-	if (!bNeighboursAreWater[1]) pipe.Render(meshWalls->tris, olc::GFX3D::RENDER_LIGHTS | olc::GFX3D::RENDER_CULL_CCW | olc::GFX3D::RENDER_TEXTURED | olc::GFX3D::RENDER_DEPTH, 0, 2);
-	if (!bNeighboursAreWater[3]) pipe.Render(meshWalls->tris, olc::GFX3D::RENDER_LIGHTS | olc::GFX3D::RENDER_CULL_CCW | olc::GFX3D::RENDER_TEXTURED | olc::GFX3D::RENDER_DEPTH, 2, 2);
-	if (!bNeighboursAreWater[2]) pipe.Render(meshWalls->tris, olc::GFX3D::RENDER_LIGHTS | olc::GFX3D::RENDER_CULL_CCW | olc::GFX3D::RENDER_TEXTURED | olc::GFX3D::RENDER_DEPTH, 4, 2);
-	if (!bNeighboursAreWater[0]) pipe.Render(meshWalls->tris, olc::GFX3D::RENDER_LIGHTS | olc::GFX3D::RENDER_CULL_CCW | olc::GFX3D::RENDER_TEXTURED | olc::GFX3D::RENDER_DEPTH, 6, 2);
+	if (!bNeighboursAreWater[1])
+		pipe.Render(meshWalls->tris, olc::GFX3D::RENDER_LIGHTS | olc::GFX3D::RENDER_CULL_CCW | olc::GFX3D::RENDER_TEXTURED | olc::GFX3D::RENDER_DEPTH, 0, 2);
+	if (!bNeighboursAreWater[3])
+		pipe.Render(meshWalls->tris, olc::GFX3D::RENDER_LIGHTS | olc::GFX3D::RENDER_CULL_CCW | olc::GFX3D::RENDER_TEXTURED | olc::GFX3D::RENDER_DEPTH, 2, 2);
+	if (!bNeighboursAreWater[2])
+		pipe.Render(meshWalls->tris, olc::GFX3D::RENDER_LIGHTS | olc::GFX3D::RENDER_CULL_CCW | olc::GFX3D::RENDER_TEXTURED | olc::GFX3D::RENDER_DEPTH, 4, 2);
+	if (!bNeighboursAreWater[0])
+		pipe.Render(meshWalls->tris, olc::GFX3D::RENDER_LIGHTS | olc::GFX3D::RENDER_CULL_CCW | olc::GFX3D::RENDER_TEXTURED | olc::GFX3D::RENDER_DEPTH, 6, 2);
 	return false;
 }
 
-bool cCell_Water::DrawAlpha(olc::PixelGameEngine * pge, olc::GFX3D::PipeLine & pipe)
+bool cCell_Water::DrawAlpha(olc::PixelGameEngine *pge, olc::GFX3D::PipeLine &pipe)
 {
-	auto renderWater = [&](const int x, const int y, const olc::Pixel& pSource, const olc::Pixel& pDest)
+	auto renderWater = [&](const int x, const int y, const olc::Pixel &pSource, const olc::Pixel &pDest)
 	{
 		float a = (float)(pSource.a / 255.0f) * 0.6f;
 		float c = 1.0f - a;
@@ -73,7 +75,6 @@ bool cCell_Water::DrawAlpha(olc::PixelGameEngine * pge, olc::GFX3D::PipeLine & p
 	return false;
 }
 
-
 void cCell_Water::CalculateAdjacency()
 {
 	auto r = [&](int i, int j)
@@ -87,5 +88,5 @@ void cCell_Water::CalculateAdjacency()
 	bNeighboursAreWater[0] = r(0, -1);
 	bNeighboursAreWater[1] = r(+1, 0);
 	bNeighboursAreWater[2] = r(0, +1);
-	bNeighboursAreWater[3] = r(-1, 0);	
+	bNeighboursAreWater[3] = r(-1, 0);
 }

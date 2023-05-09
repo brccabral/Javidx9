@@ -4,11 +4,11 @@
 #include <windows.h>
 #include <xinput.h>
 
-typedef DWORD(WINAPI XInputGetState_t)(DWORD dwUserIndex, XINPUT_STATE* pState);
-static XInputGetState_t* XInputStateGet;
+typedef DWORD(WINAPI XInputGetState_t)(DWORD dwUserIndex, XINPUT_STATE *pState);
+static XInputGetState_t *XInputStateGet;
 
-typedef DWORD(WINAPI XInputSetState_t)(DWORD dwUserIndex, XINPUT_VIBRATION* pVibration);
-static XInputSetState_t* XInputStateSet;
+typedef DWORD(WINAPI XInputSetState_t)(DWORD dwUserIndex, XINPUT_VIBRATION *pVibration);
+static XInputSetState_t *XInputStateSet;
 #endif
 
 #define C_BUTTON_COUNT 14
@@ -92,10 +92,11 @@ bool ControllerManager::Initialize()
 	// TODO: Should we check for version 9.1.0 if we fail to find 1.4?
 	HMODULE lib = LoadLibraryA("xinput1_4.dll");
 
-	if (!lib) return false;
+	if (!lib)
+		return false;
 
-	XInputStateGet = (XInputGetState_t*)GetProcAddress(lib, "XInputGetState");
-	XInputStateSet = (XInputSetState_t*)GetProcAddress(lib, "XInputSetState");
+	XInputStateGet = (XInputGetState_t *)GetProcAddress(lib, "XInputGetState");
+	XInputStateSet = (XInputSetState_t *)GetProcAddress(lib, "XInputSetState");
 #endif
 
 	return true;
@@ -105,7 +106,8 @@ float ControllerManager::NormalizeStickValue(short value)
 {
 	// The value we are given is in the range -32768 to 32767 with some deadzone around zero.
 	// We will assume all values in this dead zone to be a reading of zero (the stick is not moved).
-	if (value > -7000 && value < 7000) return 0;
+	if (value > -7000 && value < 7000)
+		return 0;
 
 	// Otherwise, we are going to normalize the value.
 	return ((value + 32768.0f) / (32768.0f + 32767.0f) * 2) - 1;
@@ -114,7 +116,8 @@ float ControllerManager::NormalizeStickValue(short value)
 void ControllerManager::Vibrate(short amt, int timeMs)
 {
 	// If we are already vibrating, just ignore this, unless they say zero, in which case we will let them stop it.
-	if (vibrating && amt != 0) return;
+	if (vibrating && amt != 0)
+		return;
 
 	// Only start the timer if we are actually vibrating.
 	if (amt != 0)
@@ -124,22 +127,19 @@ void ControllerManager::Vibrate(short amt, int timeMs)
 	}
 #ifdef WIN32
 	XINPUT_VIBRATION info =
-	{
-		amt,
-		amt
-	};
+		{
+			amt,
+			amt};
 	XInputStateSet(0, &info);
 #endif
 }
 
 CBState ControllerManager::GetButton(CButton button)
 {
-	return
-	{
+	return {
 		!lastButtonState[button] && buttonState[button],
 		lastButtonState[button] && !buttonState[button],
-		lastButtonState[button] && buttonState[button]
-	};
+		lastButtonState[button] && buttonState[button]};
 }
 
 void ControllerManager::Update(float dt)
@@ -151,9 +151,8 @@ void ControllerManager::Update(float dt)
 		if (vibrateCounter >= vibrateTime)
 		{
 			XINPUT_VIBRATION info =
-			{
-				0, 0
-			};
+				{
+					0, 0};
 			XInputStateSet(0, &info);
 
 			vibrating = false;
@@ -175,7 +174,7 @@ void ControllerManager::Update(float dt)
 	// If the controller is plugged in, handle input.
 	if (res == ERROR_SUCCESS)
 	{
-		XINPUT_GAMEPAD* pad = &state.Gamepad;
+		XINPUT_GAMEPAD *pad = &state.Gamepad;
 
 		buttonState[UP] = (pad->wButtons & XINPUT_GAMEPAD_DPAD_UP);
 		buttonState[DOWN] = (pad->wButtons & XINPUT_GAMEPAD_DPAD_DOWN);

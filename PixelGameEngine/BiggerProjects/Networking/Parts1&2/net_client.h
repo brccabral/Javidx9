@@ -2,7 +2,7 @@
 	MMO Client/Server Framework using ASIO
 	"Happy Birthday Mrs Javidx9!" - javidx9
 
-	Videos: 
+	Videos:
 	Part #1: https://youtu.be/2hNdkYInj4g
 	Part #2: https://youtu.be/UbjxGvrDrbw
 
@@ -50,7 +50,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019, 2020
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019, 2020
 
 */
 
@@ -65,8 +65,9 @@ namespace olc
 		class client_interface
 		{
 		public:
-			client_interface() 
-			{}
+			client_interface()
+			{
+			}
 
 			virtual ~client_interface()
 			{
@@ -76,7 +77,7 @@ namespace olc
 
 		public:
 			// Connect to server with hostname/ip-address and port
-			bool Connect(const std::string& host, const uint16_t port)
+			bool Connect(const std::string &host, const uint16_t port)
 			{
 				try
 				{
@@ -86,14 +87,15 @@ namespace olc
 
 					// Create connection
 					m_connection = std::make_unique<connection<T>>(connection<T>::owner::client, m_context, asio::ip::tcp::socket(m_context), m_qMessagesIn);
-					
+
 					// Tell the connection object to connect to server
 					m_connection->ConnectToServer(endpoints);
 
 					// Start Context Thread
-					thrContext = std::thread([this]() { m_context.run(); });
+					thrContext = std::thread([this]()
+											 { m_context.run(); });
 				}
-				catch (std::exception& e)
+				catch (std::exception &e)
 				{
 					std::cerr << "Client Exception: " << e.what() << "\n";
 					return false;
@@ -105,13 +107,13 @@ namespace olc
 			void Disconnect()
 			{
 				// If connection exists, and it's connected then...
-				if(IsConnected())
+				if (IsConnected())
 				{
 					// ...disconnect from server gracefully
 					m_connection->Disconnect();
 				}
 
-				// Either way, we're also done with the asio context...				
+				// Either way, we're also done with the asio context...
 				m_context.stop();
 				// ...and its thread
 				if (thrContext.joinable())
@@ -132,15 +134,15 @@ namespace olc
 
 		public:
 			// Send message to server
-			void Send(const message<T>& msg)
+			void Send(const message<T> &msg)
 			{
 				if (IsConnected())
-					 m_connection->Send(msg);
+					m_connection->Send(msg);
 			}
 
 			// Retrieve queue of messages from server
-			tsqueue<owned_message<T>>& Incoming()
-			{ 
+			tsqueue<owned_message<T>> &Incoming()
+			{
 				return m_qMessagesIn;
 			}
 
@@ -151,7 +153,7 @@ namespace olc
 			std::thread thrContext;
 			// The client has a single instance of a "connection" object, which handles data transfer
 			std::unique_ptr<connection<T>> m_connection;
-			
+
 		private:
 			// This is the thread safe queue of incoming messages from server
 			tsqueue<owned_message<T>> m_qMessagesIn;

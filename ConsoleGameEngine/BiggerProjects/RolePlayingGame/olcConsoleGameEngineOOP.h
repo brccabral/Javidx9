@@ -7,7 +7,7 @@
 	What is this?
 	~~~~~~~~~~~~~
 
-	This is the code I created as part of my 
+	This is the code I created as part of my
 	"Code-It-Yourself! Role Playing Game" series on YouTube. This is
 	NOT a game. The project will compile and demonstrate several
 	systems developed as part of that series. My original intention
@@ -66,9 +66,8 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
-
 
 #pragma once
 
@@ -87,7 +86,6 @@ Character Set -> Use Unicode. Thanks! - Javidx9
 using namespace std;
 
 #include <windows.h>
-
 
 enum COLOUR
 {
@@ -138,7 +136,6 @@ class olcSprite
 public:
 	olcSprite()
 	{
-
 	}
 
 	olcSprite(int w, int h)
@@ -163,9 +160,9 @@ private:
 	{
 		nWidth = w;
 		nHeight = h;
-		m_Glyphs = new wchar_t[w*h];
-		m_Colours = new short[w*h];
-		for (int i = 0; i < w*h; i++)
+		m_Glyphs = new wchar_t[w * h];
+		m_Colours = new short[w * h];
+		for (int i = 0; i < w * h; i++)
 		{
 			m_Glyphs[i] = L' ';
 			m_Colours[i] = FG_BLACK;
@@ -175,7 +172,7 @@ private:
 public:
 	void SetGlyph(int x, int y, wchar_t c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Glyphs[y * nWidth + x] = c;
@@ -183,7 +180,7 @@ public:
 
 	void SetColour(int x, int y, short c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Colours[y * nWidth + x] = c;
@@ -191,7 +188,7 @@ public:
 
 	wchar_t GetGlyph(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[y * nWidth + x];
@@ -199,7 +196,7 @@ public:
 
 	short GetColour(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[y * nWidth + x];
@@ -209,7 +206,7 @@ public:
 	{
 		int sx = (int)(x * (float)nWidth);
 		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[sy * nWidth + sx];
@@ -219,7 +216,7 @@ public:
 	{
 		int sx = (int)(x * (float)nWidth);
 		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[sy * nWidth + sx];
@@ -265,9 +262,7 @@ public:
 		fclose(f);
 		return true;
 	}
-
 };
-
 
 class olcConsoleGameEngineOOP
 {
@@ -278,7 +273,7 @@ public:
 public:
 	int ConstructConsole(int width, int height, int fontw, int fonth);
 	void Start();
-	
+
 public:
 	virtual void Draw(int x, int y, wchar_t c = 0x2588, short col = 0x000F);
 	void Fill(int x1, int y1, int x2, int y2, wchar_t c = 0x2588, short col = 0x000F);
@@ -302,16 +297,13 @@ protected:
 	virtual bool OnUserCreate() = 0;
 	virtual bool OnUserUpdate(float fElapsedTime) = 0;
 
-	// Optional for clean up 
+	// Optional for clean up
 	virtual bool OnUserDestroy();
-
 
 	int Error(const wchar_t *msg);
 	static BOOL CloseHandler(DWORD evt);
 
 protected:
-
-
 	struct sKeyState
 	{
 		bool bPressed;
@@ -329,7 +321,6 @@ public:
 	sKeyState GetMouse(int nMouseButtonID) { return m_mouse[nMouseButtonID]; }
 	bool IsFocused() { return m_bConsoleInFocus; }
 
-
 protected:
 	int m_nScreenWidth;
 	int m_nScreenHeight;
@@ -340,13 +331,12 @@ protected:
 	HANDLE m_hConsole;
 	HANDLE m_hConsoleIn;
 	SMALL_RECT m_rectWindow;
-	short m_keyOldState[256] = { 0 };
-	short m_keyNewState[256] = { 0 };
-	bool m_mouseOldState[5] = { 0 };
-	bool m_mouseNewState[5] = { 0 };
+	short m_keyOldState[256] = {0};
+	short m_keyNewState[256] = {0};
+	bool m_mouseOldState[5] = {0};
+	bool m_mouseNewState[5] = {0};
 	bool m_bConsoleInFocus = true;
 	static atomic<bool> m_bAtomActive;
 	static condition_variable m_cvGameFinished;
 	static mutex m_muxGame;
 };
-

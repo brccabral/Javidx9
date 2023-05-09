@@ -69,7 +69,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018
 */
 
 #define OLC_PGE_APPLICATION
@@ -94,7 +94,6 @@ public:
 	}
 
 private:
-
 	// Define the cell
 	struct sCell
 	{
@@ -128,9 +127,8 @@ private:
 
 	float fCarAngle = 0.0f;
 	float fCarSpeed = 2.0f;
-	olc::GFX3D::vec3d vecCarVel = { 0,0,0 };
-	olc::GFX3D::vec3d vecCarPos = { 0,0,0 };
-	
+	olc::GFX3D::vec3d vecCarVel = {0, 0, 0};
+	olc::GFX3D::vec3d vecCarPos = {0, 0, 0};
 
 	int nMouseWorldX = 0;
 	int nMouseWorldY = 0;
@@ -138,27 +136,26 @@ private:
 	int nOldMouseWorldY = 0;
 
 	bool bMouseDown = false;
-	std::unordered_set<sCell*> setSelectedCells;
+	std::unordered_set<sCell *> setSelectedCells;
 
 	olc::GFX3D::PipeLine pipeRender;
 	olc::GFX3D::mat4x4 matProj;
-	olc::GFX3D::vec3d vUp = { 0,1,0 };
-	olc::GFX3D::vec3d vEye = { 0,0,-10 };
-	olc::GFX3D::vec3d vLookDir = { 0,0,1 };
+	olc::GFX3D::vec3d vUp = {0, 1, 0};
+	olc::GFX3D::vec3d vEye = {0, 0, -10};
+	olc::GFX3D::vec3d vLookDir = {0, 0, 1};
 
 	olc::GFX3D::vec3d viewWorldTopLeft, viewWorldBottomRight;
-
 
 	void SaveCity(std::string sFilename)
 	{
 		std::ofstream file(sFilename, std::ios::out | std::ios::binary);
-		file.write((char*)&nMapWidth, sizeof(int));
-		file.write((char*)&nMapHeight, sizeof(int));
+		file.write((char *)&nMapWidth, sizeof(int));
+		file.write((char *)&nMapHeight, sizeof(int));
 		for (int x = 0; x < nMapWidth; x++)
 		{
 			for (int y = 0; y < nMapHeight; y++)
 			{
-				file.write((char*)&pMap[y*nMapWidth + x], sizeof(sCell));
+				file.write((char *)&pMap[y * nMapWidth + x], sizeof(sCell));
 			}
 		}
 	}
@@ -166,15 +163,15 @@ private:
 	void LoadCity(std::string sFilename)
 	{
 		std::ifstream file(sFilename, std::ios::in | std::ios::binary);
-		file.read((char*)&nMapWidth, sizeof(int));
-		file.read((char*)&nMapHeight, sizeof(int));
+		file.read((char *)&nMapWidth, sizeof(int));
+		file.read((char *)&nMapHeight, sizeof(int));
 		delete[] pMap;
 		pMap = new sCell[nMapWidth * nMapHeight];
 		for (int x = 0; x < nMapWidth; x++)
 		{
 			for (int y = 0; y < nMapHeight; y++)
 			{
-				file.read((char*)&pMap[y*nMapWidth + x], sizeof(sCell));
+				file.read((char *)&pMap[y * nMapWidth + x], sizeof(sCell));
 			}
 		}
 	}
@@ -214,7 +211,7 @@ public:
 		{
 			sprRoad[r] = new olc::Sprite(96, 96);
 			SetDrawTarget(sprRoad[r]);
-			DrawPartialSprite(0, 0, sprAll, (r%3)*96, (r/3)*96, 96, 96);
+			DrawPartialSprite(0, 0, sprAll, (r % 3) * 96, (r / 3) * 96, 96, 96);
 		}
 
 		// Don't foregt to set the draw target back to being the main screen (been there... wasted 1.5 hours :| )
@@ -223,8 +220,6 @@ public:
 		// The Yellow Car
 		sprCar = new olc::Sprite("car_top.png");
 
-		
-		
 		// Define the city map, a 64x32 array of Cells. Initialise cells
 		// to be just grass fields
 		nMapWidth = 64;
@@ -234,73 +229,555 @@ public:
 		{
 			for (int y = 0; y < nMapHeight; y++)
 			{
-				pMap[y*nMapWidth + x].bRoad = false;
-				pMap[y*nMapWidth + x].nHeight = 0;
-				pMap[y*nMapWidth + x].nWorldX = x;
-				pMap[y*nMapWidth + x].nWorldY = y;
+				pMap[y * nMapWidth + x].bRoad = false;
+				pMap[y * nMapWidth + x].nHeight = 0;
+				pMap[y * nMapWidth + x].nWorldX = x;
+				pMap[y * nMapWidth + x].nWorldY = y;
 			}
 		}
-
 
 		// Now we'll hand construct some meshes. These are DELIBERATELY simple and not optimised (see a later video)
 		// Here the geometry is unit in size (1x1x1)
 
 		// A Full cube - Always useful for debugging
-		meshCube.tris = 
-		{
-			// SOUTH
-			{ 0.0f, 0.0f, 0.0f, 1.0f,	    0.0f, 1.0f, 0.0f, 1.0f,		 1.0f, 1.0f, 0.0f, 1.0f,	0.0f, 1.0f, 0.0f,	0.0f, 0.0f, 0.0f, 		1.0f, 0.0f, 0.0f, },
-			{ 0.0f, 0.0f, 0.0f, 1.0f,  		1.0f, 1.0f, 0.0f, 1.0f,		 1.0f, 0.0f, 0.0f, 1.0f,	0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 		1.0f, 1.0f, 0.0f, },
+		meshCube.tris =
+			{
+				// SOUTH
+				{
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+				},
+				{
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+				},
 
-			// EAST
-			{ 1.0f, 0.0f, 0.0f, 1.0f,		1.0f, 1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f, 0.0f,	0.0f, 0.0f, 0.0f, 		1.0f, 0.0f, 0.0f, },
-			{ 1.0f, 0.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 0.0f, 1.0f, 1.0f,		0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 		1.0f, 1.0f, 0.0f, },
+				// EAST
+				{
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+				},
+				{
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+				},
 
-			// NORTH
-			{ 1.0f, 0.0f, 1.0f, 1.0f,		1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f, 0.0f,	0.0f, 0.0f, 0.0f, 		1.0f, 0.0f, 0.0f, },
-			{ 1.0f, 0.0f, 1.0f, 1.0f,		0.0f, 1.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f, 1.0f,		0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 		1.0f, 1.0f, 0.0f, },
+				// NORTH
+				{
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+				},
+				{
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+				},
 
-			// WEST
-			{ 0.0f, 0.0f, 1.0f, 1.0f,		0.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f, 0.0f, 1.0f,		0.0f, 1.0f, 0.0f,	0.0f, 0.0f, 0.0f, 		1.0f, 0.0f, 0.0f, },
-			{ 0.0f, 0.0f, 1.0f, 1.0f,		0.0f, 1.0f, 0.0f, 1.0f,		0.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 		1.0f, 1.0f, 0.0f, },
+				// WEST
+				{
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+				},
+				{
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+				},
 
-			// TOP             																 				    
-			{ 0.0f, 1.0f, 0.0f, 1.0f,		0.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f, 1.0f, 1.0f,		0.0f, 1.0f, 0.0f,	0.0f, 0.0f, 0.0f, 		1.0f, 0.0f, 0.0f, },
-			{ 0.0f, 1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 1.0f, 1.0f,		1.0f, 1.0f, 0.0f, 1.0f,		0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 		1.0f, 1.0f, 0.0f, },
+				// TOP
+				{
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+				},
+				{
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+				},
 
-			// BOTTOM         																 				   
-			{ 1.0f, 0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 0.0f,	0.0f, 0.0f, 0.0f, 		1.0f, 0.0f, 0.0f, },
-			{ 1.0f, 0.0f, 1.0f, 1.0f,		0.0f, 0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 		1.0f, 1.0f, 0.0f, },
+				// BOTTOM
+				{
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+				},
+				{
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+				},
 
-		};
+			};
 
 		// A Flat quad
 		meshFlat.tris =
-		{
-			{ 0.0f, 0.0f, 0.0f, 1.0f,	    0.0f, 1.0f, 0.0f, 1.0f,		 1.0f, 1.0f, 0.0f, 1.0f,	0.0f, 0.0f, 0.0f,	0.0f, 1.0f, 0.0f, 		1.0f, 1.0f, 0.0f, },
-			{ 0.0f, 0.0f, 0.0f, 1.0f,  		1.0f, 1.0f, 0.0f, 1.0f,		 1.0f, 0.0f, 0.0f, 1.0f,	0.0f, 0.0f, 0.0f,	1.0f, 1.0f, 0.0f, 		1.0f, 0.0f, 0.0f, },
-		};
+			{
+				{
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+				},
+				{
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+				},
+			};
 
 		// The four outer walls of a cell
-		meshWallsOut.tris = 
-		{
-			// EAST
-			{ 1.0f, 0.0f, 0.0f, 1.0f,		1.0f, 1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 0.2f, 1.0f,		1.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 		0.0f, 0.0f, 0.0f, },
-			{ 1.0f, 0.0f, 0.0f, 1.0f,		1.0f, 1.0f, 0.2f, 1.0f,		1.0f, 0.0f, 0.2f, 1.0f,		1.0f, 1.0f, 0.0f,	0.0f, 0.0f, 0.0f, 		0.0f, 1.0f, 0.0f, },
+		meshWallsOut.tris =
+			{
+				// EAST
+				{
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.2f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+				},
+				{
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.2f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.2f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+				},
 
-			// WEST
-			{ 0.0f, 0.0f, 0.2f, 1.0f,		0.0f, 1.0f, 0.2f, 1.0f,		0.0f, 1.0f, 0.0f, 1.0f,		0.0f, 1.0f, 0.0f,	0.0f, 0.0f, 0.0f, 		1.0f, 0.0f, 0.0f, },
-			{ 0.0f, 0.0f, 0.2f, 1.0f,		0.0f, 1.0f, 0.0f, 1.0f,		0.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 		1.0f, 1.0f, 0.0f, },
+				// WEST
+				{
+					0.0f,
+					0.0f,
+					0.2f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.2f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+				},
+				{
+					0.0f,
+					0.0f,
+					0.2f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+				},
 
-			// TOP             																 				    
-			{ 0.0f, 1.0f, 0.0f, 1.0f,		0.0f, 1.0f, 0.2f, 1.0f,		1.0f, 1.0f, 0.2f, 1.0f,		1.0f, 0.0f, 0.0f,	0.0f, 0.0f, 0.0f, 		0.0f, 1.0f, 0.0f,   },
-			{ 0.0f, 1.0f, 0.0f, 1.0f,		1.0f, 1.0f, 0.2f, 1.0f,		1.0f, 1.0f, 0.0f, 1.0f,		1.0f, 0.0f, 0.0f,	0.0f, 1.0f, 0.0f, 		1.0f, 1.0f, 0.0f,   },
+				// TOP
+				{
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.2f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.2f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+				},
+				{
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.2f,
+					1.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+				},
 
-			// BOTTOM         																 				   
-			{ 1.0f, 0.0f, 0.2f, 1.0f,		0.0f, 0.0f, 0.2f, 1.0f,		0.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 0.0f,	0.0f, 0.0f, 0.0f, 		1.0f, 0.0f, 0.0f, },
-			{ 1.0f, 0.0f, 0.2f, 1.0f,		0.0f, 0.0f, 0.0f, 1.0f,		1.0f, 0.0f, 0.0f, 1.0f,		0.0f, 1.0f, 0.0f,	1.0f, 0.0f, 0.0f, 		1.0f, 1.0f, 0.0f, },
-		};
-
+				// BOTTOM
+				{
+					1.0f,
+					0.0f,
+					0.2f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.2f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+				},
+				{
+					1.0f,
+					0.0f,
+					0.2f,
+					1.0f,
+					0.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					1.0f,
+					0.0f,
+					0.0f,
+					1.0f,
+					1.0f,
+					0.0f,
+				},
+			};
 
 		// Initialise the 3D Graphics PGE Extension. This is required
 		// to setup internal buffers to the same size as the main output
@@ -311,7 +788,7 @@ public:
 
 		// Also make a projection matrix, we might need this later
 		matProj = olc::GFX3D::Math::Mat_MakeProjection(90.0f, (float)ScreenHeight() / (float)ScreenWidth(), 0.1f, 1000.0f);
-	
+
 		LoadCity("example1.city");
 
 		// Ok, lets go!
@@ -321,15 +798,19 @@ public:
 	bool OnUserUpdate(float fElapsedTime) override
 	{
 		// Directly manipulate camera
-		//if (GetKey(olc::Key::W).bHeld) fCameraY -= 2.0f * fElapsedTime;
-		//if (GetKey(olc::Key::S).bHeld) fCameraY += 2.0f * fElapsedTime;
-		//if (GetKey(olc::Key::A).bHeld) fCameraX -= 2.0f * fElapsedTime;
-		//if (GetKey(olc::Key::D).bHeld) fCameraX += 2.0f * fElapsedTime;
-		if (GetKey(olc::Key::Z).bHeld) fCameraZ += 5.0f * fElapsedTime;
-		if (GetKey(olc::Key::X).bHeld) fCameraZ -= 5.0f * fElapsedTime;
+		// if (GetKey(olc::Key::W).bHeld) fCameraY -= 2.0f * fElapsedTime;
+		// if (GetKey(olc::Key::S).bHeld) fCameraY += 2.0f * fElapsedTime;
+		// if (GetKey(olc::Key::A).bHeld) fCameraX -= 2.0f * fElapsedTime;
+		// if (GetKey(olc::Key::D).bHeld) fCameraX += 2.0f * fElapsedTime;
+		if (GetKey(olc::Key::Z).bHeld)
+			fCameraZ += 5.0f * fElapsedTime;
+		if (GetKey(olc::Key::X).bHeld)
+			fCameraZ -= 5.0f * fElapsedTime;
 
-		if (GetKey(olc::Key::F5).bReleased) SaveCity("example1.city");
-		if (GetKey(olc::Key::F8).bReleased) LoadCity("example1.city");
+		if (GetKey(olc::Key::F5).bReleased)
+			SaveCity("example1.city");
+		if (GetKey(olc::Key::F8).bReleased)
+			LoadCity("example1.city");
 
 		// === Handle User Input for Editing ==
 
@@ -350,7 +831,7 @@ public:
 					}
 				}
 				else
-					pMap[nMouseWorldY*nMapWidth + nMouseWorldX].bRoad = !pMap[nMouseWorldY*nMapWidth + nMouseWorldX].bRoad;
+					pMap[nMouseWorldY * nMapWidth + nMouseWorldX].bRoad = !pMap[nMouseWorldY * nMapWidth + nMouseWorldX].bRoad;
 			}
 
 			// Press "T" to increase height for selected cell(s)
@@ -364,7 +845,7 @@ public:
 					}
 				}
 				else
-					pMap[nMouseWorldY*nMapWidth + nMouseWorldX].nHeight++;
+					pMap[nMouseWorldY * nMapWidth + nMouseWorldX].nHeight++;
 			}
 
 			// Press "E" to decrease height for selected cell(s)
@@ -378,17 +859,18 @@ public:
 					}
 				}
 				else
-					pMap[nMouseWorldY*nMapWidth + nMouseWorldX].nHeight--;
+					pMap[nMouseWorldY * nMapWidth + nMouseWorldX].nHeight--;
 			}
 		}
 
-
 		// === Car User Input ===
 
-		if (GetKey(olc::Key::LEFT).bHeld) fCarAngle -= 4.0f * fElapsedTime;
-		if (GetKey(olc::Key::RIGHT).bHeld) fCarAngle += 4.0f * fElapsedTime;
+		if (GetKey(olc::Key::LEFT).bHeld)
+			fCarAngle -= 4.0f * fElapsedTime;
+		if (GetKey(olc::Key::RIGHT).bHeld)
+			fCarAngle += 4.0f * fElapsedTime;
 
-		olc::GFX3D::vec3d a = { 1, 0, 0 };
+		olc::GFX3D::vec3d a = {1, 0, 0};
 		olc::GFX3D::mat4x4 m = olc::GFX3D::Math::Mat_MakeRotationZ(fCarAngle);
 		vecCarVel = olc::GFX3D::Math::Mat_MultiplyVector(m, a);
 
@@ -405,18 +887,17 @@ public:
 		// on screen interactions
 		fCameraY = vecCarPos.y;
 		fCameraX = vecCarPos.x;
-		vEye = { fCameraX,fCameraY,fCameraZ };
+		vEye = {fCameraX, fCameraY, fCameraZ};
 		olc::GFX3D::vec3d vLookTarget = olc::GFX3D::Math::Vec_Add(vEye, vLookDir);
 
 		// Setup the camera properties for the pipeline - aka "view" transform
 		pipeRender.SetCamera(vEye, vLookTarget, vUp);
 
-
 		// === Calculate Mouse Position on Ground Plane ===
 
 		// Here we take the screen coordinate of the mouse, transform it into normalised space (-1 --> +1)
 		// for both axes. Instead of inverting and multiplying by the projection matrix, we only need the
-		// aspect ratio parameters, with which we'll scale the mouse coordinate. This new point is then 
+		// aspect ratio parameters, with which we'll scale the mouse coordinate. This new point is then
 		// multiplied by the inverse of the look at matrix (camera view matrix) aka a point at matrix, to
 		// transform the new point into world space.
 		//
@@ -429,7 +910,7 @@ public:
 		olc::GFX3D::mat4x4 matView = olc::GFX3D::Math::Mat_PointAt(vEye, vLookTarget, vUp);
 
 		// Assume the origin of the mouse ray is the middle of the screen...
-		olc::GFX3D::vec3d vecMouseOrigin = { 0.0f, 0.0f, 0.0f };
+		olc::GFX3D::vec3d vecMouseOrigin = {0.0f, 0.0f, 0.0f};
 
 		// ...and that a ray is cast to the mouse location from the origin. Here we translate
 		// the mouse coordinates into viewport coordinates
@@ -437,9 +918,9 @@ public:
 			2.0f * ((GetMouseX() / (float)ScreenWidth()) - 0.5f) / matProj.m[0][0],
 			2.0f * ((GetMouseY() / (float)ScreenHeight()) - 0.5f) / matProj.m[1][1],
 			1.0f,
-			0.0f };
+			0.0f};
 
-		// Now transform the origin point and ray direction by the inverse of the camera		
+		// Now transform the origin point and ray direction by the inverse of the camera
 		vecMouseOrigin = olc::GFX3D::Math::Mat_MultiplyVector(matView, vecMouseOrigin);
 		vecMouseDir = olc::GFX3D::Math::Mat_MultiplyVector(matView, vecMouseDir);
 
@@ -451,19 +932,17 @@ public:
 
 		// All of our intersections for mouse checks occur in the ground plane (z=0), so
 		// define a plane at that location
-		olc::GFX3D::vec3d plane_p = { 0.0f, 0.0f, 0.0f };
-		olc::GFX3D::vec3d plane_n = { 0.0f, 0.0f, 1.0f };
-		
+		olc::GFX3D::vec3d plane_p = {0.0f, 0.0f, 0.0f};
+		olc::GFX3D::vec3d plane_n = {0.0f, 0.0f, 1.0f};
+
 		// Calculate Mouse Location in plane, by doing a line/plane intersection test
 		float t = 0.0f;
 		olc::GFX3D::vec3d mouse3d = olc::GFX3D::Math::Vec_IntersectPlane(plane_p, plane_n, vecMouseOrigin, vecMouseDir, t);
 
-		
-		
 		// === Now we have the mouse in 3D! Handle mouse user input ===
 
 		// Left click & left click drag selects cells by adding them to the set of selected cells
-		// Here I make sure only to do this if the cell under the mouse has changed from the 
+		// Here I make sure only to do this if the cell under the mouse has changed from the
 		// previous frame, but the set will also reject duplicate cells being added
 		if (GetMouse(0).bHeld && ((nMouseWorldX != nOldMouseWorldX) || (nMouseWorldY != nOldMouseWorldY)))
 			setSelectedCells.emplace(&pMap[nMouseWorldY * nMapWidth + nMouseWorldX]);
@@ -471,11 +950,11 @@ public:
 		// Single clicking cells also adds them
 		if (GetMouse(0).bPressed)
 			setSelectedCells.emplace(&pMap[nMouseWorldY * nMapWidth + nMouseWorldX]);
-	
+
 		// If the user right clicks, the set of selected cells is emptied
 		if (GetMouse(1).bReleased)
 			setSelectedCells.clear();
-		
+
 		// Cache the current mouse position to use during comparison in next frame
 		nOldMouseWorldX = nMouseWorldX;
 		nOldMouseWorldY = nMouseWorldY;
@@ -483,13 +962,10 @@ public:
 		nMouseWorldX = (int)mouse3d.x;
 		nMouseWorldY = (int)mouse3d.y;
 
-		
-
-
 		// === Rendering ===
 
 		// Right, now we're gonna render the scene!
-		
+
 		// First Clear the screen and the depth buffer
 		Clear(olc::BLUE);
 		olc::GFX3D::ClearDepth();
@@ -502,37 +978,36 @@ public:
 		// top left, and bottom right of the screen
 
 		// Work out Top Left Ground Cell
-		vecMouseDir = { -1.0f / matProj.m[0][0],-1.0f / matProj.m[1][1], 1.0f, 0.0f };
+		vecMouseDir = {-1.0f / matProj.m[0][0], -1.0f / matProj.m[1][1], 1.0f, 0.0f};
 		vecMouseDir = olc::GFX3D::Math::Mat_MultiplyVector(matView, vecMouseDir);
 		vecMouseDir = olc::GFX3D::Math::Vec_Mul(vecMouseDir, 1000.0f);
 		vecMouseDir = olc::GFX3D::Math::Vec_Add(vecMouseOrigin, vecMouseDir);
 		viewWorldTopLeft = olc::GFX3D::Math::Vec_IntersectPlane(plane_p, plane_n, vecMouseOrigin, vecMouseDir, t);
 
 		// Work out Bottom Right Ground Cell
-		vecMouseDir = { 1.0f / matProj.m[0][0], 1.0f / matProj.m[1][1], 1.0f, 0.0f };
+		vecMouseDir = {1.0f / matProj.m[0][0], 1.0f / matProj.m[1][1], 1.0f, 0.0f};
 		vecMouseDir = olc::GFX3D::Math::Mat_MultiplyVector(matView, vecMouseDir);
 		vecMouseDir = olc::GFX3D::Math::Vec_Mul(vecMouseDir, 1000.0f);
 		vecMouseDir = olc::GFX3D::Math::Vec_Add(vecMouseOrigin, vecMouseDir);
 		viewWorldBottomRight = olc::GFX3D::Math::Vec_IntersectPlane(plane_p, plane_n, vecMouseOrigin, vecMouseDir, t);
 
 		// Calculate visible tiles
-		//int nStartX = 0;
-		//int nEndX = nMapWidth;
-		//int nStartY = 0;
-		//int nEndY = nMapHeight;
+		// int nStartX = 0;
+		// int nEndX = nMapWidth;
+		// int nStartY = 0;
+		// int nEndY = nMapHeight;
 
 		int nStartX = std::max(0, (int)viewWorldTopLeft.x - 1);
 		int nEndX = std::min(nMapWidth, (int)viewWorldBottomRight.x + 1);
 		int nStartY = std::max(0, (int)viewWorldTopLeft.y - 1);
 		int nEndY = std::min(nMapHeight, (int)viewWorldBottomRight.y + 1);
 
-
 		// Iterate through all the cells we wish to draw. Each cell is 1x1 and elevates in the Z -Axis
 		for (int x = nStartX; x < nEndX; x++)
 		{
 			for (int y = nStartY; y < nEndY; y++)
 			{
-				if (pMap[y*nMapWidth + x].bRoad) 
+				if (pMap[y * nMapWidth + x].bRoad)
 				{
 					// Cell is a road, look at neighbouring cells. If they are roads also,
 					// then choose the appropriate texture that joins up correctly
@@ -543,20 +1018,31 @@ public:
 						return pMap[(y + j) * nMapWidth + (x + i)].bRoad;
 					};
 
-					if (r(0, -1) && r(0, +1) && !r(-1, 0) && !r(+1, 0)) road = 0;
-					if (!r(0, -1) && !r(0, +1) && r(-1, 0) && r(+1, 0)) road = 1;
+					if (r(0, -1) && r(0, +1) && !r(-1, 0) && !r(+1, 0))
+						road = 0;
+					if (!r(0, -1) && !r(0, +1) && r(-1, 0) && r(+1, 0))
+						road = 1;
 
-					if (!r(0, -1) && r(0, +1) && !r(-1, 0) && r(+1, 0)) road = 3;
-					if (!r(0, -1) && r(0, +1) && r(-1, 0) && r(+1, 0)) road = 4;
-					if (!r(0, -1) && r(0, +1) && r(-1, 0) && !r(+1, 0)) road = 5;
+					if (!r(0, -1) && r(0, +1) && !r(-1, 0) && r(+1, 0))
+						road = 3;
+					if (!r(0, -1) && r(0, +1) && r(-1, 0) && r(+1, 0))
+						road = 4;
+					if (!r(0, -1) && r(0, +1) && r(-1, 0) && !r(+1, 0))
+						road = 5;
 
-					if (r(0, -1) && r(0, +1) && !r(-1, 0) && r(+1, 0)) road = 6;
-					if (r(0, -1) && r(0, +1) && r(-1, 0) && r(+1, 0)) road = 7;
-					if (r(0, -1) && r(0, +1) && r(-1, 0) && !r(+1, 0)) road = 8;
+					if (r(0, -1) && r(0, +1) && !r(-1, 0) && r(+1, 0))
+						road = 6;
+					if (r(0, -1) && r(0, +1) && r(-1, 0) && r(+1, 0))
+						road = 7;
+					if (r(0, -1) && r(0, +1) && r(-1, 0) && !r(+1, 0))
+						road = 8;
 
-					if (r(0, -1) && !r(0, +1) && !r(-1, 0) && r(+1, 0)) road = 9;
-					if (r(0, -1) && !r(0, +1) && r(-1, 0) && r(+1, 0)) road = 10;
-					if (r(0, -1) && !r(0, +1) && r(-1, 0) && !r(+1, 0)) road = 11;
+					if (r(0, -1) && !r(0, +1) && !r(-1, 0) && r(+1, 0))
+						road = 9;
+					if (r(0, -1) && !r(0, +1) && r(-1, 0) && r(+1, 0))
+						road = 10;
+					if (r(0, -1) && !r(0, +1) && r(-1, 0) && !r(+1, 0))
+						road = 11;
 
 					// Create a translation transform to position the cell in the world
 					olc::GFX3D::mat4x4 matWorld = olc::GFX3D::Math::Mat_MakeTranslation(x, y, 0.0f);
@@ -567,18 +1053,17 @@ public:
 
 					// Draw a flat quad
 					pipeRender.Render(meshFlat.tris);
-
 				}
 				else // Not Road
 				{
 					// If the cell is not considered road, then draw it appropriately
 
-					if (pMap[y*nMapWidth + x].nHeight < 0)
+					if (pMap[y * nMapWidth + x].nHeight < 0)
 					{
 						// Cell is blank - for now ;-P
 					}
 
-					if (pMap[y*nMapWidth + x].nHeight == 0)
+					if (pMap[y * nMapWidth + x].nHeight == 0)
 					{
 						// Cell is ground, draw a flat grass quad at height 0
 						olc::GFX3D::mat4x4 matWorld = olc::GFX3D::Math::Mat_MakeTranslation(x, y, 0.0f);
@@ -587,11 +1072,11 @@ public:
 						pipeRender.Render(meshFlat.tris);
 					}
 
-					if (pMap[y*nMapWidth + x].nHeight > 0)
+					if (pMap[y * nMapWidth + x].nHeight > 0)
 					{
-						// Cell is Building, for now, we'll draw each storey as a seperate mesh 
+						// Cell is Building, for now, we'll draw each storey as a seperate mesh
 						int h, t;
-						t = pMap[y*nMapWidth + x].nHeight;
+						t = pMap[y * nMapWidth + x].nHeight;
 
 						for (h = 0; h < t; h++)
 						{
@@ -605,7 +1090,7 @@ public:
 						}
 
 						// Top the building off with a roof
-						olc::GFX3D::mat4x4 matWorld = olc::GFX3D::Math::Mat_MakeTranslation(x, y, -(h) * 0.2f);
+						olc::GFX3D::mat4x4 matWorld = olc::GFX3D::Math::Mat_MakeTranslation(x, y, -(h)*0.2f);
 						pipeRender.SetTransform(matWorld);
 						pipeRender.SetTexture(sprRoof);
 						pipeRender.Render(meshFlat.tris);
@@ -639,12 +1124,12 @@ public:
 		// 5) Translate the car into its position in the world. Give it a little elevation so its baove the ground
 		olc::GFX3D::mat4x4 matCarTrans = olc::GFX3D::Math::Mat_MakeTranslation(vecCarPos.x, vecCarPos.y, -0.01f);
 		matCar = olc::GFX3D::Math::Mat_MultiplyMatrix(matCar, matCarTrans);
-				
+
 		// Set the car texture to the pipeline
 		pipeRender.SetTexture(sprCar);
 		// Apply "world" transform to pipeline
 		pipeRender.SetTransform(matCar);
-		
+
 		// The car has transparency, so enable it
 		SetPixelMode(olc::Pixel::ALPHA);
 		// Render the quad
@@ -652,14 +1137,11 @@ public:
 		// Set transparency back to none to optimise drawing other pixels
 		SetPixelMode(olc::Pixel::NORMAL);
 
-
 		// Draw the current camera position for debug information
-		//DrawString(10, 30, "CX: " + std::to_string(fCameraX) + " CY: " + std::to_string(fCameraY) + " CZ: " + std::to_string(fCameraZ));
+		// DrawString(10, 30, "CX: " + std::to_string(fCameraX) + " CY: " + std::to_string(fCameraY) + " CZ: " + std::to_string(fCameraZ));
 		return true;
-	} 
+	}
 };
-
-
 
 int main()
 {

@@ -66,7 +66,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #pragma once
@@ -81,26 +81,26 @@ class cItem;
 class RPG_Assets
 {
 public:
-	static RPG_Assets& get()
+	static RPG_Assets &get()
 	{
 		static RPG_Assets me;
 		return me;
 	}
 
-	RPG_Assets(RPG_Assets const&) = delete;
-	void operator=(RPG_Assets const&) = delete;
+	RPG_Assets(RPG_Assets const &) = delete;
+	void operator=(RPG_Assets const &) = delete;
 
-	olcSprite* GetSprite(string name)
+	olcSprite *GetSprite(string name)
 	{
 		return m_mapSprites[name];
 	}
 
-	cMap* GetMap(string name)
+	cMap *GetMap(string name)
 	{
 		return m_mapMaps[name];
 	}
 
-	cItem* GetItem(string name)
+	cItem *GetItem(string name)
 	{
 		return m_mapItems[name];
 	}
@@ -108,15 +108,12 @@ public:
 	void LoadSprites();
 	void LoadMaps();
 	void LoadItems();
-	
 
 private:
 	RPG_Assets();
-	~RPG_Assets();	
+	~RPG_Assets();
 
-	map<string, olcSprite*> m_mapSprites;
-	map<string, cMap*> m_mapMaps;
-	map<string, cItem*> m_mapItems;
+	map<string, olcSprite *> m_mapSprites;
+	map<string, cMap *> m_mapMaps;
+	map<string, cItem *> m_mapItems;
 };
-
-

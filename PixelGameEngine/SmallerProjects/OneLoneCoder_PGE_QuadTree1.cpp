@@ -1,7 +1,7 @@
 /*
 	Quirky Quad Trees Part #1 - Static Quad Tree Implementation
 	"War... huh... What is it good for? Absolutely nothin..." - javidx9
-	
+
 	License (OLC-3)
 	~~~~~~~~~~~~~~~
 	Copyright 2018 - 2022 OneLoneCoder.com
@@ -32,13 +32,13 @@
 	THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 	OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-	
+
 	Video:
 	~~~~~~
 	https://youtu.be/ASAowY6yJII
 
 	Pan & Zoom with middle mouse, TAB to switch between methods
-	
+
 	Links
 	~~~~~
 	YouTube:	https://www.youtube.com/javidx9
@@ -48,12 +48,11 @@
 	Twitch:		https://www.twitch.tv/javidx9
 	GitHub:		https://www.github.com/onelonecoder
 	Homepage:	https://www.onelonecoder.com
-	
+
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019, 2020, 2021, 2022
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019, 2020, 2021, 2022
 */
-
 
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
@@ -68,23 +67,22 @@ namespace olc
 		olc::vf2d pos;
 		olc::vf2d size;
 
-		rect(const olc::vf2d& p = { 0.0f, 0.0f }, const olc::vf2d& s = { 1.0f, 1.0f }) : pos(p), size(s)
+		rect(const olc::vf2d &p = {0.0f, 0.0f}, const olc::vf2d &s = {1.0f, 1.0f}) : pos(p), size(s)
 		{
-
 		}
 
-		constexpr bool contains(const olc::vf2d& p) const
+		constexpr bool contains(const olc::vf2d &p) const
 		{
 			return !(p.x < pos.x || p.y < pos.y || p.x >= (pos.x + size.x) || p.y >= (pos.y + size.y));
 		}
 
-		constexpr bool contains(const olc::rect& r) const
+		constexpr bool contains(const olc::rect &r) const
 		{
 			return (r.pos.x >= pos.x) && (r.pos.x + r.size.x < pos.x + size.x) &&
-				(r.pos.y >= pos.y) && (r.pos.y + r.size.y < pos.y + size.y);
+				   (r.pos.y >= pos.y) && (r.pos.y + r.size.y < pos.y + size.y);
 		}
 
-		constexpr bool overlaps(const olc::rect& r) const
+		constexpr bool overlaps(const olc::rect &r) const
 		{
 			return (pos.x < r.pos.x + r.size.x && pos.x + size.x >= r.pos.x && pos.y < r.pos.y + r.size.y && pos.y + size.y >= r.pos.y);
 		}
@@ -92,24 +90,22 @@ namespace olc
 
 };
 
-
 // Constrain depth of Quad Tree. Since its floating point, it could in principle sub-divide for
 // a very long time, consuming far more time and memory than is sensible
 constexpr size_t MAX_DEPTH = 8;
-
 
 template <typename OBJECT_TYPE>
 class StaticQuadTree
 {
 public:
-	StaticQuadTree(const olc::rect& size = { {0.0f, 0.0f}, {100.0f, 100.0f} }, const size_t nDepth = 0)
+	StaticQuadTree(const olc::rect &size = {{0.0f, 0.0f}, {100.0f, 100.0f}}, const size_t nDepth = 0)
 	{
 		m_depth = nDepth;
 		resize(size);
 	}
 
 	// Force area change on Tree, invalidates this and all child layers
-	void resize(const olc::rect& rArea)
+	void resize(const olc::rect &rArea)
 	{
 		// Erase this layer
 		clear();
@@ -120,17 +116,15 @@ public:
 
 		// Cache child areas local to this layer
 		m_rChild =
-		{
-			// Top Left
-			olc::rect(m_rect.pos, vChildSize),
-			// Top Right
-			olc::rect({m_rect.pos.x + vChildSize.x, m_rect.pos.y}, vChildSize),
-			// Bottom Left
-			olc::rect({m_rect.pos.x, m_rect.pos.y + vChildSize.y}, vChildSize),
-			// Bottom Right
-			olc::rect(m_rect.pos + vChildSize, vChildSize)
-		};
-
+			{
+				// Top Left
+				olc::rect(m_rect.pos, vChildSize),
+				// Top Right
+				olc::rect({m_rect.pos.x + vChildSize.x, m_rect.pos.y}, vChildSize),
+				// Bottom Left
+				olc::rect({m_rect.pos.x, m_rect.pos.y + vChildSize.y}, vChildSize),
+				// Bottom Right
+				olc::rect(m_rect.pos + vChildSize, vChildSize)};
 	}
 
 	// Clears the contents of this layer, and all child layers
@@ -153,12 +147,13 @@ public:
 	{
 		size_t nCount = m_pItems.size();
 		for (int i = 0; i < 4; i++)
-			if (m_pChild[i]) nCount += m_pChild[i]->size();
+			if (m_pChild[i])
+				nCount += m_pChild[i]->size();
 		return nCount;
 	}
 
 	// Inserts an object into this layer (or appropriate child layer), given the area the item occupies
-	void insert(const OBJECT_TYPE& item, const olc::rect& itemsize)
+	void insert(const OBJECT_TYPE &item, const olc::rect &itemsize)
 	{
 		// Check each child
 		for (int i = 0; i < 4; i++)
@@ -184,11 +179,11 @@ public:
 		}
 
 		// It didnt fit, so item must belong to this quad
-		m_pItems.push_back({ itemsize, item });
+		m_pItems.push_back({itemsize, item});
 	}
 
 	// Returns a list of objects in the given search area
-	std::list<OBJECT_TYPE> search(const olc::rect& rArea) const
+	std::list<OBJECT_TYPE> search(const olc::rect &rArea) const
 	{
 		std::list<OBJECT_TYPE> listItems;
 		search(rArea, listItems);
@@ -196,11 +191,11 @@ public:
 	}
 
 	// Returns the objects in the given search area, by adding to supplied list
-	void search(const olc::rect& rArea, std::list<OBJECT_TYPE>& listItems) const
+	void search(const olc::rect &rArea, std::list<OBJECT_TYPE> &listItems) const
 	{
 		// First, check for items belonging to this area, add them to the list
 		// if there is overlap
-		for (const auto& p : m_pItems)
+		for (const auto &p : m_pItems)
 		{
 			if (rArea.overlaps(p.first))
 				listItems.push_back(p.second);
@@ -225,17 +220,17 @@ public:
 		}
 	}
 
-	void items(std::list<OBJECT_TYPE>& listItems) const
+	void items(std::list<OBJECT_TYPE> &listItems) const
 	{
 		// No questions asked, just return child items
-		for (const auto& p : m_pItems)
+		for (const auto &p : m_pItems)
 			listItems.push_back(p.second);
 
 		// Now add children of this layer's items
 		for (int i = 0; i < 4; i++)
-			if (m_pChild[i]) m_pChild[i]->items(listItems);
+			if (m_pChild[i])
+				m_pChild[i]->items(listItems);
 	}
-
 
 	std::list<OBJECT_TYPE> items() const
 	{
@@ -246,11 +241,10 @@ public:
 	}
 
 	// Returns area of this layer
-	const olc::rect& area()
+	const olc::rect &area()
 	{
 		return m_rect;
 	}
-
 
 protected:
 	// Depth of this StaticQuadTree layer
@@ -269,7 +263,6 @@ protected:
 	std::vector<std::pair<olc::rect, OBJECT_TYPE>> m_pItems;
 };
 
-
 template <typename OBJECT_TYPE>
 class StaticQuadTreeContainer
 {
@@ -282,18 +275,17 @@ protected:
 	QuadTreeContainer m_allItems;
 
 	// Use our StaticQuadTree to store "pointers" instead of objects - this reduces
-	// overheads when moving or copying objects 
+	// overheads when moving or copying objects
 	StaticQuadTree<typename QuadTreeContainer::iterator> root;
 
 public:
-	StaticQuadTreeContainer(const olc::rect& size = { {0.0f, 0.0f}, { 100.0f, 100.0f } }, const size_t nDepth = 0) : root(size, nDepth)
+	StaticQuadTreeContainer(const olc::rect &size = {{0.0f, 0.0f}, {100.0f, 100.0f}}, const size_t nDepth = 0) : root(size, nDepth)
 	{
-
 	}
 
 	// Sets the spatial coverage area of the quadtree
 	// Invalidates tree
-	void resize(const olc::rect& rArea)
+	void resize(const olc::rect &rArea)
 	{
 		root.resize(rArea);
 	}
@@ -317,7 +309,6 @@ public:
 		m_allItems.clear();
 	}
 
-
 	// Convenience functions for ranged for loop
 	typename QuadTreeContainer::iterator begin()
 	{
@@ -339,9 +330,8 @@ public:
 		return m_allItems.cend();
 	}
 
-
 	// Insert item into tree in specified area
-	void insert(const OBJECT_TYPE& item, const olc::rect& itemsize)
+	void insert(const OBJECT_TYPE &item, const olc::rect &itemsize)
 	{
 		// Item is stored in container
 		m_allItems.push_back(item);
@@ -351,17 +341,13 @@ public:
 	}
 
 	// Returns a std::list of pointers to items within the search area
-	std::list<typename QuadTreeContainer::iterator> search(const olc::rect& rArea) const
+	std::list<typename QuadTreeContainer::iterator> search(const olc::rect &rArea) const
 	{
 		std::list<typename QuadTreeContainer::iterator> listItemPointers;
 		root.search(rArea, listItemPointers);
 		return listItemPointers;
 	}
-
 };
-
-
-
 
 // The Example!
 class Example_StaticQuadTree : public olc::PixelGameEngine
@@ -399,11 +385,10 @@ public:
 	bool OnUserCreate() override
 	{
 		// Transform View - enables Pan & Zoom
-		tv.Initialise({ ScreenWidth(), ScreenHeight() });
+		tv.Initialise({ScreenWidth(), ScreenHeight()});
 
 		// Create the tree, and size it to the world
-		treeObjects.resize(olc::rect({ 0.0f, 0.0f }, { fArea, fArea }));
-
+		treeObjects.resize(olc::rect({0.0f, 0.0f}, {fArea, fArea}));
 
 		// Dirty random float generator
 		auto rand_float = [](const float a, const float b)
@@ -411,13 +396,12 @@ public:
 			return float(rand()) / float(RAND_MAX) * (b - a) + a;
 		};
 
-
 		// Create 1,000,000 objects, push into both containers (so 2,000,000 I suppose :P )
 		for (int i = 0; i < 1000000; i++)
 		{
 			SomeObjectWithArea ob;
-			ob.vPos = { rand_float(0.0f, fArea), rand_float(0.0f, fArea) };
-			ob.vSize = { rand_float(0.1f, 100.0f), rand_float(0.1f, 100.0f) };
+			ob.vPos = {rand_float(0.0f, fArea), rand_float(0.0f, fArea)};
+			ob.vSize = {rand_float(0.1f, 100.0f), rand_float(0.1f, 100.0f)};
 			ob.colour = olc::Pixel(rand() % 256, rand() % 256, rand() % 256);
 
 			treeObjects.insert(ob, olc::rect(ob.vPos, ob.vSize));
@@ -436,7 +420,7 @@ public:
 		tv.HandlePanAndZoom();
 
 		// Get rectangle that equates to screen in world space
-		olc::rect rScreen = { tv.GetWorldTL(), tv.GetWorldBR() - tv.GetWorldTL() };
+		olc::rect rScreen = {tv.GetWorldTL(), tv.GetWorldBR() - tv.GetWorldTL()};
 		size_t nObjectCount = 0;
 
 		if (bUseQuadTree)
@@ -445,18 +429,16 @@ public:
 			auto tpStart = std::chrono::system_clock::now();
 
 			// Use search function to return list of pointers to objects in that area
-			for (const auto& object : treeObjects.search(rScreen))
+			for (const auto &object : treeObjects.search(rScreen))
 			{
 				tv.FillRectDecal(object->vPos, object->vSize, object->colour);
 				nObjectCount++;
 			}
 			std::chrono::duration<float> duration = std::chrono::system_clock::now() - tpStart;
 
-
 			std::string sOutput = "Quadtree " + std::to_string(nObjectCount) + "/" + std::to_string(vecObjects.size()) + " in " + std::to_string(duration.count());
-			DrawStringDecal({ 4, 4 }, sOutput, olc::BLACK, { 4.0f, 8.0f });
-			DrawStringDecal({ 2, 2 }, sOutput, olc::WHITE, { 4.0f, 8.0f });
-
+			DrawStringDecal({4, 4}, sOutput, olc::BLACK, {4.0f, 8.0f});
+			DrawStringDecal({2, 2}, sOutput, olc::WHITE, {4.0f, 8.0f});
 		}
 		else
 		{
@@ -464,9 +446,9 @@ public:
 			auto tpStart = std::chrono::system_clock::now();
 
 			// Blindly check all objects to see if they overlap with screen
-			for (const auto& object : vecObjects)
+			for (const auto &object : vecObjects)
 			{
-				if (rScreen.overlaps({ object.vPos, object.vSize }))
+				if (rScreen.overlaps({object.vPos, object.vSize}))
 				{
 					tv.FillRectDecal(object.vPos, object.vSize, object.colour);
 					nObjectCount++;
@@ -475,14 +457,13 @@ public:
 			std::chrono::duration<float> duration = std::chrono::system_clock::now() - tpStart;
 
 			std::string sOutput = "Linear " + std::to_string(nObjectCount) + "/" + std::to_string(vecObjects.size()) + " in " + std::to_string(duration.count());
-			DrawStringDecal({ 4, 4 }, sOutput, olc::BLACK, { 4.0f, 8.0f });
-			DrawStringDecal({ 2, 2 }, sOutput, olc::WHITE, { 4.0f, 8.0f });
+			DrawStringDecal({4, 4}, sOutput, olc::BLACK, {4.0f, 8.0f});
+			DrawStringDecal({2, 2}, sOutput, olc::WHITE, {4.0f, 8.0f});
 		}
 
 		return true;
 	}
 };
-
 
 int main()
 {

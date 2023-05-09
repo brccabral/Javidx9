@@ -53,19 +53,15 @@
 	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019, 2020
 */
 
-
-
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
 
 #include <random>
 
-constexpr uint32_t g_starColours[8] = 
-{
-	0xFFFFFFFF, 0xFFD9FFFF, 0xFFA3FFFF, 0xFFFFC8C8,
-	0xFFFFCB9D, 0xFF9F9FFF, 0xFF415EFF, 0xFF28199D
-};
-
+constexpr uint32_t g_starColours[8] =
+	{
+		0xFFFFFFFF, 0xFFD9FFFF, 0xFFA3FFFF, 0xFFFFC8C8,
+		0xFFFFCB9D, 0xFF9F9FFF, 0xFF415EFF, 0xFF28199D};
 
 struct sPlanet
 {
@@ -91,7 +87,8 @@ public:
 
 		// Not all locations contain a system
 		starExists = (rndInt(0, 20) == 1);
-		if (!starExists) return;
+		if (!starExists)
+			return;
 
 		// Generate Star
 		starDiameter = rndDouble(10.0, 40.0);
@@ -99,11 +96,12 @@ public:
 
 		// When viewing the galaxy map, we only care about the star
 		// so abort early
-		if (!bGenerateFullSystem) return;
+		if (!bGenerateFullSystem)
+			return;
 
 		// If we are viewing the system map, we need to generate the
 		// full system
-		
+
 		// Generate Planets
 		double dDistanceFromStar = rndDouble(60.0, 200.0);
 		int nPlanets = rndInt(0, 10);
@@ -148,21 +146,20 @@ public:
 
 			// Add planet to vector
 			vPlanets.push_back(p);
-		}		
+		}
 	}
 
 	~cStarSystem()
 	{
-
 	}
 
 public:
 	std::vector<sPlanet> vPlanets;
 
 public:
-	bool		starExists = false;
-	double		starDiameter = 0.0f;
-	olc::Pixel	starColour = olc::WHITE;
+	bool starExists = false;
+	double starDiameter = 0.0f;
+	olc::Pixel starColour = olc::WHITE;
 
 private:
 	uint32_t nProcGen = 0;
@@ -176,7 +173,7 @@ private:
 	{
 		return (rnd() % (max - min)) + min;
 	}
-	
+
 	// Modified from this for 64-bit systems:
 	// https://lemire.me/blog/2019/03/19/the-fastest-conventional-random-number-generator-that-can-pass-big-crush/
 	// Now I found the link again - Also, check out his blog, it's a fantastic resource!
@@ -206,11 +203,10 @@ public:
 		return true;
 	}
 
-	olc::vf2d vGalaxyOffset = { 0,0 };
+	olc::vf2d vGalaxyOffset = {0, 0};
 	bool bStarSelected = false;
 	uint32_t nSelectedStarSeed1 = 0;
 	uint32_t nSelectedStarSeed2 = 0;
-
 
 	/*uint32_t nLehmer = 0;
 	uint32_t Lehmer32()
@@ -226,10 +222,11 @@ public:
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
-		if (fElapsedTime <= 0.0001f) return true;
+		if (fElapsedTime <= 0.0001f)
+			return true;
 		Clear(olc::BLACK);
 
-		//if (GetKey(olc::SPACE).bReleased)
+		// if (GetKey(olc::SPACE).bReleased)
 		//{
 
 		//	//srand(1000);
@@ -246,7 +243,7 @@ public:
 		//		{
 		//			bool bIsStar = false;
 		//			int nSeed = y << 16 | x;
-		//			
+		//
 		//			// Standard C++ rand()
 		//			//srand(nSeed);
 		//			//bIsStar = rand() % 256 < 32;
@@ -263,25 +260,27 @@ public:
 		//		}
 		//	}
 		//	auto tp2 = std::chrono::system_clock::now();
-		//	std::chrono::duration<float> elapsedTime = tp2 - tp1;			
+		//	std::chrono::duration<float> elapsedTime = tp2 - tp1;
 		//	DrawString(3, 3, "Time: " + std::to_string(elapsedTime.count()), olc::RED, 2);
 		//}
 
+		// return true;
 
-		//return true;
-
-
-		if (GetKey(olc::W).bHeld) vGalaxyOffset.y -= 50.0f * fElapsedTime;
-		if (GetKey(olc::S).bHeld) vGalaxyOffset.y += 50.0f * fElapsedTime;
-		if (GetKey(olc::A).bHeld) vGalaxyOffset.x -= 50.0f * fElapsedTime;
-		if (GetKey(olc::D).bHeld) vGalaxyOffset.x += 50.0f * fElapsedTime;
+		if (GetKey(olc::W).bHeld)
+			vGalaxyOffset.y -= 50.0f * fElapsedTime;
+		if (GetKey(olc::S).bHeld)
+			vGalaxyOffset.y += 50.0f * fElapsedTime;
+		if (GetKey(olc::A).bHeld)
+			vGalaxyOffset.x -= 50.0f * fElapsedTime;
+		if (GetKey(olc::D).bHeld)
+			vGalaxyOffset.x += 50.0f * fElapsedTime;
 
 		int nSectorsX = ScreenWidth() / 16;
 		int nSectorsY = ScreenHeight() / 16;
 
-		olc::vi2d mouse = { GetMouseX() / 16, GetMouseY() / 16 };
+		olc::vi2d mouse = {GetMouseX() / 16, GetMouseY() / 16};
 		olc::vi2d galaxy_mouse = mouse + vGalaxyOffset;
-		olc::vi2d screen_sector = { 0,0 };
+		olc::vi2d screen_sector = {0, 0};
 
 		for (screen_sector.x = 0; screen_sector.x < nSectorsX; screen_sector.x++)
 			for (screen_sector.y = 0; screen_sector.y < nSectorsY; screen_sector.y++)
@@ -292,8 +291,8 @@ public:
 				cStarSystem star(seed1, seed2);
 				if (star.starExists)
 				{
-					FillCircle(screen_sector.x * 16 + 8, screen_sector.y * 16 + 8, 
-						(int)star.starDiameter / 8, star.starColour);
+					FillCircle(screen_sector.x * 16 + 8, screen_sector.y * 16 + 8,
+							   (int)star.starDiameter / 8, star.starColour);
 
 					// For convenience highlight hovered star
 					if (mouse.x == screen_sector.x && mouse.y == screen_sector.y)
@@ -331,18 +330,17 @@ public:
 			DrawRect(8, 240, 496, 232, olc::WHITE);
 
 			// Draw Star
-			olc::vi2d vBody = { 14, 356 };
+			olc::vi2d vBody = {14, 356};
 
 			vBody.x += star.starDiameter * 1.375;
-			FillCircle(vBody, (int)(star.starDiameter * 1.375), star.starColour);			 
+			FillCircle(vBody, (int)(star.starDiameter * 1.375), star.starColour);
 			vBody.x += (star.starDiameter * 1.375) + 8;
 
-			
-
 			// Draw Planets
-			for (auto& planet : star.vPlanets)
+			for (auto &planet : star.vPlanets)
 			{
-				if (vBody.x + planet.diameter >= 496) break;
+				if (vBody.x + planet.diameter >= 496)
+					break;
 
 				vBody.x += planet.diameter;
 				FillCircle(vBody, (int)(planet.diameter * 1.0), olc::RED);
@@ -351,7 +349,7 @@ public:
 				vMoon.y += planet.diameter + 10;
 
 				// Draw Moons
-				for (auto& moon : planet.vMoons)
+				for (auto &moon : planet.vMoons)
 				{
 					vMoon.y += moon;
 					FillCircle(vMoon, (int)(moon * 1.0), olc::GREY);

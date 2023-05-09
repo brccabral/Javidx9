@@ -16,11 +16,10 @@ enum RoadType
 	ROAD_X,
 };
 
-
 class cCell_Road : public cCell
 {
 public:
-	cCell_Road(cCityMap* map, int x, int y);
+	cCell_Road(cCityMap *map, int x, int y);
 	~cCell_Road();
 
 private:
@@ -31,24 +30,24 @@ private:
 
 private:
 	bool bNeighboursAreRoads[4];
-	
+
 	olc::GFX3D::mesh *meshUnitQuad = nullptr;
-	olc::Sprite* sprRoadTex[11];
+	olc::Sprite *sprRoadTex[11];
 
 	std::vector<StopPattern> vStopPattern;
 	int nCurrentStopPattern = 0;
 	float fStopPatternTimer = 0.0f;
+
 public:
 	RoadType nRoadType = ROAD_X;
-	cAuto_Track* pSafeCarTrack = nullptr;
-	cAuto_Track* pSafePedestrianTrack = nullptr;
-	cAuto_Track* pSafeChaseTrack = nullptr;
+	cAuto_Track *pSafeCarTrack = nullptr;
+	cAuto_Track *pSafePedestrianTrack = nullptr;
+	cAuto_Track *pSafeChaseTrack = nullptr;
 
 	virtual void CalculateAdjacency();
-	virtual bool LinkAssets(std::map<std::string, olc::Sprite*> &mapTextures, std::map<std::string, olc::GFX3D::mesh*> &mapMesh, std::map<std::string, olc::GFX3D::mat4x4> &mapTransforms);
+	virtual bool LinkAssets(std::map<std::string, olc::Sprite *> &mapTextures, std::map<std::string, olc::GFX3D::mesh *> &mapMesh, std::map<std::string, olc::GFX3D::mat4x4> &mapTransforms);
 	virtual bool Update(float fElapsedTime);
 	virtual bool DrawBase(olc::PixelGameEngine *pge, olc::GFX3D::PipeLine &pipe);
 	virtual bool DrawAlpha(olc::PixelGameEngine *pge, olc::GFX3D::PipeLine &pipe);
 	virtual bool DrawDebug(olc::PixelGameEngine *pge, olc::GFX3D::PipeLine &pipe);
 };
-

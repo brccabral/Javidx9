@@ -49,7 +49,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019, 2020, 2021
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019, 2020, 2021
 */
 
 #define OLC_PGE_APPLICATION
@@ -63,11 +63,10 @@ public:
 		sAppName = "RayCast With DDA Algorithm";
 	}
 
-	olc::vf2d vPlayer = { 0,0 };
-	olc::vi2d vMapSize = { 32, 30 };
-	olc::vi2d vCellSize = { 16, 16 };
+	olc::vf2d vPlayer = {0, 0};
+	olc::vi2d vMapSize = {32, 30};
+	olc::vi2d vCellSize = {16, 16};
 	std::vector<int> vecMap;
-
 
 public:
 	bool OnUserCreate() override
@@ -79,31 +78,35 @@ public:
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
-		olc::vf2d vMouse = { float(GetMouseX()), float(GetMouseY()) };
+		olc::vf2d vMouse = {float(GetMouseX()), float(GetMouseY())};
 		olc::vf2d vMouseCell = vMouse / vCellSize;
 		olc::vi2d vCell = vMouseCell; // implicit cast to integer, rounds down
 
 		// Paint with right mouse button "solid" tiles
-		if (GetMouse(1).bHeld) vecMap[vCell.y * vMapSize.x + vCell.x] = 1;
+		if (GetMouse(1).bHeld)
+			vecMap[vCell.y * vMapSize.x + vCell.x] = 1;
 
 		// Move "player" position
-		if (GetKey(olc::Key::W).bHeld) vPlayer.y -= 25.0f * fElapsedTime;
-		if (GetKey(olc::Key::S).bHeld) vPlayer.y += 25.0f * fElapsedTime;
-		if (GetKey(olc::Key::A).bHeld) vPlayer.x -= 25.0f * fElapsedTime;
-		if (GetKey(olc::Key::D).bHeld) vPlayer.x += 25.0f * fElapsedTime;
+		if (GetKey(olc::Key::W).bHeld)
+			vPlayer.y -= 25.0f * fElapsedTime;
+		if (GetKey(olc::Key::S).bHeld)
+			vPlayer.y += 25.0f * fElapsedTime;
+		if (GetKey(olc::Key::A).bHeld)
+			vPlayer.x -= 25.0f * fElapsedTime;
+		if (GetKey(olc::Key::D).bHeld)
+			vPlayer.x += 25.0f * fElapsedTime;
 
 		// DDA Algorithm ==============================================
 		// https://lodev.org/cgtutor/raycasting.html
 
-
 		// Form ray cast from player into scene
 		olc::vf2d vRayStart = vPlayer;
 		olc::vf2d vRayDir = (vMouseCell - vPlayer).norm();
-				
+
 		// Lodev.org also explains this additional optimistaion (but it's beyond scope of video)
 		// olc::vf2d vRayUnitStepSize = { abs(1.0f / vRayDir.x), abs(1.0f / vRayDir.y) };
 
-		olc::vf2d vRayUnitStepSize = { sqrt(1 + (vRayDir.y / vRayDir.x) * (vRayDir.y / vRayDir.x)), sqrt(1 + (vRayDir.x / vRayDir.y) * (vRayDir.x / vRayDir.y)) };
+		olc::vf2d vRayUnitStepSize = {sqrt(1 + (vRayDir.y / vRayDir.x) * (vRayDir.y / vRayDir.x)), sqrt(1 + (vRayDir.x / vRayDir.y) * (vRayDir.x / vRayDir.y))};
 		olc::vi2d vMapCheck = vRayStart;
 		olc::vf2d vRayLength1D;
 		olc::vi2d vStep;
@@ -167,8 +170,6 @@ public:
 		{
 			vIntersection = vRayStart + vRayDir * fDistance;
 		}
-
-
 
 		Clear(olc::BLACK);
 

@@ -50,7 +50,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019
 */
 
 #include <iostream>
@@ -69,7 +69,6 @@ extern "C"
 #pragma comment(lib, "lua535/liblua53.a")
 #endif
 
-
 // Little error checking utility function
 bool CheckLua(lua_State *L, int r)
 {
@@ -82,7 +81,6 @@ bool CheckLua(lua_State *L, int r)
 	return true;
 }
 
-
 int lua_HostFunction(lua_State *L)
 {
 	float a = (float)lua_tonumber(L, 1);
@@ -93,10 +91,8 @@ int lua_HostFunction(lua_State *L)
 	return 1;
 }
 
-
 // NOTE !!!
 // YOU WILL NEED THE "EmbeddingLua1.lua" FILE FROM GITHUB REPO
-
 
 int main()
 {
@@ -108,7 +104,7 @@ int main()
 		std::string family;
 		int level;
 	} player;
-	
+
 	// Create Lua State
 	lua_State *L = luaL_newstate();
 
@@ -117,21 +113,25 @@ int main()
 
 	// Register our C++ Function in the global Lua space
 	lua_register(L, "HostFunction", lua_HostFunction);
-	 
 
 	// Load and parse the Lua File
-	if(CheckLua(L, luaL_dofile(L, "EmbeddingLua1.lua")))
-	{ 
+	if (CheckLua(L, luaL_dofile(L, "EmbeddingLua1.lua")))
+	{
 		// Stage 1: Just read simple variables
 		std::cout << "[CPP] Stage 1 - Read Simple Variables" << std::endl;
 		lua_getglobal(L, "a");
-		if (lua_isnumber(L, -1)) std::cout << "[CPP S1] a = " << (int)lua_tointeger(L, -1) << std::endl;
+		if (lua_isnumber(L, -1))
+			std::cout << "[CPP S1] a = " << (int)lua_tointeger(L, -1) << std::endl;
 		lua_getglobal(L, "b");
-		if (lua_isnumber(L, -1)) std::cout << "[CPP S1] b = " << (int)lua_tointeger(L, -1) << std::endl;
+		if (lua_isnumber(L, -1))
+			std::cout << "[CPP S1] b = " << (int)lua_tointeger(L, -1) << std::endl;
 		lua_getglobal(L, "c");
-		if (lua_isnumber(L, -1)) std::cout << "[CPP S1] c = " << (int)lua_tointeger(L, -1) << std::endl;
+		if (lua_isnumber(L, -1))
+			std::cout << "[CPP S1] c = " << (int)lua_tointeger(L, -1) << std::endl;
 		lua_getglobal(L, "d");
-		if (lua_isstring(L, -1)) std::cout << "[CPP S1] d = " << lua_tostring(L, -1) << std::endl << std::endl;
+		if (lua_isstring(L, -1))
+			std::cout << "[CPP S1] d = " << lua_tostring(L, -1) << std::endl
+					  << std::endl;
 
 		// Stage 2: Read Table Object
 		std::cout << "[CPP] Stage 2 - Read Table (Key/Value pairs)" << std::endl;
@@ -158,7 +158,8 @@ int main()
 			player.level = (int)lua_tointeger(L, -1);
 			lua_pop(L, 1);
 		}
-		std::cout << "[CPP S2] " << player.title << " " << player.name << " of " << player.family << " [Lvl: " << player.level << "]" << std::endl << std::endl; 
+		std::cout << "[CPP S2] " << player.title << " " << player.name << " of " << player.family << " [Lvl: " << player.level << "]" << std::endl
+				  << std::endl;
 
 		// Stage 3: Call Lua Function
 		std::cout << "[CPP] Stage 3 - Call Lua Function" << std::endl;
@@ -171,7 +172,8 @@ int main()
 			std::cout << "[CPP S3] Calling 'CalledFromCPP1' in lua script" << std::endl;
 			if (CheckLua(L, lua_pcall(L, 3, 1, 0)))
 			{
-				std::cout << "[CPP S3] 'CalledFromCPP1' returned " << (float)lua_tonumber(L, -1) << std::endl << std::endl;
+				std::cout << "[CPP S3] 'CalledFromCPP1' returned " << (float)lua_tonumber(L, -1) << std::endl
+						  << std::endl;
 			}
 		}
 
@@ -185,14 +187,11 @@ int main()
 			std::cout << "[CPP S4] Calling 'CalledFromCPP2' in lua script" << std::endl;
 			if (CheckLua(L, lua_pcall(L, 2, 1, 0)))
 			{
-				std::cout << "[CPP S4] 'CalledFromCPP2' returned " << (float)lua_tonumber(L, -1) << std::endl << std::endl;
+				std::cout << "[CPP S4] 'CalledFromCPP2' returned " << (float)lua_tonumber(L, -1) << std::endl
+						  << std::endl;
 			}
 		}
 	}
-
-	
-
-
 
 	system("pause");
 	lua_close(L);

@@ -49,20 +49,18 @@ Discord: https://discord.gg/WhwHUMV
 Last Updated: 11/08/2018
 */
 
-
 // For Windows 7
-//#include "olcConsoleGameEngineGL.h"
+// #include "olcConsoleGameEngineGL.h"
 
 // For Windows
 #include "olcConsoleGameEngine.h"
 
 // For Linux
-//#include "olcConsoleGameEngineSDL.h"
+// #include "olcConsoleGameEngineSDL.h"
 
 #include <algorithm>
 #include <string>
 using namespace std;
-
 
 class LudumDare42 : public olcConsoleGameEngine
 {
@@ -71,7 +69,6 @@ public:
 	{
 		m_sAppName = L"Ludum Dare 42 - Running Out Of Space";
 	}
-
 
 private:
 	int nWorldWidth = 60;
@@ -87,17 +84,14 @@ private:
 	int nPlayerX;
 	int nPlayerY;
 
-	
-
 	float fSurvivalTime = 0.0f;
 
 	enum
 	{
 		EMPTY,
-		BORDER, 
+		BORDER,
 		BLOCK,
 	};
-
 
 	struct sParticle
 	{
@@ -113,14 +107,13 @@ private:
 		float fuse;
 	};
 
-
 	list<sParticle> listParticles;
 	list<sBomb> listBombs;
 
-	int  nBombPickupX = 20;
-	int  nBombPickupY = 20;
+	int nBombPickupX = 20;
+	int nBombPickupY = 20;
 	bool bBombsVisible = true;
-	int  nBoomsticks = 1;
+	int nBoomsticks = 1;
 
 	int nPlayerHealth = 100;
 	float fHighScore = 0.0f;
@@ -130,11 +123,10 @@ private:
 public:
 	bool OnUserCreate() override
 	{
-		world = new int[nWorldWidth * nWorldHeight]{ 0 };
-		bReset = true;	
+		world = new int[nWorldWidth * nWorldHeight]{0};
+		bReset = true;
 		return true;
 	}
-
 
 	void Boom(int xc, int yc, int r)
 	{
@@ -142,11 +134,13 @@ public:
 		int x = 0;
 		int y = r;
 		int p = 3 - 2 * r;
-		if (!r) return;
+		if (!r)
+			return;
 
 		auto drawline = [&](int sx, int ex, int ny)
 		{
-			if (ny <= 0 || ny >= nWorldHeight) return;
+			if (ny <= 0 || ny >= nWorldHeight)
+				return;
 			sx = max(sx, 0);
 			ex = min(ex, nWorldWidth);
 			for (int i = sx; i <= ex; i++)
@@ -167,8 +161,10 @@ public:
 			drawline(xc - y, xc + y, yc - x);
 			drawline(xc - x, xc + x, yc + y);
 			drawline(xc - y, xc + y, yc + x);
-			if (p < 0) p += 4 * x++ + 6;
-			else p += 4 * (x++ - y--) + 10;
+			if (p < 0)
+				p += 4 * x++ + 6;
+			else
+				p += 4 * (x++ - y--) + 10;
 		}
 	};
 
@@ -176,13 +172,13 @@ public:
 	{
 		if (bReset)
 		{
-			for (int x = 0; x<nWorldWidth; x++)
+			for (int x = 0; x < nWorldWidth; x++)
 				for (int y = 0; y < nWorldHeight; y++)
 				{
 					if (x == 0 || y == 0 || x == nWorldWidth - 1 || y == nWorldHeight - 1)
-						world[y*nWorldWidth + x] = BORDER;
+						world[y * nWorldWidth + x] = BORDER;
 					else
-						world[y*nWorldWidth + x] = EMPTY;
+						world[y * nWorldWidth + x] = EMPTY;
 				}
 
 			nPlayerX = nWorldWidth / 2;
@@ -197,7 +193,6 @@ public:
 			listParticles.clear();
 			bReset = false;
 		}
-
 
 		if (nPlayerHealth <= 0)
 		{
@@ -217,20 +212,18 @@ public:
 
 			return true;
 		}
-		
-		
-		
-		// Place Block, only on borders, or attached to 
+
+		// Place Block, only on borders, or attached to
 		// neighbouring blocks
 
 		auto Get = [&](int x, int y)
 		{
-			return world[y*nWorldWidth + x];
+			return world[y * nWorldWidth + x];
 		};
 
 		auto Set = [&](int x, int y, int i)
 		{
-			world[y*nWorldWidth + x] = i;
+			world[y * nWorldWidth + x] = i;
 		};
 
 		fSurvivalTime += fElapsedTime;
@@ -279,7 +272,6 @@ public:
 				}
 			}
 
-		
 			// Handle Player
 			if (IsFocused())
 			{
@@ -307,7 +299,7 @@ public:
 						nPlayerX++;
 				}
 
-				if (bBombsVisible && (pow(nPlayerX-nBombPickupX,2) + pow(nPlayerY-nBombPickupY, 2)) <= 6)
+				if (bBombsVisible && (pow(nPlayerX - nBombPickupX, 2) + pow(nPlayerY - nBombPickupY, 2)) <= 6)
 				{
 					bBombsVisible = false;
 					nBoomsticks += 5;
@@ -337,8 +329,8 @@ public:
 			}
 		}
 
-		listParticles.remove_if([&](const sParticle &p) { return p.dead; });
-
+		listParticles.remove_if([&](const sParticle &p)
+								{ return p.dead; });
 
 		// Update Bombs
 		for (auto &b : listBombs)
@@ -364,17 +356,17 @@ public:
 
 				// Injure player
 				nPlayerHealth -= max(0, 4 * (5 - sqrtf(pow(nPlayerX - b.px, 2) + pow(nPlayerY - b.py, 2))));
-
 			}
 		}
 
-		listBombs.remove_if([&](const sBomb &b) { return b.fuse < 0; });
+		listBombs.remove_if([&](const sBomb &b)
+							{ return b.fuse < 0; });
 
 		if (IsFocused() && GetKey(VK_SPACE).bReleased)
 		{
 			if (nBoomsticks > 0)
 			{
-				listBombs.push_back({ nPlayerX, nPlayerY, 5.0f });
+				listBombs.push_back({nPlayerX, nPlayerY, 5.0f});
 				nBoomsticks--;
 			}
 		}
@@ -387,7 +379,7 @@ public:
 		{
 			for (int y = 0; y < nWorldHeight; y++)
 			{
-				switch (world[y*nWorldWidth + x])
+				switch (world[y * nWorldWidth + x])
 				{
 				case BORDER:
 					Draw(x, y, PIXEL_SOLID, FG_WHITE);
@@ -400,7 +392,7 @@ public:
 			}
 		}
 
-		// Draw Boom 
+		// Draw Boom
 		for (auto &p : listParticles)
 		{
 			Draw(p.px, p.py, PIXEL_QUARTER, FG_YELLOW);
@@ -423,7 +415,6 @@ public:
 			Draw(nBombPickupX, nBombPickupY, PIXEL_SOLID, FG_GREY);
 		}
 
-
 		fHighScore = max(fHighScore, fSurvivalTime);
 
 		// Draw Player
@@ -436,11 +427,7 @@ public:
 
 		return true;
 	}
-
 };
-
-
-
 
 int main()
 {
@@ -449,4 +436,3 @@ int main()
 		demo.Start();
 	return 0;
 }
-

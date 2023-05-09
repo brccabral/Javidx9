@@ -55,9 +55,8 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019
 */
-
 
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
@@ -81,12 +80,11 @@ struct frame
 		delete[] pixels;
 	}
 
-
 	float get(int x, int y)
 	{
 		if (x >= 0 && x < nFrameWidth && y >= 0 && y < nFrameHeight)
 		{
-			return pixels[y*nFrameWidth + x];
+			return pixels[y * nFrameWidth + x];
 		}
 		else
 			return 0.0f;
@@ -96,18 +94,15 @@ struct frame
 	{
 		if (x >= 0 && x < nFrameWidth && y >= 0 && y < nFrameHeight)
 		{
-			pixels[y*nFrameWidth + x] = p;
+			pixels[y * nFrameWidth + x] = p;
 		}
 	}
-
 
 	void operator=(const frame &f)
 	{
 		memcpy(this->pixels, f.pixels, nFrameWidth * nFrameHeight * sizeof(float));
 	}
 };
-
-
 
 class WIP_ImageProcessing : public olc::PixelGameEngine
 {
@@ -131,11 +126,13 @@ public:
 	{
 		// Initialise webcam to screen dimensions
 		nCameras = setupESCAPI();
-		if (nCameras == 0)	return false;
+		if (nCameras == 0)
+			return false;
 		capture.mWidth = nFrameWidth;
 		capture.mHeight = nFrameHeight;
 		capture.mTargetBuf = new int[nFrameWidth * nFrameHeight];
-		if (initCapture(0, &capture) == 0)	return false;		
+		if (initCapture(0, &capture) == 0)
+			return false;
 		return true;
 	}
 
@@ -144,15 +141,21 @@ public:
 		for (int i = 0; i < nFrameWidth; i++)
 			for (int j = 0; j < nFrameHeight; j++)
 			{
-				int c = (int)std::min(std::max(0.0f, f.pixels[j*nFrameWidth + i] * 255.0f), 255.0f);				
+				int c = (int)std::min(std::max(0.0f, f.pixels[j * nFrameWidth + i] * 255.0f), 255.0f);
 				Draw(x + i, y + j, olc::Pixel(c, c, c));
 			}
 	}
 
 	enum ALGORITHM
 	{
-		THRESHOLD, MOTION, LOWPASS,	CONVOLUTION,
-		SOBEL, MORPHO, MEDIAN, ADAPTIVE,
+		THRESHOLD,
+		MOTION,
+		LOWPASS,
+		CONVOLUTION,
+		SOBEL,
+		MORPHO,
+		MEDIAN,
+		ADAPTIVE,
 	};
 
 	enum MORPHOP
@@ -176,66 +179,104 @@ public:
 	float *pConvoKernel = kernel_blur;
 
 	float kernel_blur[9] =
-	{
-		0.0f,   0.125,  0.0f,
-		0.125f, 0.5f,   0.125f,
-		0.0f,   0.125f, 0.0f,
-	};
+		{
+			0.0f,
+			0.125,
+			0.0f,
+			0.125f,
+			0.5f,
+			0.125f,
+			0.0f,
+			0.125f,
+			0.0f,
+		};
 
 	float kernel_sharpen[9] =
-	{
-		0.0f,  -1.0f,  0.0f,
-		-1.0f,  5.0f, -1.0f,
-		0.0f,  -1.0f,  0.0f,
-	};
+		{
+			0.0f,
+			-1.0f,
+			0.0f,
+			-1.0f,
+			5.0f,
+			-1.0f,
+			0.0f,
+			-1.0f,
+			0.0f,
+		};
 
 	float kernel_sobel_v[9] =
-	{
-		-1.0f, 0.0f, +1.0f,
-		-2.0f, 0.0f, +2.0f,
-		-1.0f, 0.0f, +1.0f,
-	};
+		{
+			-1.0f,
+			0.0f,
+			+1.0f,
+			-2.0f,
+			0.0f,
+			+2.0f,
+			-1.0f,
+			0.0f,
+			+1.0f,
+		};
 
 	float kernel_sobel_h[9] =
-	{
-		-1.0f, -2.0f, -1.0f,
-		 0.0f, 0.0f, 0.0f,
-		+1.0f, +2.0f, +1.0f,
-	};
+		{
+			-1.0f,
+			-2.0f,
+			-1.0f,
+			0.0f,
+			0.0f,
+			0.0f,
+			+1.0f,
+			+2.0f,
+			+1.0f,
+		};
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
 		// CAPTURING WEBCAM IMAGE
 		prev_input = input;
-		doCapture(0); while (isCaptureDone(0) == 0) {}
+		doCapture(0);
+		while (isCaptureDone(0) == 0)
+		{
+		}
 		for (int y = 0; y < capture.mHeight; y++)
 			for (int x = 0; x < capture.mWidth; x++)
 			{
 				RGBint col;
 				int id = y * capture.mWidth + x;
 				col.rgb = capture.mTargetBuf[id];
-				input.pixels[y*nFrameWidth + x] = (float)col.c[1] / 255.0f;
+				input.pixels[y * nFrameWidth + x] = (float)col.c[1] / 255.0f;
 			}
 
-		if (GetKey(olc::Key::K1).bReleased) algo = THRESHOLD;
-		if (GetKey(olc::Key::K2).bReleased) algo = MOTION;
-		if (GetKey(olc::Key::K3).bReleased) algo = LOWPASS;
-		if (GetKey(olc::Key::K4).bReleased) algo = CONVOLUTION;
-		if (GetKey(olc::Key::K5).bReleased) algo = SOBEL;
-		if (GetKey(olc::Key::K6).bReleased) algo = MORPHO;
-		if (GetKey(olc::Key::K7).bReleased) algo = MEDIAN;
-		if (GetKey(olc::Key::K8).bReleased) algo = ADAPTIVE;
-
+		if (GetKey(olc::Key::K1).bReleased)
+			algo = THRESHOLD;
+		if (GetKey(olc::Key::K2).bReleased)
+			algo = MOTION;
+		if (GetKey(olc::Key::K3).bReleased)
+			algo = LOWPASS;
+		if (GetKey(olc::Key::K4).bReleased)
+			algo = CONVOLUTION;
+		if (GetKey(olc::Key::K5).bReleased)
+			algo = SOBEL;
+		if (GetKey(olc::Key::K6).bReleased)
+			algo = MORPHO;
+		if (GetKey(olc::Key::K7).bReleased)
+			algo = MEDIAN;
+		if (GetKey(olc::Key::K8).bReleased)
+			algo = ADAPTIVE;
 
 		switch (algo)
 		{
 		case THRESHOLD:
 
 			// Respond to user input
-			if (GetKey(olc::Key::Z).bHeld) fThresholdValue -= 0.1f * fElapsedTime;
-			if (GetKey(olc::Key::X).bHeld) fThresholdValue += 0.1f * fElapsedTime;
-			if (fThresholdValue > 1.0f) fThresholdValue = 1.0f;
-			if (fThresholdValue < 0.0f) fThresholdValue = 0.0f;
+			if (GetKey(olc::Key::Z).bHeld)
+				fThresholdValue -= 0.1f * fElapsedTime;
+			if (GetKey(olc::Key::X).bHeld)
+				fThresholdValue += 0.1f * fElapsedTime;
+			if (fThresholdValue > 1.0f)
+				fThresholdValue = 1.0f;
+			if (fThresholdValue < 0.0f)
+				fThresholdValue = 0.0f;
 
 			// Perform threshold per pixel
 			for (int i = 0; i < nFrameWidth; i++)
@@ -251,14 +292,17 @@ public:
 					output.set(i, j, fabs(input.get(i, j) - prev_input.get(i, j)));
 			break;
 
-
 		case LOWPASS:
 
 			// Respond to user input
-			if (GetKey(olc::Key::Z).bHeld) fLowPassRC -= 0.1f * fElapsedTime;
-			if (GetKey(olc::Key::X).bHeld) fLowPassRC += 0.1f * fElapsedTime;
-			if (fLowPassRC > 1.0f) fLowPassRC = 1.0f;
-			if (fLowPassRC < 0.0f) fLowPassRC = 0.0f;
+			if (GetKey(olc::Key::Z).bHeld)
+				fLowPassRC -= 0.1f * fElapsedTime;
+			if (GetKey(olc::Key::X).bHeld)
+				fLowPassRC += 0.1f * fElapsedTime;
+			if (fLowPassRC > 1.0f)
+				fLowPassRC = 1.0f;
+			if (fLowPassRC < 0.0f)
+				fLowPassRC = 0.0f;
 
 			// Pass each pixel through a temporal RC filter
 			for (int i = 0; i < nFrameWidth; i++)
@@ -272,8 +316,10 @@ public:
 
 		case CONVOLUTION:
 			// Respond to user input
-			if (GetKey(olc::Key::Z).bHeld) pConvoKernel = kernel_blur;
-			if (GetKey(olc::Key::X).bHeld) pConvoKernel = kernel_sharpen;
+			if (GetKey(olc::Key::Z).bHeld)
+				pConvoKernel = kernel_blur;
+			if (GetKey(olc::Key::X).bHeld)
+				pConvoKernel = kernel_sharpen;
 
 			for (int i = 0; i < nFrameWidth; i++)
 				for (int j = 0; j < nFrameHeight; j++)
@@ -308,14 +354,21 @@ public:
 		case MORPHO:
 
 			// Respond to user input
-			if (GetKey(olc::Key::Z).bHeld) morph = DILATION;
-			if (GetKey(olc::Key::X).bHeld) morph = EROSION;
-			if (GetKey(olc::Key::C).bHeld) morph = EDGE;
+			if (GetKey(olc::Key::Z).bHeld)
+				morph = DILATION;
+			if (GetKey(olc::Key::X).bHeld)
+				morph = EROSION;
+			if (GetKey(olc::Key::C).bHeld)
+				morph = EDGE;
 
-			if (GetKey(olc::Key::A).bReleased) nMorphCount--;
-			if (GetKey(olc::Key::S).bReleased) nMorphCount++;
-			if (nMorphCount > 10.0f) nMorphCount = 10.0f;
-			if (nMorphCount < 1.0f) nMorphCount = 1.0f;
+			if (GetKey(olc::Key::A).bReleased)
+				nMorphCount--;
+			if (GetKey(olc::Key::S).bReleased)
+				nMorphCount++;
+			if (nMorphCount > 10.0f)
+				nMorphCount = 10.0f;
+			if (nMorphCount < 1.0f)
+				nMorphCount = 1.0f;
 
 			// Threshold First to binarise image
 			for (int i = 0; i < nFrameWidth; i++)
@@ -363,9 +416,9 @@ public:
 						{
 
 							float sum = activity.get(i - 1, j) + activity.get(i + 1, j) + activity.get(i, j - 1) + activity.get(i, j + 1) +
-								activity.get(i - 1, j - 1) + activity.get(i + 1, j + 1) + activity.get(i + 1, j - 1) + activity.get(i - 1, j + 1);
+										activity.get(i - 1, j - 1) + activity.get(i + 1, j + 1) + activity.get(i + 1, j - 1) + activity.get(i - 1, j + 1);
 
-							if (activity.get(i, j) == 1.0f && sum <  8.0f)
+							if (activity.get(i, j) == 1.0f && sum < 8.0f)
 							{
 								output.set(i, j, 0.0f);
 							}
@@ -381,7 +434,7 @@ public:
 					{
 
 						float sum = activity.get(i - 1, j) + activity.get(i + 1, j) + activity.get(i, j - 1) + activity.get(i, j + 1) +
-							activity.get(i - 1, j - 1) + activity.get(i + 1, j + 1) + activity.get(i + 1, j - 1) + activity.get(i - 1, j + 1);
+									activity.get(i - 1, j - 1) + activity.get(i + 1, j + 1) + activity.get(i + 1, j - 1) + activity.get(i - 1, j + 1);
 
 						if (activity.get(i, j) == 1.0f && sum == 8.0f)
 						{
@@ -389,7 +442,6 @@ public:
 						}
 					}
 				break;
-
 			}
 			break;
 
@@ -410,11 +462,14 @@ public:
 
 		case ADAPTIVE:
 			// Respond to user input
-			if (GetKey(olc::Key::Z).bHeld) fAdaptiveBias -= 0.1f * fElapsedTime;
-			if (GetKey(olc::Key::X).bHeld) fAdaptiveBias += 0.1f * fElapsedTime;
-			if (fAdaptiveBias > 1.5f) fAdaptiveBias = 1.5f;
-			if (fAdaptiveBias < 0.5f) fAdaptiveBias = 0.5f;
-
+			if (GetKey(olc::Key::Z).bHeld)
+				fAdaptiveBias -= 0.1f * fElapsedTime;
+			if (GetKey(olc::Key::X).bHeld)
+				fAdaptiveBias += 0.1f * fElapsedTime;
+			if (fAdaptiveBias > 1.5f)
+				fAdaptiveBias = 1.5f;
+			if (fAdaptiveBias < 0.5f)
+				fAdaptiveBias = 0.5f;
 
 			for (int i = 0; i < nFrameWidth; i++)
 				for (int j = 0; j < nFrameHeight; j++)
@@ -425,12 +480,12 @@ public:
 						for (int m = -2; m < +3; m++)
 							fRegionSum += input.get(i + n, j + m);
 
-					fRegionSum /= 25.0f;				
+					fRegionSum /= 25.0f;
 					output.set(i, j, input.get(i, j) > (fRegionSum * fAdaptiveBias) ? 1.0f : 0.0f);
 				}
 			break;
 		}
-		
+
 		// DRAW STUFF ONLY HERE
 		Clear(olc::DARK_BLUE);
 		DrawFrame(algo == MORPHO ? threshold : input, 10, 10);
@@ -447,7 +502,6 @@ public:
 		DrawString(10, 325, "6) Binary Morphological Operations (Erosion/Dilation)");
 		DrawString(10, 335, "7) Median Filter");
 		DrawString(10, 345, "8) Adaptive Threshold");
-
 
 		switch (algo)
 		{
@@ -468,12 +522,14 @@ public:
 
 		case MORPHO:
 			DrawString(10, 375, "Change operation with Z and X and C keys");
-			if (morph == DILATION) DrawString(10, 385, "Current operation = DILATION");
-			if (morph == EROSION) DrawString(10, 385, "Current operation = EROSION");
-			if (morph == EDGE) DrawString(10, 385, "Current operation = EDGE");
+			if (morph == DILATION)
+				DrawString(10, 385, "Current operation = DILATION");
+			if (morph == EROSION)
+				DrawString(10, 385, "Current operation = EROSION");
+			if (morph == EDGE)
+				DrawString(10, 385, "Current operation = EDGE");
 			DrawString(10, 395, "Change Iterations with A and S keys");
 			DrawString(10, 405, "Current iteration count = " + std::to_string(nMorphCount));
-
 
 			break;
 
@@ -485,12 +541,12 @@ public:
 		default:
 			break;
 		}
-	
-		if (GetKey(olc::Key::ESCAPE).bPressed) return false;
+
+		if (GetKey(olc::Key::ESCAPE).bPressed)
+			return false;
 		return true;
 	}
 };
-
 
 int main()
 {
@@ -500,5 +556,3 @@ int main()
 
 	return 0;
 }
-
-

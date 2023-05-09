@@ -12,7 +12,7 @@ extern "C"
 }
 
 #ifdef _WIN32
-	#pragma comment(lib, "lua533/liblua53.a")
+#pragma comment(lib, "lua533/liblua53.a")
 #endif
 
 /*
@@ -35,7 +35,7 @@ struct sAssetModel
 struct sAssetTexture
 {
 	std::string sName;
-	std::string sFile;	
+	std::string sFile;
 };
 
 class cGameSettings
@@ -62,4 +62,3 @@ public:
 	static std::vector<sAssetModel> vecAssetBuildings;
 	static std::vector<sAssetModel> vecAssetVehicles;
 };
-

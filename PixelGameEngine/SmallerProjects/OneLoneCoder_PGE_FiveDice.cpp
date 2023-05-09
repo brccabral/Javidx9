@@ -53,7 +53,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2019, 2020, 2021
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2019, 2020, 2021
 */
 
 #define OLC_PGE_APPLICATION
@@ -73,9 +73,9 @@ public:
 	std::vector<uint8_t> vRolled;
 
 public:
-	void DrawDie(const olc::vi2d& vPos,
+	void DrawDie(const olc::vi2d &vPos,
 				 const uint8_t nFace,
-				 const olc::vi2d& vSize = { 64, 64 },
+				 const olc::vi2d &vSize = {64, 64},
 				 const olc::Pixel colFace = olc::DARK_RED,
 				 const olc::Pixel colSpot = olc::WHITE)
 	{
@@ -132,7 +132,7 @@ public:
 		/*
 		if((std::set<uint8_t>{2, 3, 4, 5, 6}).count(nFace) > 0)
 			FillCircle(vPos + olc::vi2d(nColL, nRowT), nRad, colSpot);
-		if ((std::set<uint8_t>{6}).count(nFace) > 0) 
+		if ((std::set<uint8_t>{6}).count(nFace) > 0)
 			FillCircle(vPos + olc::vi2d(nColL, nRowM), nRad, colSpot);
 		if ((std::set<uint8_t>{4, 5, 6}).count(nFace) > 0)
 			FillCircle(vPos + olc::vi2d(nColL, nRowB), nRad, colSpot);
@@ -147,7 +147,6 @@ public:
 		if ((std::set<uint8_t>{2, 3, 4, 5, 6}).count(nFace) > 0)
 			FillCircle(vPos + olc::vi2d(nColR, nRowB), nRad, colSpot);
 		*/
-
 
 		if (nFace & 1)
 		{
@@ -171,23 +170,19 @@ public:
 			FillCircle(vPos + olc::vi2d(nColL, nRowM), nRad, colSpot);
 			FillCircle(vPos + olc::vi2d(nColR, nRowM), nRad, colSpot);
 		}
-
 	}
-
-
-
 
 	bool OnUserCreate() override
 	{
-		vRolled = { 1, 6, 3, 3, 5 };
+		vRolled = {1, 6, 3, 3, 5};
 
 		return true;
 	}
 
 	bool OnUserUpdate(float fElapsedTime) override
 	{
-		
-		//if (GetKey(olc::Key::SPACE).bReleased)
+
+		// if (GetKey(olc::Key::SPACE).bReleased)
 		//{
 		//	/*
 		//	vRolled =
@@ -202,22 +197,21 @@ public:
 
 		//	/*
 		//	std::transform(
-		//		vRolled.begin(), 
-		//		vRolled.end(), 
-		//		vRolled.begin(), 
+		//		vRolled.begin(),
+		//		vRolled.end(),
+		//		vRolled.begin(),
 		//		[](uint8_t n) { return rand() % 6 + 1; }
 		//	);
 		//	*/
 
 		//	std::generate(
-		//		vRolled.begin(), 
-		//		vRolled.end(), 
+		//		vRolled.begin(),
+		//		vRolled.end(),
 		//		[]() { return rand() % 6 + 1; }
 		//	);
 
 		//	std::sort(vRolled.begin(), vRolled.end());
 		//}
-		
 
 		/*
 		int nScore_AllDice = std::accumulate(vRolled.begin(), vRolled.end(), 0);
@@ -333,7 +327,7 @@ public:
 
 		*/
 
-		auto Match = [&vRolled = vRolled](const std::vector<std::string>& vPatterns) -> bool
+		auto Match = [&vRolled = vRolled](const std::vector<std::string> &vPatterns) -> bool
 		{
 			// nnnnn                        - Yahtzee
 			// nnnn?, ?nnnn                 - four of a kind
@@ -344,7 +338,7 @@ public:
 
 			bool bResult = false;
 
-			for (const auto& sPattern : vPatterns)
+			for (const auto &sPattern : vPatterns)
 			{
 
 				bool bMatch = true;
@@ -371,7 +365,6 @@ public:
 					{
 						bMatch &= ((sPattern[idx] - '0') == vRolled[idx]);
 					}
-
 				}
 
 				bResult |= bMatch;
@@ -402,34 +395,36 @@ public:
 
 		if (GetKey(olc::Key::SPACE).bReleased)
 		{
-			std::generate(vRolled.begin(), vRolled.end(), []() { return rand() % 6 + 1; });
+			std::generate(vRolled.begin(), vRolled.end(), []()
+						  { return rand() % 6 + 1; });
 			std::sort(vRolled.begin(), vRolled.end());
 		}
 
 		std::vector<std::pair<std::string, int>> vScores =
-		{
-			{"Total Ones      : ", std::count(vRolled.begin(), vRolled.end(), 1) * 1},
-			{"Total Twos      : ", std::count(vRolled.begin(), vRolled.end(), 2) * 2},
-			{"Total Threes    : ", std::count(vRolled.begin(), vRolled.end(), 3) * 3},
-			{"Total Fours     : ", std::count(vRolled.begin(), vRolled.end(), 4) * 4},
-			{"Total Fives     : ", std::count(vRolled.begin(), vRolled.end(), 5) * 5},
-			{"Total Sixes     : ", std::count(vRolled.begin(), vRolled.end(), 6) * 6},
-			{"Chance          : ", std::accumulate(vRolled.begin(), vRolled.end(), 0)},
+			{
+				{"Total Ones      : ", std::count(vRolled.begin(), vRolled.end(), 1) * 1},
+				{"Total Twos      : ", std::count(vRolled.begin(), vRolled.end(), 2) * 2},
+				{"Total Threes    : ", std::count(vRolled.begin(), vRolled.end(), 3) * 3},
+				{"Total Fours     : ", std::count(vRolled.begin(), vRolled.end(), 4) * 4},
+				{"Total Fives     : ", std::count(vRolled.begin(), vRolled.end(), 5) * 5},
+				{"Total Sixes     : ", std::count(vRolled.begin(), vRolled.end(), 6) * 6},
+				{"Chance          : ", std::accumulate(vRolled.begin(), vRolled.end(), 0)},
 
-			{"Three Of A Kind : ", (Match({"nnn??", "?nnn?", "??nnn"})) ? (3 * vRolled[2])                                 : 0},
-			{"Four Of A Kind  : ", (Match({"nnnn?", "?nnnn"})) ? (4 * vRolled[2])                                          : 0},
-			{"Full House      : ", ((Match({"nnn??"}) && Match({"???nn"})) || (Match({"??nnn"}) && Match({"nn???"}))) ? 25 : 0},
-			{"Small Straight  : ", (Match({"1234?", "2345?", "?3456", "?2345"}))                                      ? 30 : 0},
-			{"Large Straight  : ", (Match({"12345", "23456"}))                                                        ? 40 : 0},
-			{"Five Of A Kind  : ", (Match({"nnnnn"}))                                                                 ? 50 : 0},
-		};
-
+				{"Three Of A Kind : ", (Match({"nnn??", "?nnn?", "??nnn"})) ? (3 * vRolled[2]) : 0},
+				{"Four Of A Kind  : ", (Match({"nnnn?", "?nnnn"})) ? (4 * vRolled[2]) : 0},
+				{"Full House      : ", ((Match({"nnn??"}) && Match({"???nn"})) || (Match({"??nnn"}) && Match({"nn???"}))) ? 25 : 0},
+				{"Small Straight  : ", (Match({"1234?", "2345?", "?3456", "?2345"})) ? 30 : 0},
+				{"Large Straight  : ", (Match({"12345", "23456"})) ? 40 : 0},
+				{"Five Of A Kind  : ", (Match({"nnnnn"})) ? 50 : 0},
+			};
 
 		Clear(olc::DARK_GREEN);
-		olc::vi2d vOffset = { -60, 90 };
-		for (int i = 0; i < 5; i++)       DrawDie({ vOffset.x += 70, 10 }, vRolled[i]);
-		for (const auto& score : vScores) DrawString(10, vOffset.y += 10, score.first + std::to_string(score.second));
-		
+		olc::vi2d vOffset = {-60, 90};
+		for (int i = 0; i < 5; i++)
+			DrawDie({vOffset.x += 70, 10}, vRolled[i]);
+		for (const auto &score : vScores)
+			DrawString(10, vOffset.y += 10, score.first + std::to_string(score.second));
+
 		return true;
 	}
 };

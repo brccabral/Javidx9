@@ -135,7 +135,6 @@ using namespace std;
 
 #include <windows.h>
 
-
 enum COLOUR
 {
 	FG_BLACK = 0x0000,
@@ -185,7 +184,6 @@ class olcSprite
 public:
 	olcSprite()
 	{
-
 	}
 
 	olcSprite(int w, int h)
@@ -210,9 +208,9 @@ private:
 	{
 		nWidth = w;
 		nHeight = h;
-		m_Glyphs = new wchar_t[w*h];
-		m_Colours = new short[w*h];
-		for (int i = 0; i < w*h; i++)
+		m_Glyphs = new wchar_t[w * h];
+		m_Colours = new short[w * h];
+		for (int i = 0; i < w * h; i++)
 		{
 			m_Glyphs[i] = L' ';
 			m_Colours[i] = FG_BLACK;
@@ -222,7 +220,7 @@ private:
 public:
 	void SetGlyph(int x, int y, wchar_t c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Glyphs[y * nWidth + x] = c;
@@ -230,7 +228,7 @@ public:
 
 	void SetColour(int x, int y, short c)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return;
 		else
 			m_Colours[y * nWidth + x] = c;
@@ -238,7 +236,7 @@ public:
 
 	wchar_t GetGlyph(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[y * nWidth + x];
@@ -246,7 +244,7 @@ public:
 
 	short GetColour(int x, int y)
 	{
-		if (x <0 || x >= nWidth || y < 0 || y >= nHeight)
+		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[y * nWidth + x];
@@ -256,7 +254,7 @@ public:
 	{
 		int sx = (int)(x * (float)nWidth);
 		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return L' ';
 		else
 			return m_Glyphs[sy * nWidth + sx];
@@ -266,7 +264,7 @@ public:
 	{
 		int sx = (int)(x * (float)nWidth);
 		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx <0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
 			return FG_BLACK;
 		else
 			return m_Colours[sy * nWidth + sx];
@@ -316,40 +314,35 @@ public:
 	bool LoadFromResource(unsigned int id)
 	{
 		HRSRC res = FindResource(NULL, MAKEINTRESOURCE(id), RT_RCDATA);
-		if (!res) return false;
+		if (!res)
+			return false;
 
 		HGLOBAL res_handle = LoadResource(NULL, res);
-		if (!res_handle) return false;
+		if (!res_handle)
+			return false;
 
-		char* res_data = (char*)LockResource(res_handle);
+		char *res_data = (char *)LockResource(res_handle);
 		DWORD res_size = SizeofResource(NULL, res);
-
-
-		
-
 
 		istringstream iss(res_data);
 		istream *is = &iss;
-		
+
 		delete[] m_Glyphs;
 		delete[] m_Colours;
 		nWidth = 0;
 		nHeight = 0;
 
-		is->read((char*)&nWidth, sizeof(int) * 1);
-		is->read((char*)&nHeight, sizeof(int) * 1);
-		
-		Create(nWidth, nHeight);
-		
-		iss.read((char*)m_Colours, sizeof(short) * nWidth * nHeight);		
-		iss.read((char*)m_Glyphs, sizeof(wchar_t) * nWidth * nHeight);
+		is->read((char *)&nWidth, sizeof(int) * 1);
+		is->read((char *)&nHeight, sizeof(int) * 1);
 
+		Create(nWidth, nHeight);
+
+		iss.read((char *)m_Colours, sizeof(short) * nWidth * nHeight);
+		iss.read((char *)m_Glyphs, sizeof(wchar_t) * nWidth * nHeight);
 
 		return true;
 	}
-
 };
-
 
 class olcConsoleGameEngineOOP
 {
@@ -360,7 +353,7 @@ public:
 public:
 	int ConstructConsole(int width, int height, int fontw, int fonth);
 	void Start();
-	
+
 public:
 	virtual void Draw(int x, int y, wchar_t c = 0x2588, short col = 0x000F);
 	void Fill(int x1, int y1, int x2, int y2, wchar_t c = 0x2588, short col = 0x000F);
@@ -384,16 +377,13 @@ protected:
 	virtual bool OnUserCreate() = 0;
 	virtual bool OnUserUpdate(float fElapsedTime) = 0;
 
-	// Optional for clean up 
+	// Optional for clean up
 	virtual bool OnUserDestroy();
-
 
 	int Error(const wchar_t *msg);
 	static BOOL CloseHandler(DWORD evt);
 
 protected:
-
-
 	struct sKeyState
 	{
 		bool bPressed;
@@ -411,14 +401,12 @@ public:
 	sKeyState GetMouse(int nMouseButtonID) { return m_mouse[nMouseButtonID]; }
 	bool IsFocused() { return m_bConsoleInFocus; }
 
-
 protected:
 	class olcAudioSample
 	{
 	public:
 		olcAudioSample()
 		{
-
 		}
 
 		olcAudioSample(std::wstring sWavFile)
@@ -431,19 +419,21 @@ protected:
 
 			char dump[4];
 			std::fread(&dump, sizeof(char), 4, f); // Read "RIFF"
-			if (strncmp(dump, "RIFF", 4) != 0) return;
+			if (strncmp(dump, "RIFF", 4) != 0)
+				return;
 			std::fread(&dump, sizeof(char), 4, f); // Not Interested
 			std::fread(&dump, sizeof(char), 4, f); // Read "WAVE"
-			if (strncmp(dump, "WAVE", 4) != 0) return;
+			if (strncmp(dump, "WAVE", 4) != 0)
+				return;
 
 			// Read Wave description chunk
-			std::fread(&dump, sizeof(char), 4, f); // Read "fmt "
-			std::fread(&dump, sizeof(char), 4, f); // Not Interested
+			std::fread(&dump, sizeof(char), 4, f);					// Read "fmt "
+			std::fread(&dump, sizeof(char), 4, f);					// Not Interested
 			std::fread(&wavHeader, sizeof(WAVEFORMATEX) - 2, 1, f); // Read Wave Format Structure chunk
 																	// Note the -2, because the structure has 2 bytes to indicate its own size
 																	// which are not in the wav file
 
-																	// Just check if wave format is compatible with olcCGE
+			// Just check if wave format is compatible with olcCGE
 			if (wavHeader.wBitsPerSample != 16 || wavHeader.nSamplesPerSec != 44100)
 			{
 				std::fclose(f);
@@ -452,7 +442,7 @@ protected:
 
 			// Search for audio data chunk
 			long nChunksize = 0;
-			std::fread(&dump, sizeof(char), 4, f); // Read chunk header
+			std::fread(&dump, sizeof(char), 4, f);		 // Read chunk header
 			std::fread(&nChunksize, sizeof(long), 1, f); // Read chunk size
 			while (strncmp(dump, "data", 4) != 0)
 			{
@@ -520,7 +510,7 @@ protected:
 
 	// The audio system uses by default a specific wave format
 	bool CreateAudio(unsigned int nSampleRate = 44100, unsigned int nChannels = 1,
-		unsigned int nBlocks = 8, unsigned int nBlockSamples = 512);
+					 unsigned int nBlocks = 8, unsigned int nBlockSamples = 512);
 
 	// Stop and clean up audio system
 	bool DestroyAudio();
@@ -572,19 +562,19 @@ protected:
 	HANDLE m_hConsole;
 	HANDLE m_hConsoleIn;
 	SMALL_RECT m_rectWindow;
-	short m_keyOldState[256] = { 0 };
-	short m_keyNewState[256] = { 0 };
-	bool m_mouseOldState[5] = { 0 };
-	bool m_mouseNewState[5] = { 0 };
+	short m_keyOldState[256] = {0};
+	short m_keyNewState[256] = {0};
+	bool m_mouseOldState[5] = {0};
+	bool m_mouseNewState[5] = {0};
 	bool m_bConsoleInFocus = true;
-	
+
 	bool m_bEnableSound = false;
 	unsigned int m_nSampleRate;
 	unsigned int m_nChannels;
 	unsigned int m_nBlockCount;
 	unsigned int m_nBlockSamples;
 	unsigned int m_nBlockCurrent;
-	short* m_pBlockMemory = nullptr;
+	short *m_pBlockMemory = nullptr;
 	WAVEHDR *m_pWaveHeaders = nullptr;
 	HWAVEOUT m_hwDevice = nullptr;
 	std::thread m_AudioThread;
@@ -598,4 +588,3 @@ protected:
 	static condition_variable m_cvGameFinished;
 	static mutex m_muxGame;
 };
-

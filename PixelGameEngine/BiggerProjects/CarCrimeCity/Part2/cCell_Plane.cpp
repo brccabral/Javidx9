@@ -1,21 +1,20 @@
 #include "cCell_Plane.h"
 
-
-
-cCell_Plane::cCell_Plane(cCityMap* map, int x, int y, CELL_PLANE type) : cCell(map, x, y)
+cCell_Plane::cCell_Plane(cCityMap *map, int x, int y, CELL_PLANE type) : cCell(map, x, y)
 {
 	bSolid = false;
 	nType = type;
-	if (nType == PLANE_GRASS) nCellType = CELL_GRASS;
-	if (nType == PLANE_ASPHALT) nCellType = CELL_PAVEMENT;
+	if (nType == PLANE_GRASS)
+		nCellType = CELL_GRASS;
+	if (nType == PLANE_ASPHALT)
+		nCellType = CELL_PAVEMENT;
 }
-
 
 cCell_Plane::~cCell_Plane()
 {
 }
 
-bool cCell_Plane::LinkAssets(std::map<std::string, olc::Sprite*> &mapTextures, std::map<std::string, olc::GFX3D::mesh*> &mapMesh, std::map<std::string, olc::GFX3D::mat4x4> &mapTransforms)
+bool cCell_Plane::LinkAssets(std::map<std::string, olc::Sprite *> &mapTextures, std::map<std::string, olc::GFX3D::mesh *> &mapMesh, std::map<std::string, olc::GFX3D::mat4x4> &mapTransforms)
 {
 	sprGrass = mapTextures["Grass"];
 	sprPavement = mapTextures["Pavement"];
@@ -33,8 +32,8 @@ bool cCell_Plane::DrawBase(olc::PixelGameEngine *pge, olc::GFX3D::PipeLine &pipe
 	olc::GFX3D::mat4x4 matWorld;
 	matWorld = olc::GFX3D::Math::Mat_MakeTranslation((float)nWorldX, (float)nWorldY, 0.0f);
 	pipe.SetTransform(matWorld);
-	
-	if(nType == PLANE_GRASS)
+
+	if (nType == PLANE_GRASS)
 		pipe.SetTexture(sprGrass);
 	else
 		pipe.SetTexture(sprPavement);

@@ -7,7 +7,7 @@ License
 Copyright (C) 2018  Javidx9
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
-under certain conditions; See license for details. 
+under certain conditions; See license for details.
 Original works located at:
 https://www.github.com/onelonecoder
 https://www.onelonecoder.com
@@ -18,10 +18,10 @@ https://github.com/OneLoneCoder/videos/blob/master/LICENSE
 
 From Javidx9 :)
 ~~~~~~~~~~~~~~~
-Hello! Ultimately I don't care what you use this for. It's intended to be 
-educational, and perhaps to the oddly minded - a little bit of fun. 
-Please hack this, change it and use it in any way you see fit. You acknowledge 
-that I am not responsible for anything bad that happens as a result of 
+Hello! Ultimately I don't care what you use this for. It's intended to be
+educational, and perhaps to the oddly minded - a little bit of fun.
+Please hack this, change it and use it in any way you see fit. You acknowledge
+that I am not responsible for anything bad that happens as a result of
 your actions. However this code is protected by GNU GPLv3, see the license in the
 github repo. This means you must attribute me if you use it. You can view this
 license here: https://github.com/OneLoneCoder/videos/blob/master/LICENSE
@@ -90,15 +90,15 @@ struct sSpline
 		float tt = t * t;
 		float ttt = tt * t;
 
-		float q1 = -ttt + 2.0f*tt - t;
-		float q2 = 3.0f*ttt - 5.0f*tt + 2.0f;
-		float q3 = -3.0f*ttt + 4.0f*tt + t;
+		float q1 = -ttt + 2.0f * tt - t;
+		float q2 = 3.0f * ttt - 5.0f * tt + 2.0f;
+		float q3 = -3.0f * ttt + 4.0f * tt + t;
 		float q4 = ttt - tt;
 
 		float tx = 0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 + points[p3].x * q4);
 		float ty = 0.5f * (points[p0].y * q1 + points[p1].y * q2 + points[p2].y * q3 + points[p3].y * q4);
 
-		return{ tx, ty };
+		return {tx, ty};
 	}
 
 	sPoint2D GetSplineGradient(float t, bool bLooped = false)
@@ -124,15 +124,15 @@ struct sSpline
 		float tt = t * t;
 		float ttt = tt * t;
 
-		float q1 = -3.0f * tt + 4.0f*t - 1;
-		float q2 = 9.0f*tt - 10.0f*t;
-		float q3 = -9.0f*tt + 8.0f*t + 1.0f;
-		float q4 = 3.0f*tt - 2.0f*t;
+		float q1 = -3.0f * tt + 4.0f * t - 1;
+		float q2 = 9.0f * tt - 10.0f * t;
+		float q3 = -9.0f * tt + 8.0f * t + 1.0f;
+		float q4 = 3.0f * tt - 2.0f * t;
 
 		float tx = 0.5f * (points[p0].x * q1 + points[p1].x * q2 + points[p2].x * q3 + points[p3].x * q4);
 		float ty = 0.5f * (points[p0].y * q1 + points[p1].y * q2 + points[p2].y * q3 + points[p3].y * q4);
 
-		return{ tx, ty };
+		return {tx, ty};
 	}
 
 	float CalculateSegmentLength(int node, bool bLooped = false)
@@ -146,14 +146,12 @@ struct sSpline
 		for (float t = 0; t < 1.0f; t += fStepSize)
 		{
 			new_point = GetSplinePoint((float)node + t, bLooped);
-			fLength += sqrtf((new_point.x - old_point.x)*(new_point.x - old_point.x) 
-						   + (new_point.y - old_point.y)*(new_point.y - old_point.y));
+			fLength += sqrtf((new_point.x - old_point.x) * (new_point.x - old_point.x) + (new_point.y - old_point.y) * (new_point.y - old_point.y));
 			old_point = new_point;
 		}
 
 		return fLength;
 	}
-
 
 	float GetNormalisedOffset(float p)
 	{
@@ -165,10 +163,9 @@ struct sSpline
 			i++;
 		}
 
-		// The fractional is the offset 
+		// The fractional is the offset
 		return (float)i + (p / points[i].length);
 	}
-
 };
 
 class OneLoneCoder_Splines : public olcConsoleGameEngine
@@ -190,15 +187,14 @@ protected:
 	// Called by olcConsoleGameEngine
 	virtual bool OnUserCreate()
 	{
-		//path.points = { { 10, 41 },{ 40, 41 },{ 70, 41 },{ 100, 41 } };
-		//path.points = { { 10, 41 },{ 20, 41 },{ 30, 41 },{ 40, 41 },{ 50, 41 },{ 60, 41 },{ 70, 41 },{ 80, 41 },{ 90, 41 },{ 100, 41 } };
+		// path.points = { { 10, 41 },{ 40, 41 },{ 70, 41 },{ 100, 41 } };
+		// path.points = { { 10, 41 },{ 20, 41 },{ 30, 41 },{ 40, 41 },{ 50, 41 },{ 60, 41 },{ 70, 41 },{ 80, 41 },{ 90, 41 },{ 100, 41 } };
 
 		for (int i = 0; i < 10; i++)
-			path.points.push_back({ 30.0f * sinf((float)i / 10.0f * 3.14159f * 2.0f) + ScreenWidth() / 2,
-									30.0f * cosf((float)i / 10.0f * 3.14159f * 2.0f) + ScreenHeight() / 2 });
+			path.points.push_back({30.0f * sinf((float)i / 10.0f * 3.14159f * 2.0f) + ScreenWidth() / 2,
+								   30.0f * cosf((float)i / 10.0f * 3.14159f * 2.0f) + ScreenHeight() / 2});
 
-		vecModelCar = { { 1,1 },{ 1,3 },{ 3,0 },{ 0,-3 },{ -3,0 },{ -1, 3 },{ -1,1 } };
-
+		vecModelCar = {{1, 1}, {1, 3}, {3, 0}, {0, -3}, {-3, 0}, {-1, 3}, {-1, 1}};
 
 		return true;
 	}
@@ -278,7 +274,6 @@ protected:
 		DrawLine(5.0f * sin(r) + p1.x, 5.0f * cos(r) + p1.y, -5.0f * sin(r) + p1.x, -5.0f * cos(r) + p1.y, PIXEL_SOLID, FG_BLUE);
 
 		DrawWireFrameModel(vecModelCar, p1.x, p1.y, -r + (3.14159f / 2.0f), 5.0f, FG_CYAN);
-
 
 		DrawString(2, 2, to_wstring(fOffset));
 		DrawString(2, 4, to_wstring(fMarker));

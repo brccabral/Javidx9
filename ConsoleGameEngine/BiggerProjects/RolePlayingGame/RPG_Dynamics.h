@@ -66,7 +66,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #pragma once
@@ -96,13 +96,11 @@ public:
 
 public:
 	virtual void DrawSelf(olcConsoleGameEngineOOP *gfx, float ox, float oy) {}
-	virtual void Update(float fElapsedTime, cDynamic* player = nullptr) {}
-	virtual void OnInteract(cDynamic* player = nullptr) {}
+	virtual void Update(float fElapsedTime, cDynamic *player = nullptr) {}
+	virtual void OnInteract(cDynamic *player = nullptr) {}
 
-	static RPG_Engine* g_engine;
+	static RPG_Engine *g_engine;
 };
-
-
 
 class cDynamic_Creature : public cDynamic
 {
@@ -113,8 +111,20 @@ protected:
 	olcSprite *m_pSprite;
 	float m_fTimer;
 	int m_nGraphicCounter;
-	enum { SOUTH = 0, WEST = 1, NORTH = 2, EAST = 3 } m_nFacingDirection;
-	enum { STANDING, WALKING, CELEBRATING, DEAD } m_nGraphicState;
+	enum
+	{
+		SOUTH = 0,
+		WEST = 1,
+		NORTH = 2,
+		EAST = 3
+	} m_nFacingDirection;
+	enum
+	{
+		STANDING,
+		WALKING,
+		CELEBRATING,
+		DEAD
+	} m_nGraphicState;
 
 public:
 	int nHealth;
@@ -123,10 +133,10 @@ public:
 
 public:
 	void DrawSelf(olcConsoleGameEngineOOP *gfx, float ox, float oy) override;
-	void Update(float fElapsedTime, cDynamic* player = nullptr) override;
-	virtual void Behaviour(float fElapsedTime, cDynamic* player = nullptr);
+	void Update(float fElapsedTime, cDynamic *player = nullptr) override;
+	virtual void Behaviour(float fElapsedTime, cDynamic *player = nullptr);
 	int GetFacingDirection() { return m_nFacingDirection; };
-	virtual void PerformAttack() {};
+	virtual void PerformAttack(){};
 	void KnockBack(float dx, float dy, float dist);
 
 	cWeapon *pEquipedWeapon = nullptr;
@@ -136,16 +146,14 @@ protected:
 	float m_fKnockBackTimer = 0.0f;
 	float m_fKnockBackDX = 0.0f;
 	float m_fKnockBackDY = 0.0f;
-
 };
-
 
 class cDynamic_Creature_Skelly : public cDynamic_Creature
 {
 public:
 	cDynamic_Creature_Skelly();
 
-	void Behaviour(float fElapsedTime, cDynamic* player = nullptr) override;
+	void Behaviour(float fElapsedTime, cDynamic *player = nullptr) override;
 	void PerformAttack() override;
 };
 
@@ -158,16 +166,12 @@ public:
 	void PerformAttack() override;
 };
 
-
-
-
-
 class cDynamic_Teleport : public cDynamic
 {
 public:
 	cDynamic_Teleport(float x, float y, string sMapName, float tx, float ty);
 	void DrawSelf(olcConsoleGameEngineOOP *gfx, float ox, float oy) override;
-	void Update(float fElapsedTime, cDynamic* player = nullptr) override;
+	void Update(float fElapsedTime, cDynamic *player = nullptr) override;
 
 public:
 	string sMapName;
@@ -178,12 +182,12 @@ public:
 class cDynamic_Item : public cDynamic
 {
 public:
-	cDynamic_Item(float x, float y, cItem* item);
+	cDynamic_Item(float x, float y, cItem *item);
 	void DrawSelf(olcConsoleGameEngineOOP *gfx, float ox, float oy) override;
-	void OnInteract(cDynamic* player = nullptr) override;
+	void OnInteract(cDynamic *player = nullptr) override;
 
 public:
-	cItem * item;
+	cItem *item;
 	bool bCollected = false;
 };
 
@@ -192,10 +196,10 @@ class cDynamic_Projectile : public cDynamic
 public:
 	cDynamic_Projectile(float ox, float oy, bool bFriend, float velx, float vely, float duration, olcSprite *sprite, float tx, float ty);
 	void DrawSelf(olcConsoleGameEngineOOP *gfx, float ox, float oy) override;
-	void Update(float fElapsedTime, cDynamic* player = nullptr) override;
+	void Update(float fElapsedTime, cDynamic *player = nullptr) override;
 
 public:
-	olcSprite * pSprite = nullptr;
+	olcSprite *pSprite = nullptr;
 	float fSpriteX;
 	float fSpriteY;
 	float fDuration;

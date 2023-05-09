@@ -7,7 +7,7 @@ License
 One Lone Coder Console Game Engine  Copyright (C) 2018  Javidx9
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
-under certain conditions; See license for details. 
+under certain conditions; See license for details.
 Original works located at:
 https://www.github.com/onelonecoder
 https://www.onelonecoder.com
@@ -18,10 +18,10 @@ https://github.com/OneLoneCoder/videos/blob/master/LICENSE
 
 From Javidx9 :)
 ~~~~~~~~~~~~~~~
-Hello! Ultimately I don't care what you use this for. It's intended to be 
-educational, and perhaps to the oddly minded - a little bit of fun. 
-Please hack this, change it and use it in any way you see fit. You acknowledge 
-that I am not responsible for anything bad that happens as a result of 
+Hello! Ultimately I don't care what you use this for. It's intended to be
+educational, and perhaps to the oddly minded - a little bit of fun.
+Please hack this, change it and use it in any way you see fit. You acknowledge
+that I am not responsible for anything bad that happens as a result of
 your actions. However this code is protected by GNU GPLv3, see the license in the
 github repo. This means you must attribute me if you use it. You can view this
 license here: https://github.com/OneLoneCoder/videos/blob/master/LICENSE
@@ -76,8 +76,6 @@ struct sLineSegment
 	float radius;
 };
 
-
-
 class CirclePhysics : public olcConsoleGameEngine
 {
 public:
@@ -90,18 +88,22 @@ private:
 	vector<sBall> vecBalls;
 	vector<sLineSegment> vecLines;
 	vector<pair<float, float>> modelCircle;
-	sBall* pSelectedBall = nullptr;
+	sBall *pSelectedBall = nullptr;
 	olcSprite *spriteBalls = nullptr;
-	sLineSegment* pSelectedLine = nullptr;
+	sLineSegment *pSelectedLine = nullptr;
 	bool bSelectedLineStart = false;
 
 	void AddBall(float x, float y, float r = 5.0f, int s = 0)
 	{
 		sBall b;
-		b.px = x; b.py = y;
-		b.vx = 0; b.vy = 0;
-		b.ax = 0; b.ay = 0;
-		b.ox = 0; b.oy = 0;
+		b.px = x;
+		b.py = y;
+		b.vx = 0;
+		b.vy = 0;
+		b.ax = 0;
+		b.ay = 0;
+		b.ox = 0;
+		b.oy = 0;
 		b.radius = r;
 		b.mass = r * 10.0f;
 		b.friction = 0.0f;
@@ -115,19 +117,19 @@ public:
 	bool OnUserCreate()
 	{
 		float fBallRadius = 4.0f;
-		for (int i = 0; i <100; i++)
-			AddBall(((float)rand()/(float)RAND_MAX) * ScreenWidth(), ((float)rand() / (float)RAND_MAX) * ScreenHeight(), fBallRadius);
+		for (int i = 0; i < 100; i++)
+			AddBall(((float)rand() / (float)RAND_MAX) * ScreenWidth(), ((float)rand() / (float)RAND_MAX) * ScreenHeight(), fBallRadius);
 
 		AddBall(28.0f, 33.0, fBallRadius * 3);
-		AddBall(28.0f, 35.0, fBallRadius * 2); 
-		
+		AddBall(28.0f, 35.0, fBallRadius * 2);
+
 		float fLineRadius = 4.0f;
-		vecLines.push_back({ 12.0f, 4.0f, 64.0f, 4.0f, fLineRadius });
-		vecLines.push_back({ 76.0f, 4.0f, 132.0f, 4.0f, fLineRadius });
-		vecLines.push_back({ 12.0f, 68.0f, 64.0f, 68.0f, fLineRadius });
-		vecLines.push_back({ 76.0f, 68.0f, 132.0f, 68.0f, fLineRadius });
-		vecLines.push_back({ 4.0f, 12.0f, 4.0f, 60.0f, fLineRadius });
-		vecLines.push_back({ 140.0f, 12.0f, 140.0f, 60.0f, fLineRadius });
+		vecLines.push_back({12.0f, 4.0f, 64.0f, 4.0f, fLineRadius});
+		vecLines.push_back({76.0f, 4.0f, 132.0f, 4.0f, fLineRadius});
+		vecLines.push_back({12.0f, 68.0f, 64.0f, 68.0f, fLineRadius});
+		vecLines.push_back({76.0f, 68.0f, 132.0f, 68.0f, fLineRadius});
+		vecLines.push_back({4.0f, 12.0f, 4.0f, 60.0f, fLineRadius});
+		vecLines.push_back({140.0f, 12.0f, 140.0f, 60.0f, fLineRadius});
 		return true;
 	}
 
@@ -135,12 +137,12 @@ public:
 	{
 		auto DoCirclesOverlap = [](float x1, float y1, float r1, float x2, float y2, float r2)
 		{
-			return fabs((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)) <= ((r1 + r2) * (r1 + r2));
+			return fabs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) <= ((r1 + r2) * (r1 + r2));
 		};
 
 		auto IsPointInCircle = [](float x1, float y1, float r1, float px, float py)
 		{
-			return fabs((x1 - px)*(x1 - px) + (y1 - py)*(y1 - py)) < (r1 * r1);
+			return fabs((x1 - px) * (x1 - px) + (y1 - py) * (y1 - py)) < (r1 * r1);
 		};
 
 		if (m_mouse[0].bPressed)
@@ -179,9 +181,9 @@ public:
 		if (m_mouse[0].bHeld)
 		{
 			if (pSelectedLine != nullptr)
-			{			
+			{
 				if (bSelectedLineStart)
-				{					
+				{
 					pSelectedLine->sx = GetMouseX();
 					pSelectedLine->sy = GetMouseY();
 				}
@@ -215,14 +217,12 @@ public:
 			}
 		}
 
-		
-
-		vector<pair<sBall*, sBall*>> vecCollidingPairs;
-		vector<sBall*> vecFakeBalls;
+		vector<pair<sBall *, sBall *>> vecCollidingPairs;
+		vector<sBall *> vecFakeBalls;
 
 		// Threshold indicating stability of object
 		float fStable = 0.05f;
-		
+
 		// Multiple simulation updates with small time steps permit more accurate physics
 		// and realistic results at the expense of CPU time of course
 		int nSimulationUpdates = 4;
@@ -252,33 +252,36 @@ public:
 				{
 					if (ball.fSimTimeRemaining > 0.0f)
 					{
-						ball.ox = ball.px;								// Store original position this epoch
+						ball.ox = ball.px; // Store original position this epoch
 						ball.oy = ball.py;
 
-						ball.ax = -ball.vx * 0.8f;						// Apply drag and gravity
+						ball.ax = -ball.vx * 0.8f; // Apply drag and gravity
 						ball.ay = -ball.vy * 0.8f + 100.0f;
 
-						ball.vx += ball.ax * ball.fSimTimeRemaining;	// Update Velocity
+						ball.vx += ball.ax * ball.fSimTimeRemaining; // Update Velocity
 						ball.vy += ball.ay * ball.fSimTimeRemaining;
 
-						ball.px += ball.vx * ball.fSimTimeRemaining;	// Update position
+						ball.px += ball.vx * ball.fSimTimeRemaining; // Update position
 						ball.py += ball.vy * ball.fSimTimeRemaining;
 
 						// Crudely wrap balls to screen - note this cause issues when collisions occur on screen boundaries
-						if (ball.px < 0) ball.px += (float)ScreenWidth();
-						if (ball.px >= ScreenWidth()) ball.px -= (float)ScreenWidth();
-						if (ball.py < 0) ball.py += (float)ScreenHeight();
-						if (ball.py >= ScreenHeight()) ball.py -= (float)ScreenHeight();
+						if (ball.px < 0)
+							ball.px += (float)ScreenWidth();
+						if (ball.px >= ScreenWidth())
+							ball.px -= (float)ScreenWidth();
+						if (ball.py < 0)
+							ball.py += (float)ScreenHeight();
+						if (ball.py >= ScreenHeight())
+							ball.py -= (float)ScreenHeight();
 
 						// Stop ball when velocity is neglible
-						if (fabs(ball.vx*ball.vx + ball.vy*ball.vy) < fStable)
+						if (fabs(ball.vx * ball.vx + ball.vy * ball.vy) < fStable)
 						{
 							ball.vx = 0;
 							ball.vy = 0;
 						}
 					}
 				}
-
 
 				// Work out static collisions with walls and displace balls so no overlaps
 				for (auto &ball : vecBalls)
@@ -309,7 +312,7 @@ public:
 
 						// And once we know the closest point, we can check if the ball has collided with the segment in the
 						// same way we check if two balls have collided
-						float fDistance = sqrtf((ball.px - fClosestPointX)*(ball.px - fClosestPointX) + (ball.py - fClosestPointY)*(ball.py - fClosestPointY));
+						float fDistance = sqrtf((ball.px - fClosestPointX) * (ball.px - fClosestPointX) + (ball.py - fClosestPointY) * (ball.py - fClosestPointY));
 
 						if (fDistance <= (ball.radius + edge.radius))
 						{
@@ -321,14 +324,14 @@ public:
 							fakeball->mass = ball.mass * 0.8f;
 							fakeball->px = fClosestPointX;
 							fakeball->py = fClosestPointY;
-							fakeball->vx = -ball.vx;	// We will use these later to allow the lines to impart energy into ball
-							fakeball->vy = -ball.vy;	// if the lines are moving, i.e. like pinball flippers
-							
+							fakeball->vx = -ball.vx; // We will use these later to allow the lines to impart energy into ball
+							fakeball->vy = -ball.vy; // if the lines are moving, i.e. like pinball flippers
+
 							// Store Fake Ball
 							vecFakeBalls.push_back(fakeball);
-							
+
 							// Add collision to vector of collisions for dynamic resolution
-							vecCollidingPairs.push_back({ &ball, fakeball });
+							vecCollidingPairs.push_back({&ball, fakeball});
 
 							// Calculate displacement required
 							float fOverlap = 1.0f * (fDistance - ball.radius - fakeball->radius);
@@ -347,10 +350,10 @@ public:
 							if (DoCirclesOverlap(ball.px, ball.py, ball.radius, target.px, target.py, target.radius))
 							{
 								// Collision has occured
-								vecCollidingPairs.push_back({ &ball, &target });
+								vecCollidingPairs.push_back({&ball, &target});
 
 								// Distance between ball centers
-								float fDistance = sqrtf((ball.px - target.px)*(ball.px - target.px) + (ball.py - target.py)*(ball.py - target.py));
+								float fDistance = sqrtf((ball.px - target.px) * (ball.px - target.px) + (ball.py - target.py) * (ball.py - target.py));
 
 								// Calculate displacement required
 								float fOverlap = 0.5f * (fDistance - ball.radius - target.radius);
@@ -371,9 +374,9 @@ public:
 					// however due to collisions it could not do the full distance, so we look at the actual distance to the collision
 					// point and calculate how much time that journey would have taken using the speed of the object. Therefore
 					// we can now work out how much time remains in that timestep.
-					float fIntendedSpeed	= sqrtf(ball.vx * ball.vx + ball.vy * ball.vy);
+					float fIntendedSpeed = sqrtf(ball.vx * ball.vx + ball.vy * ball.vy);
 					float fIntendedDistance = fIntendedSpeed * ball.fSimTimeRemaining;
-					float fActualDistance	= sqrtf((ball.px - ball.ox)*(ball.px - ball.ox) + (ball.py - ball.oy)*(ball.py - ball.oy));
+					float fActualDistance = sqrtf((ball.px - ball.ox) * (ball.px - ball.ox) + (ball.py - ball.oy) * (ball.py - ball.oy));
 					float fActualTime = fActualDistance / fIntendedSpeed;
 
 					// After static resolution, there may be some time still left for this epoch, so allow simulation to continue
@@ -387,7 +390,7 @@ public:
 					sBall *b1 = c.first, *b2 = c.second;
 
 					// Distance between balls
-					float fDistance = sqrtf((b1->px - b2->px)*(b1->px - b2->px) + (b1->py - b2->py)*(b1->py - b2->py));
+					float fDistance = sqrtf((b1->px - b2->px) * (b1->px - b2->px) + (b1->py - b2->py) * (b1->py - b2->py));
 
 					// Normal
 					float nx = (b2->px - b1->px) / fDistance;
@@ -420,7 +423,8 @@ public:
 				vecCollidingPairs.clear();
 
 				// Remove fake balls
-				for (auto &b : vecFakeBalls) delete b;
+				for (auto &b : vecFakeBalls)
+					delete b;
 				vecFakeBalls.clear();
 			}
 		}
@@ -436,7 +440,7 @@ public:
 
 			float nx = -(line.ey - line.sy);
 			float ny = (line.ex - line.sx);
-			float d = sqrt(nx*nx + ny * ny);
+			float d = sqrt(nx * nx + ny * ny);
 			nx /= d;
 			ny /= d;
 
@@ -454,9 +458,7 @@ public:
 
 		return true;
 	}
-
 };
-
 
 int main()
 {
@@ -468,4 +470,3 @@ int main()
 
 	return 0;
 };
-

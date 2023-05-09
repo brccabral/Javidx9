@@ -66,7 +66,7 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #pragma once
@@ -94,18 +94,18 @@ public:
 	int nWidth;
 	int nHeight;
 	string sName;
-	olcSprite* pSprite;
+	olcSprite *pSprite;
 
 	int GetIndex(int x, int y);
 	bool GetSolid(int x, int y);
-	bool Create(string fileData, olcSprite* sprite, string name);
+	bool Create(string fileData, olcSprite *sprite, string name);
 
-	virtual bool PopulateDynamics(vector<cDynamic*> &vecDyns)
+	virtual bool PopulateDynamics(vector<cDynamic *> &vecDyns)
 	{
 		return false;
 	}
 
-	virtual bool OnInteraction(vector<cDynamic*> &vecDynobs, cDynamic *target, NATURE nature)
+	virtual bool OnInteraction(vector<cDynamic *> &vecDynobs, cDynamic *target, NATURE nature)
 	{
 		return false;
 	}
@@ -115,18 +115,16 @@ private:
 	bool *m_solids = nullptr;
 
 public:
-	static cScriptProcessor* g_script;
+	static cScriptProcessor *g_script;
 };
-
-
 
 class cMap_Village1 : public cMap
 {
 public:
 	cMap_Village1();
 
-	bool PopulateDynamics(vector<cDynamic*> &vecDyns) override;
-	bool OnInteraction(vector<cDynamic*> &vecDynobs, cDynamic *target, NATURE nature) override;
+	bool PopulateDynamics(vector<cDynamic *> &vecDyns) override;
+	bool OnInteraction(vector<cDynamic *> &vecDynobs, cDynamic *target, NATURE nature) override;
 };
 
 class cMap_Home1 : public cMap
@@ -134,6 +132,6 @@ class cMap_Home1 : public cMap
 public:
 	cMap_Home1();
 
-	bool PopulateDynamics(vector<cDynamic*> &vecDyns) override;
-	bool OnInteraction(vector<cDynamic*> &vecDynobs, cDynamic *target, NATURE nature) override;
+	bool PopulateDynamics(vector<cDynamic *> &vecDyns) override;
+	bool OnInteraction(vector<cDynamic *> &vecDynobs, cDynamic *target, NATURE nature) override;
 };

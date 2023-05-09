@@ -66,11 +66,10 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #pragma once
-
 
 #include <iostream>
 #include <string>
@@ -87,7 +86,7 @@ using namespace std;
 #include "RPG_Quests.h"
 #include "RPG_Items.h"
 
-#define X(n) m_script.AddCommand(new cCommand_ ## n)
+#define X(n) m_script.AddCommand(new cCommand_##n)
 
 class RPG_Engine : public olcConsoleGameEngineOOP
 {
@@ -97,12 +96,12 @@ public:
 private:
 	cMap *m_pCurrentMap = nullptr;
 	cDynamic_Creature *m_pPlayer = nullptr;
-	vector<cDynamic*> m_vecDynamics;    // Fixed
-	vector<cDynamic*> m_vecProjectiles; // Transient
+	vector<cDynamic *> m_vecDynamics;	 // Fixed
+	vector<cDynamic *> m_vecProjectiles; // Transient
 	cScriptProcessor m_script;
 
-	list<cQuest*> m_listQuests;
-	list<cItem*> m_listItems;
+	list<cQuest *> m_listQuests;
+	list<cItem *> m_listItems;
 
 	float fCameraPosX = 0.0f;
 	float fCameraPosY = 0.0f;
@@ -123,18 +122,16 @@ private:
 	int m_nInvSelectX = 0;
 	int m_nInvSelectY = 0;
 
-
-
 protected:
 	bool OnUserCreate() override;
 	bool OnUserUpdate(float fElapsedTime) override;
-	
-	//bool UpdateTitleScreen(float fElapsedTime);
+
+	// bool UpdateTitleScreen(float fElapsedTime);
 	bool UpdateLocalMap(float fElapsedTime);
-	//bool UpdateWorldMap(float fElapsedTime);
+	// bool UpdateWorldMap(float fElapsedTime);
 	bool UpdateInventory(float fElapsedTime);
-	//bool UpdateShop(float fElapsedTime);
-		
+	// bool UpdateShop(float fElapsedTime);
+
 protected:
 	vector<string> m_vecDialogToShow;
 	bool m_bShowDialog = false;
@@ -146,14 +143,14 @@ public:
 	void DisplayDialog(vector<string> vecText, int x, int y);
 	void DrawBigText(string sText, int x, int y);
 	void ChangeMap(string sMapName, float x, float y);
-	void AddQuest(cQuest* quest);
+	void AddQuest(cQuest *quest);
 
 	void AddProjectile(cDynamic_Projectile *proj);
 
 	bool GiveItem(cItem *item);
-	bool TakeItem(cItem* item);
-	bool HasItem(cItem* item);
+	bool TakeItem(cItem *item);
+	bool HasItem(cItem *item);
 
-	void Attack(cDynamic_Creature* aggressor, cWeapon *weapon);
-	void Damage(cDynamic_Projectile* projectile, cDynamic_Creature* victim);
+	void Attack(cDynamic_Creature *aggressor, cWeapon *weapon);
+	void Damage(cDynamic_Projectile *projectile, cDynamic_Creature *victim);
 };

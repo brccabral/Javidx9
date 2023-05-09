@@ -1,9 +1,8 @@
 #include "cAutomata.h"
 
-
 cAuto_Node::cAuto_Node()
 {
-	pos = { 0,0 };
+	pos = {0, 0};
 }
 
 cAuto_Node::cAuto_Node(const olc::vf2d &worldpos)
@@ -16,25 +15,21 @@ olc::vf2d cAuto_Track::GetPostion(float t, cAuto_Node *pStart)
 	// pStart indicates the node the automata first encounted this track
 	if (node[0] == pStart)
 	{
-		return node[0]->pos + (node[1]->pos - node[0]->pos) *  (t / fTrackLength);
+		return node[0]->pos + (node[1]->pos - node[0]->pos) * (t / fTrackLength);
 	}
 	else
 	{
-		return node[1]->pos + (node[0]->pos - node[1]->pos) *  (t / fTrackLength);
+		return node[1]->pos + (node[0]->pos - node[1]->pos) * (t / fTrackLength);
 	}
 }
-
-
 
 cAuto_Body::cAuto_Body()
 {
 }
 
-
 cAuto_Body::~cAuto_Body()
 {
 }
-
 
 void cAuto_Body::UpdateAuto(float fElapsedTime)
 {
@@ -67,7 +62,7 @@ void cAuto_Body::UpdateAuto(float fElapsedTime)
 				if ((*itThisAutomata)->fAutoPos < (pCurrentTrack->fTrackLength + fDistanceFromTrackStartToAutoRear - fAutoLength))
 				{
 					// Move Automata along track, as there is space
-					//bAutomataCanMove = true;
+					// bAutomataCanMove = true;
 					fDistanceToAutoInFront = (pCurrentTrack->fTrackLength + fDistanceFromTrackStartToAutoRear - 0.1f) - (*itThisAutomata)->fAutoPos;
 				}
 				else
@@ -79,12 +74,9 @@ void cAuto_Body::UpdateAuto(float fElapsedTime)
 			else
 			{
 				// Track in front was empty, node is clear to pass through so
-				//bAutomataCanMove = true;
+				// bAutomataCanMove = true;
 			}
 		}
-
-
-
 	}
 	else
 	{
@@ -98,7 +90,7 @@ void cAuto_Body::UpdateAuto(float fElapsedTime)
 		if (fabs((*itAutomataInFront)->fAutoPos - (*itThisAutomata)->fAutoPos) > ((*itAutomataInFront)->fAutoLength + 0.1f))
 		{
 			// Move Automata along track
-			//bAutomataCanMove = true;
+			// bAutomataCanMove = true;
 			fDistanceToAutoInFront = ((*itAutomataInFront)->fAutoPos - (*itAutomataInFront)->fAutoLength - 0.1f) - (*itThisAutomata)->fAutoPos;
 		}
 		else
@@ -110,10 +102,10 @@ void cAuto_Body::UpdateAuto(float fElapsedTime)
 
 	if (bAutomataCanMove)
 	{
-		if (fDistanceToAutoInFront > pCurrentTrack->fTrackLength) fDistanceToAutoInFront = pCurrentTrack->fTrackLength;
+		if (fDistanceToAutoInFront > pCurrentTrack->fTrackLength)
+			fDistanceToAutoInFront = pCurrentTrack->fTrackLength;
 		fAutoPos += fElapsedTime * std::max(fDistanceToAutoInFront, 1.0f) * (fAutoLength < 0.1f ? 0.3f : 0.5f);
 	}
-
 
 	if (fAutoPos >= pCurrentTrack->fTrackLength)
 	{
@@ -132,7 +124,7 @@ void cAuto_Body::UpdateAuto(float fElapsedTime)
 
 			if (pExitNode->listTracks.size() == 2)
 			{
-				// Automata is travelling along straight joined sections, one of the 
+				// Automata is travelling along straight joined sections, one of the
 				// tracks is the track its just come in on, the other is the exit, so
 				// choose the exit.
 				auto it = pExitNode->listTracks.begin();
@@ -152,7 +144,7 @@ void cAuto_Body::UpdateAuto(float fElapsedTime)
 					int j = 0;
 					for (auto it = pExitNode->listTracks.begin(); it != pExitNode->listTracks.end(); ++it)
 					{
-						cAuto_Track* track = (*it);
+						cAuto_Track *track = (*it);
 
 						// Work out which node is the target destination
 						cAuto_Node *pNewExitNode = track->node[0];
@@ -170,7 +162,6 @@ void cAuto_Body::UpdateAuto(float fElapsedTime)
 				}
 			}
 
-
 			// Change to new track, the origin node of the next
 			// track is the same as the exit node to the current track
 			pTrackOriginNode = pExitNode;
@@ -184,14 +175,12 @@ void cAuto_Body::UpdateAuto(float fElapsedTime)
 
 			// Push the automata onto the back of the new track queue
 			pCurrentTrack->listAutos.push_back(this);
-
 		}
 		else
 		{
 			// It cant pass the node, so clamp automata at this location
 			fAutoPos = pCurrentTrack->fTrackLength;
 		}
-
 	}
 	else
 	{
@@ -199,8 +188,3 @@ void cAuto_Body::UpdateAuto(float fElapsedTime)
 		vAutoPos = pCurrentTrack->GetPostion(fAutoPos, pTrackOriginNode);
 	}
 }
-
-
-
-
-

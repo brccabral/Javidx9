@@ -66,14 +66,14 @@
 
 	Author
 	~~~~~~
-	David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+	David Barr, aka javidx9, ï¿½OneLoneCoder 2018, 2019
 */
 
 #include "RPG_Commands.h"
 #include "RPG_Engine.h"
 #include "RPG_Quests.h"
 
-RPG_Engine* cCommand::g_engine = nullptr;
+RPG_Engine *cCommand::g_engine = nullptr;
 
 cScriptProcessor::cScriptProcessor()
 {
@@ -122,10 +122,7 @@ void cScriptProcessor::CompleteCommand()
 	}
 }
 
-
-
-
-cCommand_MoveTo::cCommand_MoveTo(cDynamic* object, float x, float y, float duration)
+cCommand_MoveTo::cCommand_MoveTo(cDynamic *object, float x, float y, float duration)
 {
 	m_fTargetPosX = x;
 	m_fTargetPosY = y;
@@ -144,8 +141,8 @@ void cCommand_MoveTo::Update(float fElapsedTime)
 {
 	m_fTimeSoFar += fElapsedTime;
 	float t = m_fTimeSoFar / m_fDuration;
-	if (t > 1.0f) t = 1.0f;
-
+	if (t > 1.0f)
+		t = 1.0f;
 
 	m_pObject->px = (m_fTargetPosX - m_fStartPosX) * t + m_fStartPosX;
 	m_pObject->py = (m_fTargetPosY - m_fStartPosY) * t + m_fStartPosY;
@@ -163,7 +160,6 @@ void cCommand_MoveTo::Update(float fElapsedTime)
 	}
 }
 
-
 cCommand_ShowDialog::cCommand_ShowDialog(vector<string> line)
 {
 	vecLines = line;
@@ -174,7 +170,6 @@ void cCommand_ShowDialog::Start()
 	g_engine->ShowDialog(vecLines);
 }
 
-
 cCommand_ChangeMap::cCommand_ChangeMap(string mapName, float mapPosX, float mapPosY)
 {
 	m_sMapName = mapName;
@@ -182,14 +177,13 @@ cCommand_ChangeMap::cCommand_ChangeMap(string mapName, float mapPosX, float mapP
 	m_fMapPosY = mapPosY;
 }
 
-
 void cCommand_ChangeMap::Start()
 {
 	g_engine->ChangeMap(m_sMapName, m_fMapPosX, m_fMapPosY);
 	bCompleted = true;
 }
 
-cCommand_AddQuest::cCommand_AddQuest(cQuest* quest)
+cCommand_AddQuest::cCommand_AddQuest(cQuest *quest)
 {
 	m_quest = quest;
 }

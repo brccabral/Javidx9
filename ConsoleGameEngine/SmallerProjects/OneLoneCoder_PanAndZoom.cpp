@@ -57,7 +57,6 @@ public:
 	}
 
 private:
-
 	float fOffsetX = 0.0f;
 	float fOffsetY = 0.0f;
 	float fScaleX = 1.0f;
@@ -69,11 +68,9 @@ private:
 	float fSelectedCellX = 0.0f;
 	float fSelectedCellY = 0.0f;
 
-
 protected:
-
 	virtual bool OnUserCreate()
-	{		
+	{
 		// Initialise offset so 0,0 in world space is middle of the screen
 		fOffsetX = -ScreenWidth() / 2;
 		fOffsetY = -ScreenHeight() / 2;
@@ -126,7 +123,6 @@ protected:
 		float fMouseWorldX_BeforeZoom, fMouseWorldY_BeforeZoom;
 		ScreenToWorld(fMouseX, fMouseY, fMouseWorldX_BeforeZoom, fMouseWorldY_BeforeZoom);
 
-
 		// ...change the scale as required...
 		if (GetKey(L'Q').bHeld)
 		{
@@ -145,13 +141,12 @@ protected:
 		// location in screen space, because we know how much it changed laterally between
 		// the two spatial scales. Neat huh? ;-)
 		float fMouseWorldX_AfterZoom, fMouseWorldY_AfterZoom;
-		ScreenToWorld(fMouseX, fMouseY, fMouseWorldX_AfterZoom, fMouseWorldY_AfterZoom);		
+		ScreenToWorld(fMouseX, fMouseY, fMouseWorldX_AfterZoom, fMouseWorldY_AfterZoom);
 		fOffsetX += (fMouseWorldX_BeforeZoom - fMouseWorldX_AfterZoom);
 		fOffsetY += (fMouseWorldY_BeforeZoom - fMouseWorldY_AfterZoom);
 
 		// Clear Screen
 		Fill(0, 0, ScreenWidth(), ScreenHeight(), PIXEL_SOLID, FG_BLACK);
-
 
 		// Clip
 		float fWorldLeft, fWorldTop, fWorldRight, fWorldBottom;
@@ -162,7 +157,6 @@ protected:
 		{
 			return sinf(x);
 		};
-
 
 		// Draw Main Axes a 10x10 Unit Grid
 		// Draw 10 horizontal lines
@@ -220,13 +214,12 @@ protected:
 		FillCircle(cx, cy, cr, PIXEL_SOLID, FG_RED);
 		DrawString(2, 2, L"Lines Drawn: " + to_wstring(nLinesDrawn));
 
-
 		// Draw Chart
 		float fWorldPerScreenWidthPixel = (fWorldRight - fWorldLeft) / ScreenWidth();
 		float fWorldPerScreenHeightPixel = (fWorldBottom - fWorldTop) / ScreenHeight();
 		int px, py, opx = 0, opy = 0;
-		WorldToScreen(fWorldLeft-fWorldPerScreenWidthPixel, -function((fWorldLeft - fWorldPerScreenWidthPixel) - 5.0f) + 5.0f, opx, opy);
-		for (float x = fWorldLeft; x < fWorldRight; x+=fWorldPerScreenWidthPixel)
+		WorldToScreen(fWorldLeft - fWorldPerScreenWidthPixel, -function((fWorldLeft - fWorldPerScreenWidthPixel) - 5.0f) + 5.0f, opx, opy);
+		for (float x = fWorldLeft; x < fWorldRight; x += fWorldPerScreenWidthPixel)
 		{
 			float y = -function(x - 5.0f) + 5.0f;
 			WorldToScreen(x, y, px, py);
@@ -234,11 +227,10 @@ protected:
 			opx = px;
 			opy = py;
 		}
-		
+
 		return true;
 	}
 };
-
 
 int main()
 {

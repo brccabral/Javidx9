@@ -63,7 +63,7 @@ int olcConsoleGameEngineOOP::ConstructConsole(int width, int height, int fontw, 
 	// by way of useful information, and so the resulting sequence is the reult of experiment
 	// that seems to work in multiple cases.
 	//
-	// The problem seems to be that the SetConsoleXXX functions are somewhat circular and 
+	// The problem seems to be that the SetConsoleXXX functions are somewhat circular and
 	// fail depending on the state of the current console properties, i.e. you can't set
 	// the buffer size until you set the screen size, but you can't change the screen size
 	// until the buffer size is correct. This coupled with a precise ordering of calls
@@ -71,11 +71,11 @@ int olcConsoleGameEngineOOP::ConstructConsole(int width, int height, int fontw, 
 
 	// Change console visual size to a minimum so ScreenBuffer can shrink
 	// below the actual visual size
-	m_rectWindow = { 0, 0, 1, 1 };
+	m_rectWindow = {0, 0, 1, 1};
 	SetConsoleWindowInfo(m_hConsole, TRUE, &m_rectWindow);
 
 	// Set the size of the screen buffer
-	COORD coord = { (short)m_nScreenWidth, (short)m_nScreenHeight };
+	COORD coord = {(short)m_nScreenWidth, (short)m_nScreenHeight};
 	if (!SetConsoleScreenBufferSize(m_hConsole, coord))
 		Error(L"SetConsoleScreenBufferSize");
 
@@ -91,10 +91,10 @@ int olcConsoleGameEngineOOP::ConstructConsole(int width, int height, int fontw, 
 	cfi.dwFontSize.Y = fonth;
 	cfi.FontFamily = FF_DONTCARE;
 	cfi.FontWeight = FW_NORMAL;
-	//wcscpy_s(cfi.FaceName, L"Lucida Console");
-	//wcscpy_s(cfi.FaceName, L"Liberation Mono");
+	// wcscpy_s(cfi.FaceName, L"Lucida Console");
+	// wcscpy_s(cfi.FaceName, L"Liberation Mono");
 	wcscpy_s(cfi.FaceName, L"Consolas");
-	//wcscpy_s(cfi.FaceName, L"Raster");
+	// wcscpy_s(cfi.FaceName, L"Raster");
 	if (!SetCurrentConsoleFontEx(m_hConsole, false, &cfi))
 		return Error(L"SetCurrentConsoleFontEx");
 
@@ -109,16 +109,16 @@ int olcConsoleGameEngineOOP::ConstructConsole(int width, int height, int fontw, 
 		return Error(L"Screen Width / Font Width Too Big");
 
 	// Set Physical Console Window Size
-	m_rectWindow = { 0, 0, (short)m_nScreenWidth - 1, (short)m_nScreenHeight - 1 };
+	m_rectWindow = {0, 0, (short)m_nScreenWidth - 1, (short)m_nScreenHeight - 1};
 	if (!SetConsoleWindowInfo(m_hConsole, TRUE, &m_rectWindow))
 		return Error(L"SetConsoleWindowInfo");
 
-	// Set flags to allow mouse input		
+	// Set flags to allow mouse input
 	if (!SetConsoleMode(m_hConsoleIn, ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT))
 		return Error(L"SetConsoleMode");
 
 	// Allocate memory for screen buffer
-	m_bufScreen = new CHAR_INFO[m_nScreenWidth*m_nScreenHeight];
+	m_bufScreen = new CHAR_INFO[m_nScreenWidth * m_nScreenHeight];
 	memset(m_bufScreen, 0, sizeof(CHAR_INFO) * m_nScreenWidth * m_nScreenHeight);
 
 	return 1;
@@ -165,10 +165,14 @@ void olcConsoleGameEngineOOP::DrawStringAlpha(int x, int y, wstring c, short col
 
 void olcConsoleGameEngineOOP::Clip(int &x, int &y)
 {
-	if (x < 0) x = 0;
-	if (x >= m_nScreenWidth) x = m_nScreenWidth;
-	if (y < 0) y = 0;
-	if (y >= m_nScreenHeight) y = m_nScreenHeight;
+	if (x < 0)
+		x = 0;
+	if (x >= m_nScreenWidth)
+		x = m_nScreenWidth;
+	if (y < 0)
+		y = 0;
+	if (y >= m_nScreenHeight)
+		y = m_nScreenHeight;
 }
 
 void olcConsoleGameEngineOOP::DrawLine(int x1, int y1, int x2, int y2, wchar_t c, short col)
@@ -195,14 +199,14 @@ void olcConsoleGameEngineOOP::DrawLine(int x1, int y1, int x2, int y2, wchar_t c
 			xe = x1;
 		}
 		Draw(x, y, c, col);
-		for (i = 0; x<xe; i++)
+		for (i = 0; x < xe; i++)
 		{
 			x = x + 1;
-			if (px<0)
+			if (px < 0)
 				px = px + 2 * dy1;
 			else
 			{
-				if ((dx<0 && dy<0) || (dx>0 && dy>0))
+				if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
 					y = y + 1;
 				else
 					y = y - 1;
@@ -226,14 +230,14 @@ void olcConsoleGameEngineOOP::DrawLine(int x1, int y1, int x2, int y2, wchar_t c
 			ye = y1;
 		}
 		Draw(x, y, c, col);
-		for (i = 0; y<ye; i++)
+		for (i = 0; y < ye; i++)
 		{
 			y = y + 1;
 			if (py <= 0)
 				py = py + 2 * dx1;
 			else
 			{
-				if ((dx<0 && dy<0) || (dx>0 && dy>0))
+				if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
 					x = x + 1;
 				else
 					x = x - 1;
@@ -249,20 +253,23 @@ void olcConsoleGameEngineOOP::DrawCircle(int xc, int yc, int r, wchar_t c, short
 	int x = 0;
 	int y = r;
 	int p = 3 - 2 * r;
-	if (!r) return;
+	if (!r)
+		return;
 
 	while (y >= x) // only formulate 1/8 of circle
 	{
-		Draw(xc - x, yc - y, c, col);//upper left left
-		Draw(xc - y, yc - x, c, col);//upper upper left
-		Draw(xc + y, yc - x, c, col);//upper upper right
-		Draw(xc + x, yc - y, c, col);//upper right right
-		Draw(xc - x, yc + y, c, col);//lower left left
-		Draw(xc - y, yc + x, c, col);//lower lower left
-		Draw(xc + y, yc + x, c, col);//lower lower right
-		Draw(xc + x, yc + y, c, col);//lower right right
-		if (p < 0) p += 4 * x++ + 6;
-		else p += 4 * (x++ - y--) + 10;
+		Draw(xc - x, yc - y, c, col); // upper left left
+		Draw(xc - y, yc - x, c, col); // upper upper left
+		Draw(xc + y, yc - x, c, col); // upper upper right
+		Draw(xc + x, yc - y, c, col); // upper right right
+		Draw(xc - x, yc + y, c, col); // lower left left
+		Draw(xc - y, yc + x, c, col); // lower lower left
+		Draw(xc + y, yc + x, c, col); // lower lower right
+		Draw(xc + x, yc + y, c, col); // lower right right
+		if (p < 0)
+			p += 4 * x++ + 6;
+		else
+			p += 4 * (x++ - y--) + 10;
 	}
 }
 
@@ -272,7 +279,8 @@ void olcConsoleGameEngineOOP::FillCircle(int xc, int yc, int r, wchar_t c, short
 	int x = 0;
 	int y = r;
 	int p = 3 - 2 * r;
-	if (!r) return;
+	if (!r)
+		return;
 
 	auto drawline = [&](int sx, int ex, int ny)
 	{
@@ -287,8 +295,10 @@ void olcConsoleGameEngineOOP::FillCircle(int xc, int yc, int r, wchar_t c, short
 		drawline(xc - y, xc + y, yc - x);
 		drawline(xc - x, xc + x, yc + y);
 		drawline(xc - y, xc + y, yc + x);
-		if (p < 0) p += 4 * x++ + 6;
-		else p += 4 * (x++ - y--) + 10;
+		if (p < 0)
+			p += 4 * x++ + 6;
+		else
+			p += 4 * (x++ - y--) + 10;
 	}
 };
 
@@ -358,12 +368,9 @@ void olcConsoleGameEngineOOP::DrawWireFrameModel(const vector<pair<float, float>
 	{
 		int j = (i + 1);
 		DrawLine((int)vecTransformedCoordinates[i % verts].first, (int)vecTransformedCoordinates[i % verts].second,
-			(int)vecTransformedCoordinates[j % verts].first, (int)vecTransformedCoordinates[j % verts].second, c, col);
+				 (int)vecTransformedCoordinates[j % verts].first, (int)vecTransformedCoordinates[j % verts].second, c, col);
 	}
 }
-
-
-
 
 void olcConsoleGameEngineOOP::Start()
 {
@@ -397,7 +404,7 @@ void olcConsoleGameEngineOOP::GameThread()
 	{
 		if (!CreateAudio())
 		{
-			m_bAtomActive = false; // Failed to create audio system			
+			m_bAtomActive = false; // Failed to create audio system
 			m_bEnableSound = false;
 		}
 	}
@@ -475,7 +482,6 @@ void olcConsoleGameEngineOOP::GameThread()
 					{
 						for (int m = 0; m < 5; m++)
 							m_mouseNewState[m] = (inBuf[i].Event.MouseEvent.dwButtonState & (1 << m)) > 0;
-
 					}
 					break;
 
@@ -513,7 +519,6 @@ void olcConsoleGameEngineOOP::GameThread()
 				m_mouseOldState[m] = m_mouseNewState[m];
 			}
 
-
 			// Handle Frame Update
 			if (!OnUserUpdate(fElapsedTime))
 				m_bAtomActive = false;
@@ -522,7 +527,7 @@ void olcConsoleGameEngineOOP::GameThread()
 			wchar_t s[256];
 			swprintf_s(s, 256, L"OneLoneCoder.com - Console Game Engine - %s - FPS: %3.2f - %d ", m_sAppName.c_str(), 1.0f / fElapsedTime, events);
 			SetConsoleTitle(s);
-			WriteConsoleOutput(m_hConsole, m_bufScreen, { (short)m_nScreenWidth, (short)m_nScreenHeight }, { 0,0 }, &m_rectWindow);
+			WriteConsoleOutput(m_hConsole, m_bufScreen, {(short)m_nScreenWidth, (short)m_nScreenHeight}, {0, 0}, &m_rectWindow);
 		}
 
 		if (m_bEnableSound)
@@ -546,8 +551,7 @@ void olcConsoleGameEngineOOP::GameThread()
 	}
 }
 
-
-// Optional for clean up 
+// Optional for clean up
 bool olcConsoleGameEngineOOP::OnUserDestroy()
 {
 	return true;
@@ -606,12 +610,11 @@ void olcConsoleGameEngineOOP::PlaySample(int id, bool bLoop = false)
 
 void StopSample(int id)
 {
-
 }
 
 // The audio system uses by default a specific wave format
 bool olcConsoleGameEngineOOP::CreateAudio(unsigned int nSampleRate, unsigned int nChannels,
-	unsigned int nBlocks, unsigned int nBlockSamples)
+										  unsigned int nBlocks, unsigned int nBlockSamples)
 {
 	// Initialise Sound Engine
 	m_bAudioThreadActive = false;
@@ -675,7 +678,8 @@ bool olcConsoleGameEngineOOP::DestroyAudio()
 // Handler for soundcard request for more data
 void olcConsoleGameEngineOOP::waveOutProc(HWAVEOUT hWaveOut, UINT uMsg, DWORD dwParam1, DWORD dwParam2)
 {
-	if (uMsg != WOM_DONE) return;
+	if (uMsg != WOM_DONE)
+		return;
 	m_nBlockFree++;
 	std::unique_lock<std::mutex> lm(m_muxBlockNotZero);
 	m_cvBlockNotZero.notify_one();
@@ -684,7 +688,7 @@ void olcConsoleGameEngineOOP::waveOutProc(HWAVEOUT hWaveOut, UINT uMsg, DWORD dw
 // Static wrapper for sound card handler
 void CALLBACK olcConsoleGameEngineOOP::waveOutProcWrap(HWAVEOUT hWaveOut, UINT uMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2)
 {
-	((olcConsoleGameEngineOOP*)dwInstance)->waveOutProc(hWaveOut, uMsg, dwParam1, dwParam2);
+	((olcConsoleGameEngineOOP *)dwInstance)->waveOutProc(hWaveOut, uMsg, dwParam1, dwParam2);
 }
 
 // Audio thread. This loop responds to requests from the soundcard to fill 'blocks'
@@ -797,7 +801,8 @@ float olcConsoleGameEngineOOP::GetMixerOutput(int nChannel, float fGlobalTime, f
 	}
 
 	// If sounds have completed then remove them
-	listActiveSamples.remove_if([](const sCurrentlyPlayingSample &s) {return s.bFinished; });
+	listActiveSamples.remove_if([](const sCurrentlyPlayingSample &s)
+								{ return s.bFinished; });
 
 	// The users application might be generating sound, so grab that if it exists
 	fMixerSample += onUserSoundSample(nChannel, fGlobalTime, fTimeStep);
@@ -805,7 +810,6 @@ float olcConsoleGameEngineOOP::GetMixerOutput(int nChannel, float fGlobalTime, f
 	// Return the sample via an optional user override to filter the sound
 	return onUserSoundFilter(nChannel, fGlobalTime, fMixerSample);
 }
-
 
 atomic<bool> olcConsoleGameEngineOOP::m_bAtomActive = false;
 condition_variable olcConsoleGameEngineOOP::m_cvGameFinished;

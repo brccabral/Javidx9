@@ -7,7 +7,7 @@ License
 Copyright (C) 2018  Javidx9
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
-under certain conditions; See license for details. 
+under certain conditions; See license for details.
 Original works located at:
 https://www.github.com/onelonecoder
 https://www.onelonecoder.com
@@ -18,10 +18,10 @@ https://github.com/OneLoneCoder/videos/blob/master/LICENSE
 
 From Javidx9 :)
 ~~~~~~~~~~~~~~~
-Hello! Ultimately I don't care what you use this for. It's intended to be 
-educational, and perhaps to the oddly minded - a little bit of fun. 
-Please hack this, change it and use it in any way you see fit. You acknowledge 
-that I am not responsible for anything bad that happens as a result of 
+Hello! Ultimately I don't care what you use this for. It's intended to be
+educational, and perhaps to the oddly minded - a little bit of fun.
+Please hack this, change it and use it in any way you see fit. You acknowledge
+that I am not responsible for anything bad that happens as a result of
 your actions. However this code is protected by GNU GPLv3, see the license in the
 github repo. This means you must attribute me if you use it. You can view this
 license here: https://github.com/OneLoneCoder/videos/blob/master/LICENSE
@@ -49,7 +49,6 @@ using namespace std;
 
 #include "olcConsoleGameEngine.h"
 
-
 class OneLoneCoder_FlappyBird : public olcConsoleGameEngine
 {
 public:
@@ -59,7 +58,6 @@ public:
 	}
 
 private:
-
 	float fBirdPosition = 0.0f;
 	float fBirdVelocity = 0.0f;
 	float fBirdAcceleration = 0.0f;
@@ -76,12 +74,11 @@ private:
 	int nFlapCount = 0;
 	int nMaxFlapCount = 0;
 
-
 protected:
 	// Called by olcConsoleGameEngine
 	virtual bool OnUserCreate()
 	{
-		listSection = { 0, 0, 0, 0 };
+		listSection = {0, 0, 0, 0};
 		bResetGame = true;
 		fSectionWidth = (float)ScreenWidth() / (float)(listSection.size() - 1);
 		return true;
@@ -94,7 +91,7 @@ protected:
 		{
 			bHasCollided = false;
 			bResetGame = false;
-			listSection = { 0, 0, 0, 0 };
+			listSection = {0, 0, 0, 0};
 			fBirdAcceleration = 0.0f;
 			fBirdVelocity = 0.0f;
 			fBirdPosition = ScreenHeight() / 2.0f;
@@ -135,7 +132,8 @@ protected:
 				fLevelPosition -= fSectionWidth;
 				listSection.pop_front();
 				int i = rand() % (ScreenHeight() - 20);
-				if (i <= 10) i = 0;
+				if (i <= 10)
+					i = 0;
 				listSection.push_back(i);
 			}
 
@@ -158,10 +156,10 @@ protected:
 
 			// Collision Detection
 			bHasCollided = fBirdPosition < 2 || fBirdPosition > ScreenHeight() - 2 ||
-				m_bufScreen[(int)(fBirdPosition + 0) * ScreenWidth() + nBirdX].Char.UnicodeChar != L' ' ||
-				m_bufScreen[(int)(fBirdPosition + 1) * ScreenWidth() + nBirdX].Char.UnicodeChar != L' ' ||
-				m_bufScreen[(int)(fBirdPosition + 0) * ScreenWidth() + nBirdX + 6].Char.UnicodeChar != L' ' ||
-				m_bufScreen[(int)(fBirdPosition + 1) * ScreenWidth() + nBirdX + 6].Char.UnicodeChar != L' ';
+						   m_bufScreen[(int)(fBirdPosition + 0) * ScreenWidth() + nBirdX].Char.UnicodeChar != L' ' ||
+						   m_bufScreen[(int)(fBirdPosition + 1) * ScreenWidth() + nBirdX].Char.UnicodeChar != L' ' ||
+						   m_bufScreen[(int)(fBirdPosition + 0) * ScreenWidth() + nBirdX + 6].Char.UnicodeChar != L' ' ||
+						   m_bufScreen[(int)(fBirdPosition + 1) * ScreenWidth() + nBirdX + 6].Char.UnicodeChar != L' ';
 
 			// Draw Bird
 			if (fBirdVelocity > 0)
@@ -181,7 +179,6 @@ protected:
 		return true;
 	}
 };
-
 
 int main()
 {

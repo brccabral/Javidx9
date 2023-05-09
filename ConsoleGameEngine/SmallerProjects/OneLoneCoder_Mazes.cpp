@@ -7,7 +7,7 @@ License
 Copyright (C) 2018  Javidx9
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
-under certain conditions; See license for details. 
+under certain conditions; See license for details.
 Original works located at:
 https://www.github.com/onelonecoder
 https://www.onelonecoder.com
@@ -18,10 +18,10 @@ https://github.com/OneLoneCoder/videos/blob/master/LICENSE
 
 From Javidx9 :)
 ~~~~~~~~~~~~~~~
-Hello! Ultimately I don't care what you use this for. It's intended to be 
-educational, and perhaps to the oddly minded - a little bit of fun. 
-Please hack this, change it and use it in any way you see fit. You acknowledge 
-that I am not responsible for anything bad that happens as a result of 
+Hello! Ultimately I don't care what you use this for. It's intended to be
+educational, and perhaps to the oddly minded - a little bit of fun.
+Please hack this, change it and use it in any way you see fit. You acknowledge
+that I am not responsible for anything bad that happens as a result of
 your actions. However this code is protected by GNU GPLv3, see the license in the
 github repo. This means you must attribute me if you use it. You can view this
 license here: https://github.com/OneLoneCoder/videos/blob/master/LICENSE
@@ -59,11 +59,10 @@ public:
 		m_sAppName = L"MAZE";
 	}
 
-private:	
-	int  m_nMazeWidth;
-	int  m_nMazeHeight;
+private:
+	int m_nMazeWidth;
+	int m_nMazeHeight;
 	int *m_maze;
-	
 
 	// Some bit fields for convenience
 	enum
@@ -74,25 +73,23 @@ private:
 		CELL_PATH_W = 0x08,
 		CELL_VISITED = 0x10,
 	};
-	
-	
-	// Algorithm variables
-	int  m_nVisitedCells;	
-	stack<pair<int, int>> m_stack;	// (x, y) coordinate pairs
-	int  m_nPathWidth;
 
-	
+	// Algorithm variables
+	int m_nVisitedCells;
+	stack<pair<int, int>> m_stack; // (x, y) coordinate pairs
+	int m_nPathWidth;
+
 protected:
 	// Called by olcConsoleGameEngine
 	virtual bool OnUserCreate()
 	{
 		// Maze parameters
 		m_nMazeWidth = 40;
-		m_nMazeHeight = 25;		
+		m_nMazeHeight = 25;
 		m_maze = new int[m_nMazeWidth * m_nMazeHeight];
 		memset(m_maze, 0x00, m_nMazeWidth * m_nMazeHeight * sizeof(int));
 		m_nPathWidth = 3;
-		
+
 		// Choose a starting cell
 		int x = rand() % m_nMazeWidth;
 		int y = rand() % m_nMazeHeight;
@@ -145,28 +142,27 @@ protected:
 				{
 				case 0: // North
 					m_maze[offset(0, -1)] |= CELL_VISITED | CELL_PATH_S;
-					m_maze[offset(0,  0)] |= CELL_PATH_N;
+					m_maze[offset(0, 0)] |= CELL_PATH_N;
 					m_stack.push(make_pair((m_stack.top().first + 0), (m_stack.top().second - 1)));
 					break;
 
 				case 1: // East
 					m_maze[offset(+1, 0)] |= CELL_VISITED | CELL_PATH_W;
-					m_maze[offset( 0, 0)] |= CELL_PATH_E;
+					m_maze[offset(0, 0)] |= CELL_PATH_E;
 					m_stack.push(make_pair((m_stack.top().first + 1), (m_stack.top().second + 0)));
 					break;
 
 				case 2: // South
 					m_maze[offset(0, +1)] |= CELL_VISITED | CELL_PATH_N;
-					m_maze[offset(0,  0)] |= CELL_PATH_S;
+					m_maze[offset(0, 0)] |= CELL_PATH_S;
 					m_stack.push(make_pair((m_stack.top().first + 0), (m_stack.top().second + 1)));
 					break;
 
 				case 3: // West
 					m_maze[offset(-1, 0)] |= CELL_VISITED | CELL_PATH_E;
-					m_maze[offset( 0, 0)] |= CELL_PATH_W;
+					m_maze[offset(0, 0)] |= CELL_PATH_W;
 					m_stack.push(make_pair((m_stack.top().first - 1), (m_stack.top().second + 0)));
 					break;
-
 				}
 
 				m_nVisitedCells++;
@@ -177,7 +173,6 @@ protected:
 				m_stack.pop();
 			}
 		}
-
 
 		// === DRAWING STUFF ===
 
@@ -215,12 +210,10 @@ protected:
 		for (int py = 0; py < m_nPathWidth; py++)
 			for (int px = 0; px < m_nPathWidth; px++)
 				Draw(m_stack.top().first * (m_nPathWidth + 1) + px, m_stack.top().second * (m_nPathWidth + 1) + py, 0x2588, FG_GREEN); // Draw Cell
-		
-		
+
 		return true;
 	}
 };
-
 
 int main()
 {
