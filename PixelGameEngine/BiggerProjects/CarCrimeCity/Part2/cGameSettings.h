@@ -16,49 +16,49 @@ extern "C"
 #endif
 
 /*
-	This is a singleton that stores all the games configuration settings.
-	These settings are loaded on game start up and are to be considered
-	read-only.
+    This is a singleton that stores all the games configuration settings.
+    These settings are loaded on game start up and are to be considered
+    read-only.
 */
 
 struct sAssetModel
 {
-	std::string sCreator;
-	std::string sDescription;
-	std::string sModelOBJ;
-	std::string sModelPNG;
-	float fRotate[3];
-	float fScale[3];
-	float fTranslate[3];
+    std::string sCreator;
+    std::string sDescription;
+    std::string sModelOBJ;
+    std::string sModelPNG;
+    float fRotate[3];
+    float fScale[3];
+    float fTranslate[3];
 };
 
 struct sAssetTexture
 {
-	std::string sName;
-	std::string sFile;
+    std::string sName;
+    std::string sFile;
 };
 
 class cGameSettings
 {
 public:
-	cGameSettings();
-	~cGameSettings();
+    cGameSettings();
+    ~cGameSettings();
 
 public:
-	bool LoadConfigFile(std::string sFile);
+    bool LoadConfigFile(std::string sFile);
 
 public:
-	static int nScreenWidth;
-	static int nScreenHeight;
-	static int nPixelWidth;
-	static int nPixelHeight;
-	static bool bFullScreen;
+    static int nScreenWidth;
+    static int nScreenHeight;
+    static int nPixelWidth;
+    static int nPixelHeight;
+    static bool bFullScreen;
 
-	static int nDefaultMapWidth;
-	static int nDefaultMapHeight;
-	static std::string sDefaultCityFile;
+    static int nDefaultMapWidth;
+    static int nDefaultMapHeight;
+    static std::string sDefaultCityFile;
 
-	static std::vector<sAssetTexture> vecAssetTextures;
-	static std::vector<sAssetModel> vecAssetBuildings;
-	static std::vector<sAssetModel> vecAssetVehicles;
+    static std::vector<sAssetTexture> vecAssetTextures;
+    static std::vector<sAssetModel> vecAssetBuildings;
+    static std::vector<sAssetModel> vecAssetVehicles;
 };

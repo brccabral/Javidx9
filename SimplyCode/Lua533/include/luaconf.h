@@ -47,19 +47,19 @@
 #endif
 
 #if defined(LUA_USE_WINDOWS)
-#define LUA_DL_DLL	/* enable support for DLL */
+#define LUA_DL_DLL  /* enable support for DLL */
 #define LUA_USE_C89 /* broadly, Windows is C89 */
 #endif
 
 #if defined(LUA_USE_LINUX)
 #define LUA_USE_POSIX
-#define LUA_USE_DLOPEN	 /* needs an extra library: -ldl */
+#define LUA_USE_DLOPEN   /* needs an extra library: -ldl */
 #define LUA_USE_READLINE /* needs some extra libraries */
 #endif
 
 #if defined(LUA_USE_MACOSX)
 #define LUA_USE_POSIX
-#define LUA_USE_DLOPEN	 /* MacOS does not need -ldl */
+#define LUA_USE_DLOPEN   /* MacOS does not need -ldl */
 #define LUA_USE_READLINE /* needs an extra library: -lreadline */
 #endif
 
@@ -161,13 +161,13 @@
 #define LUA_CDIR "!\\"
 #define LUA_SHRDIR "!\\..\\share\\lua\\" LUA_VDIR "\\"
 #define LUA_PATH_DEFAULT                                                                                                              \
-	LUA_LDIR "?.lua;" LUA_LDIR "?\\init.lua;" LUA_CDIR "?.lua;" LUA_CDIR "?\\init.lua;" LUA_SHRDIR "?.lua;" LUA_SHRDIR "?\\init.lua;" \
-			 ".\\?.lua;"                                                                                                              \
-			 ".\\?\\init.lua"
+    LUA_LDIR "?.lua;" LUA_LDIR "?\\init.lua;" LUA_CDIR "?.lua;" LUA_CDIR "?\\init.lua;" LUA_SHRDIR "?.lua;" LUA_SHRDIR "?\\init.lua;" \
+             ".\\?.lua;"                                                                                                              \
+             ".\\?\\init.lua"
 #define LUA_CPATH_DEFAULT                                                                   \
-	LUA_CDIR "?.dll;" LUA_CDIR "..\\lib\\lua\\" LUA_VDIR "\\?.dll;" LUA_CDIR "loadall.dll;" \
-			 ".\\?.dll;" LUA_CDIR "?53.dll;"                                                \
-			 ".\\?53.dll"
+    LUA_CDIR "?.dll;" LUA_CDIR "..\\lib\\lua\\" LUA_VDIR "\\?.dll;" LUA_CDIR "loadall.dll;" \
+             ".\\?.dll;" LUA_CDIR "?53.dll;"                                                \
+             ".\\?53.dll"
 
 #else /* }{ */
 
@@ -175,13 +175,13 @@
 #define LUA_LDIR LUA_ROOT "share/lua/" LUA_VDIR "/"
 #define LUA_CDIR LUA_ROOT "lib/lua/" LUA_VDIR "/"
 #define LUA_PATH_DEFAULT                                                              \
-	LUA_LDIR "?.lua;" LUA_LDIR "?/init.lua;" LUA_CDIR "?.lua;" LUA_CDIR "?/init.lua;" \
-			 "./?.lua;"                                                               \
-			 "./?/init.lua"
+    LUA_LDIR "?.lua;" LUA_LDIR "?/init.lua;" LUA_CDIR "?.lua;" LUA_CDIR "?/init.lua;" \
+             "./?.lua;"                                                               \
+             "./?/init.lua"
 #define LUA_CPATH_DEFAULT                    \
-	LUA_CDIR "?.so;" LUA_CDIR "loadall.so;"  \
-			 "./?.so;" LUA_CDIR "lib?53.so;" \
-			 "./lib?53.so"
+    LUA_CDIR "?.so;" LUA_CDIR "loadall.so;"  \
+             "./?.so;" LUA_CDIR "lib?53.so;" \
+             "./lib?53.so"
 #endif /* } */
 
 /*
@@ -245,7 +245,7 @@
 ** default definition.
 */
 #if defined(__GNUC__) && ((__GNUC__ * 100 + __GNUC_MINOR__) >= 302) && \
-	defined(__ELF__) /* { */
+    defined(__ELF__) /* { */
 #define LUAI_FUNC __attribute__((visibility("hidden"))) extern
 #else /* }{ */
 #define LUAI_FUNC extern
@@ -318,9 +318,9 @@
 ** You can call your C function directly (with light C functions).
 */
 #define lua_cpcall(L, f, u)         \
-	(lua_pushcfunction(L, (f)),     \
-	 lua_pushlightuserdata(L, (u)), \
-	 lua_pcall(L, 1, 0, 0))
+    (lua_pushcfunction(L, (f)),     \
+     lua_pushlightuserdata(L, (u)), \
+     lua_pcall(L, 1, 0, 0))
 
 /*
 @@ LUA_COMPAT_LOG10 defines the function 'log10' in the math library.
@@ -406,9 +406,9 @@
 ** and therefore its conversion to float may have an ill-defined value.)
 */
 #define lua_numbertointeger(n, p)           \
-	((n) >= (LUA_NUMBER)(LUA_MININTEGER) && \
-	 (n) < -(LUA_NUMBER)(LUA_MININTEGER) && \
-	 (*(p) = (LUA_INTEGER)(n), 1))
+    ((n) >= (LUA_NUMBER)(LUA_MININTEGER) && \
+     (n) < -(LUA_NUMBER)(LUA_MININTEGER) && \
+     (*(p) = (LUA_INTEGER)(n), 1))
 
 /* now the variable definitions */
 
@@ -511,7 +511,7 @@
 #elif LUA_INT_TYPE == LUA_INT_LONGLONG /* }{ long long */
 
 /* use presence of macro LLONG_MAX as proxy for C99 compliance */
-#if defined(LLONG_MAX)				   /* { */
+#if defined(LLONG_MAX)                 /* { */
 /* use ISO C99 stuff */
 
 #define LUA_INTEGER long long
@@ -602,7 +602,7 @@
 #define LUA_KCONTEXT ptrdiff_t
 
 #if !defined(LUA_USE_C89) && defined(__STDC_VERSION__) && \
-	__STDC_VERSION__ >= 199901L
+    __STDC_VERSION__ >= 199901L
 #include <stdint.h>
 #if defined(INTPTR_MAX) /* even in C99 this type is optional */
 #undef LUA_KCONTEXT

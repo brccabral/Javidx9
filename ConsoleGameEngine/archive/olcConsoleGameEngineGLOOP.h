@@ -17,11 +17,11 @@ This is free software, and you are welcome to redistribute it
 under certain conditions; See license for details.
 
 Original works located at:
-	https://www.github.com/onelonecoder
-	https://www.onelonecoder.com
-	https://www.youtube.com/javidx9
+    https://www.github.com/onelonecoder
+    https://www.onelonecoder.com
+    https://www.youtube.com/javidx9
 GNU GPLv3
-	https://github.com/OneLoneCoder/videos/blob/master/LICENSE
+    https://github.com/OneLoneCoder/videos/blob/master/LICENSE
 
 From Javidx9 :)
 ~~~~~~~~~~~~~~~
@@ -133,475 +133,475 @@ typedef BOOL(WINAPI wglSwapInterval_t)(int interval);
 
 enum COLOUR
 {
-	FG_BLACK = 0x0000,
-	FG_DARK_BLUE = 0x0001,
-	FG_DARK_GREEN = 0x0002,
-	FG_DARK_CYAN = 0x0003,
-	FG_DARK_RED = 0x0004,
-	FG_DARK_MAGENTA = 0x0005,
-	FG_DARK_YELLOW = 0x0006,
-	FG_GREY = 0x0007, // Thanks MS :-/
-	FG_DARK_GREY = 0x0008,
-	FG_BLUE = 0x0009,
-	FG_GREEN = 0x000A,
-	FG_CYAN = 0x000B,
-	FG_RED = 0x000C,
-	FG_MAGENTA = 0x000D,
-	FG_YELLOW = 0x000E,
-	FG_WHITE = 0x000F,
-	BG_BLACK = 0x0000,
-	BG_DARK_BLUE = 0x0010,
-	BG_DARK_GREEN = 0x0020,
-	BG_DARK_CYAN = 0x0030,
-	BG_DARK_RED = 0x0040,
-	BG_DARK_MAGENTA = 0x0050,
-	BG_DARK_YELLOW = 0x0060,
-	BG_GREY = 0x0070,
-	BG_DARK_GREY = 0x0080,
-	BG_BLUE = 0x0090,
-	BG_GREEN = 0x00A0,
-	BG_CYAN = 0x00B0,
-	BG_RED = 0x00C0,
-	BG_MAGENTA = 0x00D0,
-	BG_YELLOW = 0x00E0,
-	BG_WHITE = 0x00F0,
+    FG_BLACK = 0x0000,
+    FG_DARK_BLUE = 0x0001,
+    FG_DARK_GREEN = 0x0002,
+    FG_DARK_CYAN = 0x0003,
+    FG_DARK_RED = 0x0004,
+    FG_DARK_MAGENTA = 0x0005,
+    FG_DARK_YELLOW = 0x0006,
+    FG_GREY = 0x0007, // Thanks MS :-/
+    FG_DARK_GREY = 0x0008,
+    FG_BLUE = 0x0009,
+    FG_GREEN = 0x000A,
+    FG_CYAN = 0x000B,
+    FG_RED = 0x000C,
+    FG_MAGENTA = 0x000D,
+    FG_YELLOW = 0x000E,
+    FG_WHITE = 0x000F,
+    BG_BLACK = 0x0000,
+    BG_DARK_BLUE = 0x0010,
+    BG_DARK_GREEN = 0x0020,
+    BG_DARK_CYAN = 0x0030,
+    BG_DARK_RED = 0x0040,
+    BG_DARK_MAGENTA = 0x0050,
+    BG_DARK_YELLOW = 0x0060,
+    BG_GREY = 0x0070,
+    BG_DARK_GREY = 0x0080,
+    BG_BLUE = 0x0090,
+    BG_GREEN = 0x00A0,
+    BG_CYAN = 0x00B0,
+    BG_RED = 0x00C0,
+    BG_MAGENTA = 0x00D0,
+    BG_YELLOW = 0x00E0,
+    BG_WHITE = 0x00F0,
 };
 enum PIXEL_TYPE
 {
-	PIXEL_SOLID = 0x2588,
-	PIXEL_THREEQUARTERS = 0x2593,
-	PIXEL_HALF = 0x2592,
-	PIXEL_QUARTER = 0x2591,
+    PIXEL_SOLID = 0x2588,
+    PIXEL_THREEQUARTERS = 0x2593,
+    PIXEL_HALF = 0x2592,
+    PIXEL_QUARTER = 0x2591,
 };
 
 class olcSprite
 {
 public:
-	olcSprite()
-	{
-	}
+    olcSprite()
+    {
+    }
 
-	olcSprite(int w, int h)
-	{
-		Create(w, h);
-	}
+    olcSprite(int w, int h)
+    {
+        Create(w, h);
+    }
 
-	olcSprite(wstring sFile)
-	{
-		if (!Load(sFile))
-			Create(8, 8);
-	}
+    olcSprite(wstring sFile)
+    {
+        if (!Load(sFile))
+            Create(8, 8);
+    }
 
-	int nWidth = 0;
-	int nHeight = 0;
+    int nWidth = 0;
+    int nHeight = 0;
 
-	// Yer touching private things king!
-	// private:
-	wchar_t *m_Glyphs = nullptr;
-	short *m_Colours = nullptr;
+    // Yer touching private things king!
+    // private:
+    wchar_t *m_Glyphs = nullptr;
+    short *m_Colours = nullptr;
 
 private:
-	void Create(int w, int h)
-	{
-		nWidth = w;
-		nHeight = h;
-		m_Glyphs = new wchar_t[w * h];
-		m_Colours = new short[w * h];
-		for (int i = 0; i < w * h; i++)
-		{
-			m_Glyphs[i] = L' ';
-			m_Colours[i] = FG_BLACK;
-		}
-	}
+    void Create(int w, int h)
+    {
+        nWidth = w;
+        nHeight = h;
+        m_Glyphs = new wchar_t[w * h];
+        m_Colours = new short[w * h];
+        for (int i = 0; i < w * h; i++)
+        {
+            m_Glyphs[i] = L' ';
+            m_Colours[i] = FG_BLACK;
+        }
+    }
 
 public:
-	void SetGlyph(int x, int y, wchar_t c)
-	{
-		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
-			return;
-		else
-			m_Glyphs[y * nWidth + x] = c;
-	}
+    void SetGlyph(int x, int y, wchar_t c)
+    {
+        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
+            return;
+        else
+            m_Glyphs[y * nWidth + x] = c;
+    }
 
-	void SetColour(int x, int y, short c)
-	{
-		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
-			return;
-		else
-			m_Colours[y * nWidth + x] = c;
-	}
+    void SetColour(int x, int y, short c)
+    {
+        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
+            return;
+        else
+            m_Colours[y * nWidth + x] = c;
+    }
 
-	wchar_t GetGlyph(int x, int y)
-	{
-		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
-			return L' ';
-		else
-			return m_Glyphs[y * nWidth + x];
-	}
+    wchar_t GetGlyph(int x, int y)
+    {
+        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
+            return L' ';
+        else
+            return m_Glyphs[y * nWidth + x];
+    }
 
-	short GetColour(int x, int y)
-	{
-		if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
-			return FG_BLACK;
-		else
-			return m_Colours[y * nWidth + x];
-	}
+    short GetColour(int x, int y)
+    {
+        if (x < 0 || x >= nWidth || y < 0 || y >= nHeight)
+            return FG_BLACK;
+        else
+            return m_Colours[y * nWidth + x];
+    }
 
-	wchar_t SampleGlyph(float x, float y)
-	{
-		int sx = (int)(x * (float)nWidth);
-		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
-			return L' ';
-		else
-			return m_Glyphs[sy * nWidth + sx];
-	}
+    wchar_t SampleGlyph(float x, float y)
+    {
+        int sx = (int)(x * (float)nWidth);
+        int sy = (int)(y * (float)nHeight - 1.0f);
+        if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+            return L' ';
+        else
+            return m_Glyphs[sy * nWidth + sx];
+    }
 
-	short SampleColour(float x, float y)
-	{
-		int sx = (int)(x * (float)nWidth);
-		int sy = (int)(y * (float)nHeight - 1.0f);
-		if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
-			return FG_BLACK;
-		else
-			return m_Colours[sy * nWidth + sx];
-	}
+    short SampleColour(float x, float y)
+    {
+        int sx = (int)(x * (float)nWidth);
+        int sy = (int)(y * (float)nHeight - 1.0f);
+        if (sx < 0 || sx >= nWidth || sy < 0 || sy >= nHeight)
+            return FG_BLACK;
+        else
+            return m_Colours[sy * nWidth + sx];
+    }
 
-	bool Save(wstring sFile)
-	{
-		FILE *f = nullptr;
-		_wfopen_s(&f, sFile.c_str(), L"wb");
-		if (f == nullptr)
-			return false;
+    bool Save(wstring sFile)
+    {
+        FILE *f = nullptr;
+        _wfopen_s(&f, sFile.c_str(), L"wb");
+        if (f == nullptr)
+            return false;
 
-		fwrite(&nWidth, sizeof(int), 1, f);
-		fwrite(&nHeight, sizeof(int), 1, f);
-		fwrite(m_Colours, sizeof(short), nWidth * nHeight, f);
-		fwrite(m_Glyphs, sizeof(wchar_t), nWidth * nHeight, f);
+        fwrite(&nWidth, sizeof(int), 1, f);
+        fwrite(&nHeight, sizeof(int), 1, f);
+        fwrite(m_Colours, sizeof(short), nWidth * nHeight, f);
+        fwrite(m_Glyphs, sizeof(wchar_t), nWidth * nHeight, f);
 
-		fclose(f);
+        fclose(f);
 
-		return true;
-	}
+        return true;
+    }
 
-	bool Load(wstring sFile)
-	{
-		delete[] m_Glyphs;
-		delete[] m_Colours;
-		nWidth = 0;
-		nHeight = 0;
+    bool Load(wstring sFile)
+    {
+        delete[] m_Glyphs;
+        delete[] m_Colours;
+        nWidth = 0;
+        nHeight = 0;
 
-		FILE *f = nullptr;
-		_wfopen_s(&f, sFile.c_str(), L"rb");
-		if (f == nullptr)
-			return false;
+        FILE *f = nullptr;
+        _wfopen_s(&f, sFile.c_str(), L"rb");
+        if (f == nullptr)
+            return false;
 
-		fread(&nWidth, sizeof(int), 1, f);
-		fread(&nHeight, sizeof(int), 1, f);
+        fread(&nWidth, sizeof(int), 1, f);
+        fread(&nHeight, sizeof(int), 1, f);
 
-		Create(nWidth, nHeight);
+        Create(nWidth, nHeight);
 
-		fread(m_Colours, sizeof(short), nWidth * nHeight, f);
-		fread(m_Glyphs, sizeof(wchar_t), nWidth * nHeight, f);
+        fread(m_Colours, sizeof(short), nWidth * nHeight, f);
+        fread(m_Glyphs, sizeof(wchar_t), nWidth * nHeight, f);
 
-		fclose(f);
-		return true;
-	}
+        fclose(f);
+        return true;
+    }
 };
 
 class olcConsoleGameEngineGLOOP
 {
-	// Mega Thanks to KrossX for completely converting the olcConsoleGameEngine to OpenGL!
-	uint32_t m_ColourPalette[16] = // 0xAABBGGRR
-		{
-			0xFF000000, // BLACK
-			0xFF800000, // DARK_BLUE
-			0xFF008000, // DARK_GREEN
-			0xFF808000, // DARK_CYAN
-			0xFF000080, // DARK_RED
-			0xFF800080, // DARK_MAGENTA
-			0xFF008080, // DARK_YELLOW
-			0xFFC0C0C0, // GREY
-			0xFF808080, // DARK_GREY
-			0xFFFF0000, // BLUE
-			0xFF00FF00, // GREEN
-			0xFFFFFF00, // CYAN
-			0xFF0000FF, // RED
-			0xFFFF00FF, // MAGENTA
-			0xFF00FFFF, // YELLOW
-			0xFFFFFFFF	// WHITE
-	};
+    // Mega Thanks to KrossX for completely converting the olcConsoleGameEngine to OpenGL!
+    uint32_t m_ColourPalette[16] = // 0xAABBGGRR
+        {
+            0xFF000000, // BLACK
+            0xFF800000, // DARK_BLUE
+            0xFF008000, // DARK_GREEN
+            0xFF808000, // DARK_CYAN
+            0xFF000080, // DARK_RED
+            0xFF800080, // DARK_MAGENTA
+            0xFF008080, // DARK_YELLOW
+            0xFFC0C0C0, // GREY
+            0xFF808080, // DARK_GREY
+            0xFFFF0000, // BLUE
+            0xFF00FF00, // GREEN
+            0xFFFFFF00, // CYAN
+            0xFF0000FF, // RED
+            0xFFFF00FF, // MAGENTA
+            0xFF00FFFF, // YELLOW
+            0xFFFFFFFF  // WHITE
+    };
 
-	void UpdateMousePosition(int x, int y);
-	void ToggleFullscreen(HWND hWnd);
-	void WindowResize(void);
-	void WindowUpdateScale(void);
-	int SetPixelFormatGL(void);
-	static LRESULT CALLBACK olcWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	HWND ConstructWindow(int width, int height);
-
-public:
-	olcConsoleGameEngineGLOOP();
-	int ConstructConsole(int width, int height, int fontw, int fonth);
-	virtual void Draw(int x, int y, wchar_t c = 0x2588, short col = 0x000F);
-	void Fill(int x1, int y1, int x2, int y2, wchar_t c = 0x2588, short col = 0x000F);
-	void DrawString(int x, int y, wstring c, short col = 0x000F);
-	void DrawStringAlpha(int x, int y, wstring c, short col = 0x000F);
-	void Clip(int &x, int &y);
-	void DrawLine(int x1, int y1, int x2, int y2, wchar_t c = 0x2588, short col = 0x000F);
-	void DrawCircle(int xc, int yc, int r, wchar_t c = 0x2588, short col = 0x000F);
-	void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, short c = 0x2588, short col = 0x000F);
-	void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, short c = 0x2588, short col = 0x000F);
-	void FillCircle(int xc, int yc, int r, wchar_t c = 0x2588, short col = 0x000F);
-	void DrawSprite(int x, int y, olcSprite *sprite);
-	void DrawPartialSprite(int x, int y, olcSprite *sprite, int ox, int oy, int w, int h);
-	void DrawWireFrameModel(const std::vector<std::pair<float, float>> &vecModelCoordinates, float x, float y, float r = 0.0f, float s = 1.0f, short col = FG_WHITE, short c = PIXEL_SOLID);
-	~olcConsoleGameEngineGLOOP();
-
-	void GenerateMipmapPow2(uint8_t *tex_new, uint8_t *tex_old, uint8_t *ref_alpha, int size);
+    void UpdateMousePosition(int x, int y);
+    void ToggleFullscreen(HWND hWnd);
+    void WindowResize(void);
+    void WindowUpdateScale(void);
+    int SetPixelFormatGL(void);
+    static LRESULT CALLBACK olcWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    HWND ConstructWindow(int width, int height);
 
 public:
-	void Start();
-	int ScreenWidth() { return m_nScreenWidth; }
-	int ScreenHeight() { return m_nScreenHeight; }
+    olcConsoleGameEngineGLOOP();
+    int ConstructConsole(int width, int height, int fontw, int fonth);
+    virtual void Draw(int x, int y, wchar_t c = 0x2588, short col = 0x000F);
+    void Fill(int x1, int y1, int x2, int y2, wchar_t c = 0x2588, short col = 0x000F);
+    void DrawString(int x, int y, wstring c, short col = 0x000F);
+    void DrawStringAlpha(int x, int y, wstring c, short col = 0x000F);
+    void Clip(int &x, int &y);
+    void DrawLine(int x1, int y1, int x2, int y2, wchar_t c = 0x2588, short col = 0x000F);
+    void DrawCircle(int xc, int yc, int r, wchar_t c = 0x2588, short col = 0x000F);
+    void DrawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, short c = 0x2588, short col = 0x000F);
+    void FillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, short c = 0x2588, short col = 0x000F);
+    void FillCircle(int xc, int yc, int r, wchar_t c = 0x2588, short col = 0x000F);
+    void DrawSprite(int x, int y, olcSprite *sprite);
+    void DrawPartialSprite(int x, int y, olcSprite *sprite, int ox, int oy, int w, int h);
+    void DrawWireFrameModel(const std::vector<std::pair<float, float>> &vecModelCoordinates, float x, float y, float r = 0.0f, float s = 1.0f, short col = FG_WHITE, short c = PIXEL_SOLID);
+    ~olcConsoleGameEngineGLOOP();
+
+    void GenerateMipmapPow2(uint8_t *tex_new, uint8_t *tex_old, uint8_t *ref_alpha, int size);
+
+public:
+    void Start();
+    int ScreenWidth() { return m_nScreenWidth; }
+    int ScreenHeight() { return m_nScreenHeight; }
 
 private:
-	void GameThread();
+    void GameThread();
 
 public:
-	// User MUST OVERRIDE THESE!!
-	virtual bool OnUserCreate() = 0;
-	virtual bool OnUserUpdate(float fElapsedTime) = 0;
+    // User MUST OVERRIDE THESE!!
+    virtual bool OnUserCreate() = 0;
+    virtual bool OnUserUpdate(float fElapsedTime) = 0;
 
-	// Optional for clean up
-	virtual bool OnUserDestroy()
-	{
-		return true;
-	}
+    // Optional for clean up
+    virtual bool OnUserDestroy()
+    {
+        return true;
+    }
 
 protected:
-	struct sKeyState
-	{
-		bool bPressed;
-		bool bReleased;
-		bool bHeld;
-	} m_keys[256], m_mouse[5];
+    struct sKeyState
+    {
+        bool bPressed;
+        bool bReleased;
+        bool bHeld;
+    } m_keys[256], m_mouse[5];
 
-	int m_mousePosX;
-	int m_mousePosY;
+    int m_mousePosX;
+    int m_mousePosY;
 
 public:
-	sKeyState GetKey(int nKeyID) { return m_keys[nKeyID]; }
-	int GetMouseX() { return m_mousePosX; }
-	int GetMouseY() { return m_mousePosY; }
-	sKeyState GetMouse(int nMouseButtonID) { return m_mouse[nMouseButtonID]; }
-	bool IsFocused() { return m_bConsoleInFocus; }
+    sKeyState GetKey(int nKeyID) { return m_keys[nKeyID]; }
+    int GetMouseX() { return m_mousePosX; }
+    int GetMouseY() { return m_mousePosY; }
+    sKeyState GetMouse(int nMouseButtonID) { return m_mouse[nMouseButtonID]; }
+    bool IsFocused() { return m_bConsoleInFocus; }
 
 protected:
-	int Error(const wchar_t *msg);
+    int Error(const wchar_t *msg);
 
 protected: // Audio Engine =====================================================================
-	class olcAudioSample
-	{
-	public:
-		olcAudioSample()
-		{
-		}
+    class olcAudioSample
+    {
+    public:
+        olcAudioSample()
+        {
+        }
 
-		olcAudioSample(std::wstring sWavFile)
-		{
-			// Load Wav file and convert to float format
-			FILE *f = nullptr;
-			_wfopen_s(&f, sWavFile.c_str(), L"rb");
-			if (f == nullptr)
-				return;
+        olcAudioSample(std::wstring sWavFile)
+        {
+            // Load Wav file and convert to float format
+            FILE *f = nullptr;
+            _wfopen_s(&f, sWavFile.c_str(), L"rb");
+            if (f == nullptr)
+                return;
 
-			char dump[4];
-			std::fread(&dump, sizeof(char), 4, f); // Read "RIFF"
-			if (strncmp(dump, "RIFF", 4) != 0)
-				return;
-			std::fread(&dump, sizeof(char), 4, f); // Not Interested
-			std::fread(&dump, sizeof(char), 4, f); // Read "WAVE"
-			if (strncmp(dump, "WAVE", 4) != 0)
-				return;
+            char dump[4];
+            std::fread(&dump, sizeof(char), 4, f); // Read "RIFF"
+            if (strncmp(dump, "RIFF", 4) != 0)
+                return;
+            std::fread(&dump, sizeof(char), 4, f); // Not Interested
+            std::fread(&dump, sizeof(char), 4, f); // Read "WAVE"
+            if (strncmp(dump, "WAVE", 4) != 0)
+                return;
 
-			// Read Wave description chunk
-			std::fread(&dump, sizeof(char), 4, f);					// Read "fmt "
-			std::fread(&dump, sizeof(char), 4, f);					// Not Interested
-			std::fread(&wavHeader, sizeof(WAVEFORMATEX) - 2, 1, f); // Read Wave Format Structure chunk
-																	// Note the -2, because the structure has 2 bytes to indicate its own size
-																	// which are not in the wav file
+            // Read Wave description chunk
+            std::fread(&dump, sizeof(char), 4, f);                  // Read "fmt "
+            std::fread(&dump, sizeof(char), 4, f);                  // Not Interested
+            std::fread(&wavHeader, sizeof(WAVEFORMATEX) - 2, 1, f); // Read Wave Format Structure chunk
+                                                                    // Note the -2, because the structure has 2 bytes to indicate its own size
+                                                                    // which are not in the wav file
 
-			// Just check if wave format is compatible with olcCGE
-			if (wavHeader.wBitsPerSample != 16 || wavHeader.nSamplesPerSec != 44100)
-			{
-				std::fclose(f);
-				return;
-			}
+            // Just check if wave format is compatible with olcCGE
+            if (wavHeader.wBitsPerSample != 16 || wavHeader.nSamplesPerSec != 44100)
+            {
+                std::fclose(f);
+                return;
+            }
 
-			// Search for audio data chunk
-			long nChunksize = 0;
-			std::fread(&dump, sizeof(char), 4, f);		 // Read chunk header
-			std::fread(&nChunksize, sizeof(long), 1, f); // Read chunk size
-			while (strncmp(dump, "data", 4) != 0)
-			{
-				// Not audio data, so just skip it
-				std::fseek(f, nChunksize, SEEK_CUR);
-				std::fread(&dump, sizeof(char), 4, f);
-				std::fread(&nChunksize, sizeof(long), 1, f);
-			}
+            // Search for audio data chunk
+            long nChunksize = 0;
+            std::fread(&dump, sizeof(char), 4, f);       // Read chunk header
+            std::fread(&nChunksize, sizeof(long), 1, f); // Read chunk size
+            while (strncmp(dump, "data", 4) != 0)
+            {
+                // Not audio data, so just skip it
+                std::fseek(f, nChunksize, SEEK_CUR);
+                std::fread(&dump, sizeof(char), 4, f);
+                std::fread(&nChunksize, sizeof(long), 1, f);
+            }
 
-			// Finally got to data, so read it all in and convert to float samples
-			nSamples = nChunksize / (wavHeader.nChannels * (wavHeader.wBitsPerSample >> 3));
-			nChannels = wavHeader.nChannels;
+            // Finally got to data, so read it all in and convert to float samples
+            nSamples = nChunksize / (wavHeader.nChannels * (wavHeader.wBitsPerSample >> 3));
+            nChannels = wavHeader.nChannels;
 
-			// Create floating point buffer to hold audio sample
-			fSample = new float[nSamples * nChannels];
-			float *pSample = fSample;
+            // Create floating point buffer to hold audio sample
+            fSample = new float[nSamples * nChannels];
+            float *pSample = fSample;
 
-			// Read in audio data and normalise
-			for (long i = 0; i < nSamples; i++)
-			{
-				for (int c = 0; c < nChannels; c++)
-				{
-					short s = 0;
-					std::fread(&s, sizeof(short), 1, f);
-					*pSample = (float)s / (float)(MAXSHORT);
-					pSample++;
-				}
-			}
+            // Read in audio data and normalise
+            for (long i = 0; i < nSamples; i++)
+            {
+                for (int c = 0; c < nChannels; c++)
+                {
+                    short s = 0;
+                    std::fread(&s, sizeof(short), 1, f);
+                    *pSample = (float)s / (float)(MAXSHORT);
+                    pSample++;
+                }
+            }
 
-			// All done, flag sound as valid
-			std::fclose(f);
-			bSampleValid = true;
-		}
+            // All done, flag sound as valid
+            std::fclose(f);
+            bSampleValid = true;
+        }
 
-		WAVEFORMATEX wavHeader;
-		float *fSample = nullptr;
-		long nSamples = 0;
-		int nChannels = 0;
-		bool bSampleValid = false;
-	};
+        WAVEFORMATEX wavHeader;
+        float *fSample = nullptr;
+        long nSamples = 0;
+        int nChannels = 0;
+        bool bSampleValid = false;
+    };
 
-	void EnableSound();
+    void EnableSound();
 
-	// This vector holds all loaded sound samples in memory
-	std::vector<olcAudioSample> vecAudioSamples;
+    // This vector holds all loaded sound samples in memory
+    std::vector<olcAudioSample> vecAudioSamples;
 
-	// This structure represents a sound that is currently playing. It only
-	// holds the sound ID and where this instance of it is up to for its
-	// current playback
-	struct sCurrentlyPlayingSample
-	{
-		int nAudioSampleID = 0;
-		long nSamplePosition = 0;
-		bool bFinished = false;
-		bool bLoop = false;
-	};
-	std::list<sCurrentlyPlayingSample> listActiveSamples;
+    // This structure represents a sound that is currently playing. It only
+    // holds the sound ID and where this instance of it is up to for its
+    // current playback
+    struct sCurrentlyPlayingSample
+    {
+        int nAudioSampleID = 0;
+        long nSamplePosition = 0;
+        bool bFinished = false;
+        bool bLoop = false;
+    };
+    std::list<sCurrentlyPlayingSample> listActiveSamples;
 
-	// Load a 16-bit WAVE file @ 44100Hz ONLY into memory. A sample ID
-	// number is returned if successful, otherwise -1
-	unsigned int LoadAudioSample(std::wstring sWavFile);
+    // Load a 16-bit WAVE file @ 44100Hz ONLY into memory. A sample ID
+    // number is returned if successful, otherwise -1
+    unsigned int LoadAudioSample(std::wstring sWavFile);
 
-	// Add sample 'id' to the mixers sounds to play list
-	void PlaySample(int id, bool bLoop = false);
-	void StopSample(int id);
+    // Add sample 'id' to the mixers sounds to play list
+    void PlaySample(int id, bool bLoop = false);
+    void StopSample(int id);
 
-	// The audio system uses by default a specific wave format
-	bool CreateAudio(unsigned int nSampleRate = 44100, unsigned int nChannels = 1,
-					 unsigned int nBlocks = 8, unsigned int nBlockSamples = 512);
+    // The audio system uses by default a specific wave format
+    bool CreateAudio(unsigned int nSampleRate = 44100, unsigned int nChannels = 1,
+                     unsigned int nBlocks = 8, unsigned int nBlockSamples = 512);
 
-	// Stop and clean up audio system
-	bool DestroyAudio();
+    // Stop and clean up audio system
+    bool DestroyAudio();
 
-	// Handler for soundcard request for more data
-	void waveOutProc(HWAVEOUT hWaveOut, UINT uMsg, DWORD dwParam1, DWORD dwParam2);
+    // Handler for soundcard request for more data
+    void waveOutProc(HWAVEOUT hWaveOut, UINT uMsg, DWORD dwParam1, DWORD dwParam2);
 
-	// Static wrapper for sound card handler
-	static void CALLBACK waveOutProcWrap(HWAVEOUT hWaveOut, UINT uMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2);
+    // Static wrapper for sound card handler
+    static void CALLBACK waveOutProcWrap(HWAVEOUT hWaveOut, UINT uMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2);
 
-	// Audio thread. This loop responds to requests from the soundcard to fill 'blocks'
-	// with audio data. If no requests are available it goes dormant until the sound
-	// card is ready for more data. The block is fille by the "user" in some manner
-	// and then issued to the soundcard.
-	void AudioThread();
+    // Audio thread. This loop responds to requests from the soundcard to fill 'blocks'
+    // with audio data. If no requests are available it goes dormant until the sound
+    // card is ready for more data. The block is fille by the "user" in some manner
+    // and then issued to the soundcard.
+    void AudioThread();
 
-	// Overridden by user if they want to generate sound in real-time
-	virtual float onUserSoundSample(int nChannel, float fGlobalTime, float fTimeStep);
+    // Overridden by user if they want to generate sound in real-time
+    virtual float onUserSoundSample(int nChannel, float fGlobalTime, float fTimeStep);
 
-	// Overriden by user if they want to manipulate the sound before it is played
-	virtual float onUserSoundFilter(int nChannel, float fGlobalTime, float fSample);
+    // Overriden by user if they want to manipulate the sound before it is played
+    virtual float onUserSoundFilter(int nChannel, float fGlobalTime, float fSample);
 
-	// The Sound Mixer - If the user wants to play many sounds simultaneously, and
-	// perhaps the same sound overlapping itself, then you need a mixer, which
-	// takes input from all sound sources for that audio frame. This mixer maintains
-	// a list of sound locations for all concurrently playing audio samples. Instead
-	// of duplicating audio data, we simply store the fact that a sound sample is in
-	// use and an offset into its sample data. As time progresses we update this offset
-	// until it is beyound the length of the sound sample it is attached to. At this
-	// point we remove the playing souind from the list.
-	//
-	// Additionally, the users application may want to generate sound instead of just
-	// playing audio clips (think a synthesizer for example) in whcih case we also
-	// provide an "onUser..." event to allow the user to return a sound for that point
-	// in time.
-	//
-	// Finally, before the sound is issued to the operating system for performing, the
-	// user gets one final chance to "filter" the sound, perhaps changing the volume
-	// or adding funky effects
-	float GetMixerOutput(int nChannel, float fGlobalTime, float fTimeStep);
+    // The Sound Mixer - If the user wants to play many sounds simultaneously, and
+    // perhaps the same sound overlapping itself, then you need a mixer, which
+    // takes input from all sound sources for that audio frame. This mixer maintains
+    // a list of sound locations for all concurrently playing audio samples. Instead
+    // of duplicating audio data, we simply store the fact that a sound sample is in
+    // use and an offset into its sample data. As time progresses we update this offset
+    // until it is beyound the length of the sound sample it is attached to. At this
+    // point we remove the playing souind from the list.
+    //
+    // Additionally, the users application may want to generate sound instead of just
+    // playing audio clips (think a synthesizer for example) in whcih case we also
+    // provide an "onUser..." event to allow the user to return a sound for that point
+    // in time.
+    //
+    // Finally, before the sound is issued to the operating system for performing, the
+    // user gets one final chance to "filter" the sound, perhaps changing the volume
+    // or adding funky effects
+    float GetMixerOutput(int nChannel, float fGlobalTime, float fTimeStep);
 
-	unsigned int m_nSampleRate;
-	unsigned int m_nChannels;
-	unsigned int m_nBlockCount;
-	unsigned int m_nBlockSamples;
-	unsigned int m_nBlockCurrent;
+    unsigned int m_nSampleRate;
+    unsigned int m_nChannels;
+    unsigned int m_nBlockCount;
+    unsigned int m_nBlockSamples;
+    unsigned int m_nBlockCurrent;
 
-	short *m_pBlockMemory = nullptr;
-	WAVEHDR *m_pWaveHeaders = nullptr;
-	HWAVEOUT m_hwDevice = nullptr;
+    short *m_pBlockMemory = nullptr;
+    WAVEHDR *m_pWaveHeaders = nullptr;
+    HWAVEOUT m_hwDevice = nullptr;
 
-	std::thread m_AudioThread;
-	std::atomic<bool> m_bAudioThreadActive = false;
-	std::atomic<unsigned int> m_nBlockFree = 0;
-	std::condition_variable m_cvBlockNotZero;
-	std::mutex m_muxBlockNotZero;
-	std::atomic<float> m_fGlobalTime = 0.0f;
-	bool m_bEnableSound = false;
+    std::thread m_AudioThread;
+    std::atomic<bool> m_bAudioThreadActive = false;
+    std::atomic<unsigned int> m_nBlockFree = 0;
+    std::condition_variable m_cvBlockNotZero;
+    std::mutex m_muxBlockNotZero;
+    std::atomic<float> m_fGlobalTime = 0.0f;
+    bool m_bEnableSound = false;
 
 protected:
-	int m_nScreenWidth;
-	int m_nScreenHeight;
-	int m_nWindowWidth;
-	int m_nWindowHeight;
-	int m_nFontWidth;
-	int m_nFontHeight;
-	float m_fDrawScale;
-	float m_fDrawOffsetX;
-	float m_fDrawOffsetY;
-	float *m_fVertexArray;
-	uint32_t *m_uIndicesArray;
-	uint32_t *m_uForegroundColorArray;
-	uint32_t *m_uBackgroundColorArray;
-	float *m_fTexCoordArray;
-	CHAR_INFO *m_bufScreen;
-	CHAR_INFO *m_bufScreen_old;
-	uint8_t *m_bufMemory;
-	wstring m_sAppName;
-	SMALL_RECT m_rectWindow;
-	short m_keyOldState[256] = {0};
-	short m_keyNewState[256] = {0};
-	bool m_mouseOldState[5] = {0};
-	bool m_mouseNewState[5] = {0};
-	bool m_bConsoleInFocus = true;
-	bool m_bDoWindowUpdate = false;
-	HWND m_hConsole = nullptr;
-	HWND m_hWnd = nullptr;
-	HDC m_hDevCtx = nullptr;
-	HGLRC m_hRenCtx = nullptr;
-	GLuint m_uFontTexture;
-	static atomic<bool> m_bAtomActive;
-	static condition_variable m_cvGameFinished;
-	static mutex m_muxGame;
+    int m_nScreenWidth;
+    int m_nScreenHeight;
+    int m_nWindowWidth;
+    int m_nWindowHeight;
+    int m_nFontWidth;
+    int m_nFontHeight;
+    float m_fDrawScale;
+    float m_fDrawOffsetX;
+    float m_fDrawOffsetY;
+    float *m_fVertexArray;
+    uint32_t *m_uIndicesArray;
+    uint32_t *m_uForegroundColorArray;
+    uint32_t *m_uBackgroundColorArray;
+    float *m_fTexCoordArray;
+    CHAR_INFO *m_bufScreen;
+    CHAR_INFO *m_bufScreen_old;
+    uint8_t *m_bufMemory;
+    wstring m_sAppName;
+    SMALL_RECT m_rectWindow;
+    short m_keyOldState[256] = {0};
+    short m_keyNewState[256] = {0};
+    bool m_mouseOldState[5] = {0};
+    bool m_mouseNewState[5] = {0};
+    bool m_bConsoleInFocus = true;
+    bool m_bDoWindowUpdate = false;
+    HWND m_hConsole = nullptr;
+    HWND m_hWnd = nullptr;
+    HDC m_hDevCtx = nullptr;
+    HGLRC m_hRenCtx = nullptr;
+    GLuint m_uFontTexture;
+    static atomic<bool> m_bAtomActive;
+    static condition_variable m_cvGameFinished;
+    static mutex m_muxGame;
 };

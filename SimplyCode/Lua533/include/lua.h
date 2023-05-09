@@ -328,7 +328,7 @@ LUA_API void(lua_setallocf)(lua_State *L, lua_Alloc f, void *ud);
 #define lua_pushliteral(L, s) lua_pushstring(L, "" s)
 
 #define lua_pushglobaltable(L) \
-  ((void)lua_rawgeti(L, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS))
+    ((void)lua_rawgeti(L, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS))
 
 #define lua_tostring(L, i) lua_tolstring(L, (i), NULL)
 
@@ -400,21 +400,21 @@ LUA_API int(lua_gethookcount)(lua_State *L);
 
 struct lua_Debug
 {
-  int event;
-  const char *name;           /* (n) */
-  const char *namewhat;       /* (n) 'global', 'local', 'field', 'method' */
-  const char *what;           /* (S) 'Lua', 'C', 'main', 'tail' */
-  const char *source;         /* (S) */
-  int currentline;            /* (l) */
-  int linedefined;            /* (S) */
-  int lastlinedefined;        /* (S) */
-  unsigned char nups;         /* (u) number of upvalues */
-  unsigned char nparams;      /* (u) number of parameters */
-  char isvararg;              /* (u) */
-  char istailcall;            /* (t) */
-  char short_src[LUA_IDSIZE]; /* (S) */
-  /* private part */
-  struct CallInfo *i_ci; /* active function */
+    int event;
+    const char *name;           /* (n) */
+    const char *namewhat;       /* (n) 'global', 'local', 'field', 'method' */
+    const char *what;           /* (S) 'Lua', 'C', 'main', 'tail' */
+    const char *source;         /* (S) */
+    int currentline;            /* (l) */
+    int linedefined;            /* (S) */
+    int lastlinedefined;        /* (S) */
+    unsigned char nups;         /* (u) number of upvalues */
+    unsigned char nparams;      /* (u) number of parameters */
+    char isvararg;              /* (u) */
+    char istailcall;            /* (t) */
+    char short_src[LUA_IDSIZE]; /* (S) */
+    /* private part */
+    struct CallInfo *i_ci; /* active function */
 };
 
 /* }====================================================================== */
