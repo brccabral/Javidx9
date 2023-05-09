@@ -552,7 +552,7 @@ public:
 			return true;
 		}
 
-		rpPlayer.LoadPack("./discres/savingsedit.olcdat");
+		rpPlayer.LoadPack("./discres/savingsedit.olcdat", "");
 
 		sndHelperChange = olc::SOUND::LoadAudioSample("E:\\linshare\\olcSimpleGameEngine\\discres\\PP_Negative_Trigger_1_2.wav", &rpPlayer);
 		sndJump = olc::SOUND::LoadAudioSample("E:\\linshare\\olcSimpleGameEngine\\discres\\PP_Jump_1_5.wav", &rpPlayer);

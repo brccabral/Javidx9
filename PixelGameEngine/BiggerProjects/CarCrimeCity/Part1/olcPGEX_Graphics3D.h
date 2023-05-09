@@ -67,6 +67,7 @@
 #include <algorithm>
 #include <vector>
 #include <list>
+#include <string.h>
 #undef min
 #undef max
 

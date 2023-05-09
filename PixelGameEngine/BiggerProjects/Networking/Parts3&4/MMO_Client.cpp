@@ -1,5 +1,5 @@
 
-#include "../MMO_Server/MMO_Common.h"
+#include "MMO_Common.h"
 
 #define OLC_PGEX_TRANSFORMEDVIEW
 #include "olcPGEX_TransformedView.h"

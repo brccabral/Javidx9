@@ -59,9 +59,9 @@
 // include Lua, assumes it is local to this file
 extern "C"
 {
-#include "lua535/include/lua.h"
-#include "lua535/include/lauxlib.h"
-#include "lua535/include/lualib.h"
+#include "Lua533/include/lua.h"
+#include "Lua533/include/lauxlib.h"
+#include "Lua533/include/lualib.h"
 }
 
 // Link to lua library

@@ -376,10 +376,10 @@ public:
 	{
 		std::string path(sFile.begin(), sFile.end());
 
-#ifdef __APPLE__
-		std::ofstream f(path.c_str(), std::ios::out | std::ios::binary);
-#else
+#ifdef _WIN32
 		std::ofstream f(sFile.c_str(), std::ios::out | std::ios::binary);
+#else
+		std::ofstream f(path.c_str(), std::ios::out | std::ios::binary);
 #endif
 		if (!f.is_open())
 			return false;
@@ -403,10 +403,10 @@ public:
 
 		std::string path(sFile.begin(), sFile.end());
 
-#ifdef __APPLE__
-		std::ifstream f(path.c_str(), std::ios::in | std::ios::binary);
-#else
+#ifdef _WIN32
 		std::ifstream f(sFile.c_str(), std::ios::in | std::ios::binary);
+#else
+		std::ifstream f(path.c_str(), std::ios::in | std::ios::binary);
 #endif
 		if (!f.is_open())
 			return false;

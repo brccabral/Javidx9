@@ -63,6 +63,7 @@
 #include <complex>
 #include <cstdlib>
 #include <immintrin.h>
+#include <malloc.h>
 
 constexpr int nMaxThreads = 32;
 
