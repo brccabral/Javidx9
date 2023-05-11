@@ -55,6 +55,17 @@
     David Barr, aka javidx9, �OneLoneCoder 2018, 2019, 2020
 */
 
+#include <olcPixelGameEngine.h>
+// * intrinsic library
+#include <immintrin.h>
+
+int ScreenWidth()
+{
+    return 0;
+}
+
+int *pFractal = nullptr;
+
 // NOTE: THIS PROGRAM CANNOT BE EXCUTED - IT IS INTENDED AS A GUIDE
 // TO THIS VIDEO: https://youtu.be/x9Scb5Mku1g
 
