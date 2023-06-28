@@ -145,13 +145,13 @@ public:
             return fabs((x1 - px) * (x1 - px) + (y1 - py) * (y1 - py)) < (r1 * r1);
         };
 
-        if (m_mouse[0].bPressed)
+        if (GetMouse(0).bPressed)
         {
             // Check for selected ball
             pSelectedBall = nullptr;
             for (auto &ball : vecBalls)
             {
-                if (IsPointInCircle(ball.px, ball.py, ball.radius, m_mousePosX, m_mousePosY))
+                if (IsPointInCircle(ball.px, ball.py, ball.radius, GetMouseX(), GetMouseY()))
                 {
                     pSelectedBall = &ball;
                     break;
@@ -162,14 +162,14 @@ public:
             pSelectedLine = nullptr;
             for (auto &line : vecLines)
             {
-                if (IsPointInCircle(line.sx, line.sy, line.radius, m_mousePosX, m_mousePosY))
+                if (IsPointInCircle(line.sx, line.sy, line.radius, GetMouseX(), GetMouseY()))
                 {
                     pSelectedLine = &line;
                     bSelectedLineStart = true;
                     break;
                 }
 
-                if (IsPointInCircle(line.ex, line.ey, line.radius, m_mousePosX, m_mousePosY))
+                if (IsPointInCircle(line.ex, line.ey, line.radius, GetMouseX(), GetMouseY()))
                 {
                     pSelectedLine = &line;
                     bSelectedLineStart = false;
@@ -178,7 +178,7 @@ public:
             }
         }
 
-        if (m_mouse[0].bHeld)
+        if (GetMouse(0).bHeld)
         {
             if (pSelectedLine != nullptr)
             {
@@ -195,25 +195,25 @@ public:
             }
         }
 
-        if (m_mouse[0].bReleased)
+        if (GetMouse(0).bReleased)
         {
             if (pSelectedBall != nullptr)
             {
                 // Apply velocity
-                pSelectedBall->vx = 5.0f * ((pSelectedBall->px) - m_mousePosX);
-                pSelectedBall->vy = 5.0f * ((pSelectedBall->py) - m_mousePosY);
+                pSelectedBall->vx = 5.0f * ((pSelectedBall->px) - GetMouseX());
+                pSelectedBall->vy = 5.0f * ((pSelectedBall->py) - GetMouseY());
             }
 
             pSelectedBall = nullptr;
             pSelectedLine = nullptr;
         }
 
-        if (m_mouse[1].bHeld)
+        if (GetMouse(1).bHeld)
         {
             for (auto &ball : vecBalls)
             {
-                ball.vx += (m_mousePosX - ball.px) * 0.01f;
-                ball.vy += (m_mousePosY - ball.py) * 0.01f;
+                ball.vx += (GetMouseX() - ball.px) * 0.01f;
+                ball.vy += (GetMouseY() - ball.py) * 0.01f;
             }
         }
 
@@ -243,7 +243,7 @@ public:
             for (auto &ball : vecBalls)
                 ball.fSimTimeRemaining = fSimElapsedTime;
 
-            // Erode simulation time on a per objec tbasis, depending upon what happens
+            // Erode simulation time on a per object basis, depending upon what happens
             // to it during its journey through this epoch
             for (int j = 0; j < nMaxSimulationSteps; j++)
             {
@@ -304,7 +304,7 @@ public:
                         // how much of the segment is in the "shadow" of the object vector. The min and max clamp
                         // this to lie between 0 and the line segment length, which is then normalised. We can
                         // use this to calculate the closest point on the line segment
-                        float t = max(0, min(fEdgeLength, (fLineX1 * fLineX2 + fLineY1 * fLineY2))) / fEdgeLength;
+                        float t = std::max(0.0f, std::min(fEdgeLength, (fLineX1 * fLineX2 + fLineY1 * fLineY2))) / fEdgeLength;
 
                         // Which we do here
                         float fClosestPointX = edge.sx + t * fLineX1;
@@ -454,7 +454,7 @@ public:
 
         // Draw Cue
         if (pSelectedBall != nullptr)
-            DrawLine(pSelectedBall->px, pSelectedBall->py, m_mousePosX, m_mousePosY, PIXEL_SOLID, FG_BLUE);
+            DrawLine(pSelectedBall->px, pSelectedBall->py, GetMouseX(), GetMouseY(), PIXEL_SOLID, FG_BLUE);
 
         return true;
     }

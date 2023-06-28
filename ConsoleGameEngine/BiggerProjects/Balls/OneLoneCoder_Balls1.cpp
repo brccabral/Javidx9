@@ -124,12 +124,12 @@ public:
             return fabs((x1 - px) * (x1 - px) + (y1 - py) * (y1 - py)) < (r1 * r1);
         };
 
-        if (m_mouse[0].bPressed || m_mouse[1].bPressed)
+        if (GetMouse(0).bPressed || GetMouse(1).bPressed)
         {
             pSelectedBall = nullptr;
             for (auto &ball : vecBalls)
             {
-                if (IsPointInCircle(ball.px, ball.py, ball.radius, m_mousePosX, m_mousePosY))
+                if (IsPointInCircle(ball.px, ball.py, ball.radius, GetMouseX(), GetMouseY()))
                 {
                     pSelectedBall = &ball;
                     break;
@@ -137,27 +137,27 @@ public:
             }
         }
 
-        if (m_mouse[0].bHeld)
+        if (GetMouse(0).bHeld)
         {
             if (pSelectedBall != nullptr)
             {
-                pSelectedBall->px = m_mousePosX;
-                pSelectedBall->py = m_mousePosY;
+                pSelectedBall->px = GetMouseX();
+                pSelectedBall->py = GetMouseY();
             }
         }
 
-        if (m_mouse[0].bReleased)
+        if (GetMouse(0).bReleased)
         {
             pSelectedBall = nullptr;
         }
 
-        if (m_mouse[1].bReleased)
+        if (GetMouse(1).bReleased)
         {
             if (pSelectedBall != nullptr)
             {
                 // Apply velocity
-                pSelectedBall->vx = 5.0f * ((pSelectedBall->px) - (float)m_mousePosX);
-                pSelectedBall->vy = 5.0f * ((pSelectedBall->py) - (float)m_mousePosY);
+                pSelectedBall->vx = 5.0f * ((pSelectedBall->px) - (float)GetMouseX());
+                pSelectedBall->vy = 5.0f * ((pSelectedBall->py) - (float)GetMouseY());
             }
 
             pSelectedBall = nullptr;
@@ -284,7 +284,7 @@ public:
 
         // Draw Cue
         if (pSelectedBall != nullptr)
-            DrawLine(pSelectedBall->px, pSelectedBall->py, m_mousePosX, m_mousePosY, PIXEL_SOLID, FG_BLUE);
+            DrawLine(pSelectedBall->px, pSelectedBall->py, GetMouseX(), GetMouseY(), PIXEL_SOLID, FG_BLUE);
 
         return true;
     }
